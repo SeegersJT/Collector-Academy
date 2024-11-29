@@ -1,0 +1,56 @@
+package za.co.ca.api.course.controllers;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import za.co.ca.api.authentication.payloads.responses.GeneralAPIResponse;
+import za.co.ca.api.course.payloads.requests.CourseRequest;
+import za.co.ca.api.course.payloads.responses.CourseResponse;
+import za.co.ca.api.course.services.CoursesService;
+
+/**
+ * @author Hanno Seegers
+ */
+@RestController
+@RequestMapping("/api/course")
+@RequiredArgsConstructor
+@Slf4j
+public class CourseController {
+
+    private final CoursesService coursesService;
+
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<CourseResponse> insertCourse(
+            @Valid @RequestBody CourseRequest courseRequest
+    ) {
+        log.info("Insert Course Request :: Course Title: '{}'", courseRequest.getCourseTitle());
+        CourseResponse response = coursesService.insertCourse(courseRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<CourseResponse> updateCourse(
+            @Valid @RequestParam(required = true, name = "courseNo") String courseNo,
+            @Valid @RequestBody CourseRequest courseRequest
+    ) {
+        log.info("Update Course Request :: Course No: '{}'", courseNo);
+        CourseResponse response = coursesService.updateCourse(courseNo, courseRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<GeneralAPIResponse> deleteCourse(
+            @Valid @RequestParam(required = true, name = "courseNo") String courseNo
+    ) {
+        log.info("Delete Course Request :: Course No: '{}'", courseNo);
+        GeneralAPIResponse response = coursesService.deleteCourse(courseNo);
+        return ResponseEntity.ok(response);
+    }
+}
