@@ -1,4 +1,5 @@
 import LoginContainer from 'containers/auth/login/Login.container';
+import DashboardContainer from 'containers/dashboard/dashboard.container';
 import GlobalContainer from 'containers/global/global.container';
 import OneTimePinContainer from 'containers/token/oneTimePin/OneTimePin.container';
 import TokenContainer from 'containers/token/Token.container';
@@ -19,13 +20,18 @@ export default function App() {
 
           <Route path="/token" element={<TokenContainer />}>
             <Route path="/token/one-time-pin" element={<OneTimePinContainer />} />
+            {/* <Route path="/auth/password-forgot" element={<PasswordForgotContainer />} /> */}
+            {/* <Route path="/auth/password-reset" element={<PasswordResetContainer />} /> */}
           </Route>
-          {/* <Route path="/auth/one-time-pin" element={<OneTimePinContainer />} /> */}
-          {/* <Route path="/auth/password-forgot" element={<PasswordForgotContainer />} /> */}
-          {/* <Route path="/auth/password-reset" element={<PasswordResetContainer />} /> */}
 
-          {/* Main Application Routes */}
-          {/* <Route path="/dashboard" element={<DashboardContainer />} /> */}
+          {/* ===========================================[ AUTHENTICATED ]=========================================== */}
+
+          <Route path="/dashboard" element={<DashboardContainer />}>
+            {/* <Route path="/token/one-time-pin" element={<OneTimePinContainer />} /> */}
+            {/* <Route path="/auth/password-forgot" element={<PasswordForgotContainer />} /> */}
+            {/* <Route path="/auth/password-reset" element={<PasswordResetContainer />} /> */}
+          </Route>
+          {/* ===========================================[ AUTHENTICATED ]=========================================== */}
 
           {/* Catch-all route for 404 */}
           {/* <Route path="/not-found" element={<NotFoundContainer />} /> */}
