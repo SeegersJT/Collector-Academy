@@ -1,0 +1,4 @@
+                                                             
+INSERT INTO `msb_learning_live`.`vs_employee`(`branch_no`,`username`,`name`,`surname`,`id_number`,`email_address`,`mobile_number`,`gender_no`,`password_no`,`employee_type_no`,`confirmed`,`active`,`system_employee_no`,`system_branch_no`,`system_date`,`touch_employee_no`,`touch_branch_no`,`touch_date`)VALUES(1,'N/A','N/A','N/A','1','N/A',null,null,1,1,1,1,1,1,'2024-10-11',1,1,'2024-10-11');
+
+INSERT INTO `msb_learning_live`.`vs_employee`(`branch_no`,`username`,`name`,`surname`,`id_number`,`email_address`,`mobile_number`,`gender_no`,`password_no`,`employee_type_no`,`confirmed`,`active`,`system_employee_no`,`system_branch_no`,`system_date`,`touch_employee_no`,`touch_branch_no`,`touch_date`)VALUES(1,'VHO HANNO S','Hanno','Seegers','9507175019087','seegersh@verishare.co.za','0646543596',1,2,1,1,1,1,1,'2024-10-11',1,1,'2024-10-11');
