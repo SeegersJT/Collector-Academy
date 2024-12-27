@@ -34,11 +34,10 @@ function ComparisonStatistics({ color = 'primary', title, count, percentage, isL
       </Stack>
       <Box sx={{ pt: 2.25 }}>
         <Typography variant="caption" color="text.secondary">
-          You made an extra{' '}
+          Average is {isLoss ? 'Lower' : 'Higher'} than last month by:{' '}
           <Typography variant="caption" sx={{ color: `${color || 'primary'}.main` }}>
             {extra}
-          </Typography>{' '}
-          this year
+          </Typography>
         </Typography>
       </Box>
     </MainCardComponent>
