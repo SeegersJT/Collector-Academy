@@ -6,18 +6,20 @@ import Chip from '@mui/material/Chip';
 import LogoAsset from 'assets/images/logo/Logo.asset';
 import config from 'config';
 
-const Logo = ({ sx, to }) => {
+const Logo = ({ sx, to, chip }) => {
   return (
     <ButtonBase disableRipple component={Link} to={!to ? config.defaultPath : to} sx={sx}>
       <Stack direction="row" spacing={1} alignItems="center">
         <LogoAsset />
-        <Chip
-          label={import.meta.env.VITE_APP_VERSION}
-          variant="outlined"
-          size="small"
-          color="secondary"
-          sx={{ mt: 0.5, ml: 1, fontSize: '0.725rem', height: 20, '& .MuiChip-label': { px: 0.5 } }}
-        />
+        {chip && (
+          <Chip
+            label={import.meta.env.VITE_APP_VERSION}
+            variant="outlined"
+            size="small"
+            color="secondary"
+            sx={{ mt: 0.5, ml: 1, fontSize: '0.725rem', height: 20, '& .MuiChip-label': { px: 0.5 } }}
+          />
+        )}
       </Stack>
     </ButtonBase>
   );
@@ -25,7 +27,8 @@ const Logo = ({ sx, to }) => {
 
 Logo.propTypes = {
   sx: PropTypes.object,
-  to: PropTypes.string
+  to: PropTypes.string,
+  chip: PropTypes.bool
 };
 
 export default Logo;

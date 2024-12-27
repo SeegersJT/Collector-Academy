@@ -1,15 +1,9 @@
-import PropTypes from 'prop-types';
+import Dashboard from 'components/dashboard/Dashboard.component';
 
 function DashboardContainer() {
-  return (
-    <>
-      <h1>TESTING</h1>
-    </>
-  );
+  return <Dashboard />;
 }
 
-DashboardContainer.propTypes = {
-  children: PropTypes.node.isRequired
-};
+DashboardContainer.propTypes = {};
 
 export default DashboardContainer;

@@ -1,5 +1,6 @@
 import LoginContainer from 'containers/auth/login/Login.container';
 import DashboardContainer from 'containers/dashboard/dashboard.container';
+import HomeContainer from 'containers/dashboard/home/Home.container';
 import GlobalContainer from 'containers/global/global.container';
 import OneTimePinContainer from 'containers/token/oneTimePin/OneTimePin.container';
 import TokenContainer from 'containers/token/Token.container';
@@ -19,7 +20,7 @@ export default function App() {
           <Route path="/auth/login" element={<LoginContainer />} />
 
           <Route path="/token" element={<TokenContainer />}>
-            <Route path="/token/one-time-pin" element={<OneTimePinContainer />} />
+            <Route path="one-time-pin" element={<OneTimePinContainer />} />
             {/* <Route path="/auth/password-forgot" element={<PasswordForgotContainer />} /> */}
             {/* <Route path="/auth/password-reset" element={<PasswordResetContainer />} /> */}
           </Route>
@@ -27,9 +28,15 @@ export default function App() {
           {/* ===========================================[ AUTHENTICATED ]=========================================== */}
 
           <Route path="/dashboard" element={<DashboardContainer />}>
-            {/* <Route path="/token/one-time-pin" element={<OneTimePinContainer />} /> */}
-            {/* <Route path="/auth/password-forgot" element={<PasswordForgotContainer />} /> */}
-            {/* <Route path="/auth/password-reset" element={<PasswordResetContainer />} /> */}
+            <Route index element={<Navigate to="/dashboard/home" replace />} />
+
+            <Route path="home" element={<HomeContainer />} />
+            <Route path="user" element={<HomeContainer />} />
+            <Route path="course" element={<HomeContainer />} />
+            <Route path="reporting" element={<HomeContainer />} />
+            <Route path="settings" element={<HomeContainer />} />
+
+            <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
           </Route>
           {/* ===========================================[ AUTHENTICATED ]=========================================== */}
 

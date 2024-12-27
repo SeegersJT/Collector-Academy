@@ -134,4 +134,16 @@ export class Utils {
   }
 
   static noOp() {}
+
+  /**
+   * Capitalize the first character of a string.
+   * @param {string} value - The string to capitalize.
+   * @returns {string} - Returns the string with the first character capitalized.
+   */
+  static capitalizeFirstCharacter(value) {
+    if (typeof value !== 'string' || value.length === 0) {
+      return value; // Return the value as is if it's not a string or is an empty string
+    }
+    return value.charAt(0).toUpperCase() + value.slice(1); // Capitalize the first character and append the rest of the string
+  }
 }
