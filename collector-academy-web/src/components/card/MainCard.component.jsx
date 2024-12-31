@@ -19,6 +19,8 @@ function MainCard(
     secondary,
     shadow,
     sx = {},
+    scrollable,
+    height,
     title,
     ...others
   },
@@ -33,6 +35,8 @@ function MainCard(
       ref={ref}
       {...others}
       sx={{
+        overflowY: scrollable ? 'auto' : 'hidden',
+        maxHeight: height,
         border: border ? '1px solid' : 'none',
         borderRadius: 2,
         borderColor: theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.grey.A800,

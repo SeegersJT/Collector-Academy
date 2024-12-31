@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import Indicator from 'components/@extends/Indicator.component';
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
-import { CellAlign, CellPadding } from 'utils/constants/Table.enum';
+import { CellAlign, CellPadding, CellStyle, CellWeight } from 'utils/constants/Table.enum';
 import { Utils } from 'utils/Utils';
 
 export const getCourseActivityData = (theme) => [
@@ -57,20 +57,20 @@ export const getUserActivityData = (theme) => [
   }
 ];
 
-export const getHeaderData = [
-  { id: 'employeeNo', label: 'EMPOYEE NO.', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'username', label: 'USERNAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'courseName', label: 'COURSE NAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'status', label: 'STATUS', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'percentage', label: 'PERCENTAGE', align: CellAlign.LEFT, padding: CellPadding.NORMAL }
+export const getHeaderModifiers = () => [
+  { id: 'employeeNo', label: 'EMPOYEE NO.', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
+  { id: 'username', label: 'USERNAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
+  { id: 'courseName', label: 'COURSE NAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
+  { id: 'status', label: 'STATUS', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
+  { id: 'percentage', label: 'PERCENTAGE', align: CellAlign.CENTER, padding: CellPadding.NORMAL, weight: CellWeight.BOLD }
 ];
 
-export const getColumnModifiers = [
-  { id: 'employeeNo', label: 'EMPOYEE NO.', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'username', label: 'USERNAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'courseName', label: 'COURSE NAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'status', label: 'STATUS', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
-  { id: 'percentage', label: 'PERCENTAGE', align: CellAlign.LEFT, padding: CellPadding.NORMAL }
+export const getColumnModifiers = () => [
+  { id: 'employeeNo', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
+  { id: 'username', align: CellAlign.LEFT, padding: CellPadding.NORMAL },
+  { id: 'courseName', align: CellAlign.LEFT, padding: CellPadding.NORMAL, style: CellStyle.ITALIC },
+  { id: 'status', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
+  { id: 'percentage', align: CellAlign.CENTER, padding: CellPadding.NORMAL, weight: CellWeight.BOLD }
 ];
 
 const getCourseActivityStatusIndicator = (statusNo) => {
@@ -92,10 +92,9 @@ const getCourseActivityStatusIndicator = (statusNo) => {
 };
 
 export const formatCourseActivityData = (cellData) => {
-  console.log('cellData', cellData);
   return cellData.map((courseResults) => {
-    console.log('courseResults.percentage', courseResults.percentage);
     return {
+      uuid: courseResults.uuid,
       employeeNo: courseResults.employeeNo,
       username: courseResults.username,
       courseName: courseResults.courseName,

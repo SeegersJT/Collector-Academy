@@ -5,12 +5,24 @@ import ComparisonStatistics from 'components/card/statistic/ComparisonStatistic.
 import AreaChart from 'components/charts/AreaChart.component';
 import MiniBarChart from 'components/charts/MiniBarChart.component';
 import DataTable from 'components/tables/DataTable.component';
-import { formatCourseActivityData, getCourseActivityData, getHeaderData, getUserActivityData } from './Home.helper';
+import {
+  formatCourseActivityData,
+  getColumnModifiers,
+  getCourseActivityData,
+  getHeaderModifiers,
+  getUserActivityData
+} from './Home.helper';
+import CardList from 'components/card/list/CardList.component';
+import { AndroidOutlined, HeatMapOutlined, PieChartOutlined } from '@ant-design/icons';
 
 function HomeContainer() {
   const theme = useTheme();
 
-  const data = [
+  const onCardListClick = (data) => {
+    console.log('CLICKED', data);
+  };
+
+  const courseResults = [
     { employeeNo: 175846, username: 'VHO HANNO S', courseName: 'How to JAVA for dummies', statusNo: 1, status: 'PASSED', percentage: 50 },
     {
       employeeNo: 148957,
@@ -150,6 +162,43 @@ function HomeContainer() {
     }
   ];
 
+  const eventsList = (theme) => [
+    {
+      title: 'Hanno is Awesome',
+      description: 'You know its true',
+      titleRight: '100%',
+      descriptionRight: 'Help',
+      icon: <PieChartOutlined style={{ fontSize: '20px' }} />,
+      iconSize: 5,
+      color: theme.palette.success.main,
+      backgroundColor: theme.palette.success.lighter,
+      disabled: false,
+      onClick: () => onCardListClick('Hanno is Awesome')
+    },
+    {
+      title: 'Henko is Great',
+      description: 'Here are some more text',
+      titleRight: '90%',
+      descriptionRight: 'I dont know',
+      icon: <AndroidOutlined style={{ fontSize: '20px' }} />,
+      color: theme.palette.warning.main,
+      backgroundColor: theme.palette.warning.lighter,
+      disabled: false,
+      onClick: () => onCardListClick('Henko is Great')
+    },
+    {
+      title: 'SMS Sent',
+      description: 'Sent on 2024-12-31 15:31',
+      titleRight: 'Received',
+      descriptionRight: 'Successfully logged in',
+      icon: <HeatMapOutlined style={{ fontSize: '20px' }} />,
+      color: theme.palette.error.main,
+      backgroundColor: theme.palette.error.lighter,
+      disabled: false,
+      onClick: () => onCardListClick('SMS Sent')
+    }
+  ];
+
   return (
     <>
       <Box sx={{ p: { xs: 2, sm: 3 }, display: 'flex', flexDirection: 'column' }}>
@@ -185,11 +234,15 @@ function HomeContainer() {
           <Grid item xs={12} md={7} lg={8}>
             <DataTable
               title="Course Results"
-              selectable
-              headerData={getHeaderData}
-              cellData={data}
+              headerModifiers={getHeaderModifiers(theme)}
+              columnModifiers={getColumnModifiers(theme)}
+              data={courseResults}
               onFormatCellData={formatCourseActivityData}
+              selectable
             />
+          </Grid>
+          <Grid item xs={12} md={5} lg={4}>
+            <CardList title="Events" data={eventsList(theme)} scrollable height="400px" />
           </Grid>
         </Grid>
       </Box>
