@@ -4,12 +4,151 @@ import { useTheme } from '@mui/material/styles';
 import ComparisonStatistics from 'components/card/statistic/ComparisonStatistic.component';
 import AreaChart from 'components/charts/AreaChart.component';
 import MiniBarChart from 'components/charts/MiniBarChart.component';
-import MainCardComponent from 'components/card/MainCard.component';
 import DataTable from 'components/tables/DataTable.component';
 import { formatCourseActivityData, getCourseActivityData, getHeaderData, getUserActivityData } from './Home.helper';
 
 function HomeContainer() {
   const theme = useTheme();
+
+  const data = [
+    { employeeNo: 175846, username: 'VHO HANNO S', courseName: 'How to JAVA for dummies', statusNo: 1, status: 'PASSED', percentage: 50 },
+    {
+      employeeNo: 148957,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: 50
+    },
+    {
+      employeeNo: 178547,
+      username: 'VHO HANNO S',
+      courseName: 'How to JAVA for dummies',
+      statusNo: 2,
+      status: 'FAILED 1ST ATTEMPT',
+      percentage: 50
+    },
+    {
+      employeeNo: 359874,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 3,
+      status: 'FAILED 2ND ATTEMPT',
+      percentage: 50
+    },
+    {
+      employeeNo: 983416,
+      username: 'VHO HANNO S',
+      courseName: 'How to JAVA for dummies',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 254863,
+      username: 'VHO HANNO S',
+      courseName: 'How to JAVA for dummies',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    },
+    {
+      employeeNo: 987451,
+      username: 'VHO HENKO L',
+      courseName: 'How to JAVA for dummies HENKO L',
+      statusNo: 0,
+      status: 'NOT STARTED',
+      percentage: null
+    }
+  ];
 
   return (
     <>
@@ -44,15 +183,13 @@ function HomeContainer() {
 
           {/* row 3 */}
           <Grid item xs={12} md={7} lg={8}>
-            <Grid container alignItems="center" justifyContent="space-between">
-              <Grid item>
-                <Typography variant="h5">Recent Orders</Typography>
-              </Grid>
-              <Grid item />
-            </Grid>
-            <MainCardComponent sx={{ mt: 2 }} content={false}>
-              <DataTable headerData={getHeaderData} data={formatCourseActivityData()} />
-            </MainCardComponent>
+            <DataTable
+              title="Course Results"
+              selectable
+              headerData={getHeaderData}
+              cellData={data}
+              onFormatCellData={formatCourseActivityData}
+            />
           </Grid>
         </Grid>
       </Box>

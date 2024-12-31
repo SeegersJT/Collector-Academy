@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+import Indicator from 'components/@extends/Indicator.component';
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
 import { CellAlign, CellPadding } from 'utils/constants/Table.enum';
@@ -71,68 +73,51 @@ export const getColumnModifiers = [
   { id: 'percentage', label: 'PERCENTAGE', align: CellAlign.LEFT, padding: CellPadding.NORMAL }
 ];
 
-export const formatCourseActivityData = () => {
-  const data = [
-    { employeeNo: 175846, username: 'VHO HANNO S', courseName: 'How to JAVA for dummies', statusNo: 1, status: 'PASSED', percentage: 50 },
-    {
-      employeeNo: 148957,
-      username: 'VHO HANNO S',
-      courseName: 'How to JAVA for dummies',
-      statusNo: 2,
-      status: 'NOT STARTED',
-      percentage: 50
-    },
-    {
-      employeeNo: 178547,
-      username: 'VHO HANNO S',
-      courseName: 'How to JAVA for dummies',
-      statusNo: 0,
-      status: 'FAILED 1STE ATTEMPT',
-      percentage: 50
-    },
-    {
-      employeeNo: 359874,
-      username: 'VHO HANNO S',
-      courseName: 'How to JAVA for dummies',
-      statusNo: 0,
-      status: 'FAILED 2ND ATTEMPT',
-      percentage: 50
-    },
-    {
-      employeeNo: 983416,
-      username: 'VHO HANNO S',
-      courseName: 'How to JAVA for dummies',
-      statusNo: 2,
-      status: 'NOT STARTED',
-      percentage: null
-    },
-    {
-      employeeNo: 987451,
-      username: 'VHO HANNO S',
-      courseName: 'How to JAVA for dummies',
-      statusNo: 2,
-      status: 'NOT STARTED',
-      percentage: null
-    },
-    {
-      employeeNo: 254863,
-      username: 'VHO HANNO S',
-      courseName: 'How to JAVA for dummies',
-      statusNo: 2,
-      status: 'NOT STARTED',
-      percentage: null
-    }
-  ];
+const getCourseActivityStatusIndicator = (statusNo) => {
+  let color;
 
-  return data.map((courseResults) => ({
-    employeeNo: courseResults.employeeNo,
-    username: courseResults.username,
-    courseName: courseResults.courseName,
-    status: courseResults.status,
-    percentage: Utils.isNull(courseResults.percentage) ? (
-      'N/A'
-    ) : (
-      <NumericFormat value={courseResults.percentage} displayType="text" suffix=" %" />
-    )
-  }));
+  switch (statusNo) {
+    case 0:
+      color = 'warning';
+      break;
+    case 1:
+      color = 'success';
+      break;
+    default:
+      color = 'error';
+      break;
+  }
+
+  return <Indicator color={color} sx={{ mr: '10px' }} />;
+};
+
+export const formatCourseActivityData = (cellData) => {
+  console.log('cellData', cellData);
+  return cellData.map((courseResults) => {
+    console.log('courseResults.percentage', courseResults.percentage);
+    return {
+      employeeNo: courseResults.employeeNo,
+      username: courseResults.username,
+      courseName: courseResults.courseName,
+      // status: courseResults.status,
+      // percentage: courseResults.percentage
+      status: (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center'
+          }}
+        >
+          {getCourseActivityStatusIndicator(courseResults.statusNo)}
+          {courseResults.status}
+        </Box>
+      ),
+      percentage: Utils.isNull(courseResults.percentage) ? (
+        'N/A'
+      ) : (
+        <NumericFormat value={courseResults.percentage} displayType="text" suffix=" %" />
+      )
+    };
+  });
 };
