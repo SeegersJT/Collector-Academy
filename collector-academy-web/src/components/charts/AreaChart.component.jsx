@@ -91,24 +91,31 @@ function AreaChart({ title, filters, customOptions = {} }) {
         <Grid item>
           <Typography variant="h5">{title}</Typography>
         </Grid>
-        <Grid item>
-          <Stack direction="row" alignItems="center" spacing={0}>
-            {filters.map((filter, index) => (
-              <Button
-                key={index}
-                size="small"
-                onClick={() => setActiveFilter(index)}
-                color={activeFilter === index ? 'primary' : 'secondary'}
-                variant={activeFilter === index ? 'outlined' : 'text'}
-              >
-                {filter.name}
-              </Button>
-            ))}
-          </Stack>
-        </Grid>
       </Grid>
       <MainCardComponent content={false} sx={{ mt: 2 }}>
         <Box sx={{ pt: 1, pr: 2 }}>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h5" sx={{ pl: 2 }}>
+                Filters
+              </Typography>
+            </Grid>
+            <Grid item sx={{ pt: 1 }}>
+              <Stack direction="row" alignItems="center" spacing={0}>
+                {filters.map((filter, index) => (
+                  <Button
+                    key={index}
+                    size={'small'}
+                    onClick={() => setActiveFilter(index)}
+                    color={activeFilter === index ? 'primary' : 'secondary'}
+                    variant={activeFilter === index ? 'outlined' : 'text'}
+                  >
+                    {filter.name}
+                  </Button>
+                ))}
+              </Stack>
+            </Grid>
+          </Grid>
           <ReactApexChart options={options} series={series} type="area" height={450} />
         </Box>
       </MainCardComponent>

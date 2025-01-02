@@ -1,6 +1,7 @@
 import LoginContainer from 'containers/auth/login/Login.container';
 import DashboardContainer from 'containers/dashboard/dashboard.container';
 import HomeContainer from 'containers/dashboard/home/Home.container';
+import UsersContainer from 'containers/dashboard/users/Users.container';
 import GlobalContainer from 'containers/global/global.container';
 import OneTimePinContainer from 'containers/token/oneTimePin/OneTimePin.container';
 import TokenContainer from 'containers/token/Token.container';
@@ -31,7 +32,7 @@ export default function App() {
             <Route index element={<Navigate to="/dashboard/home" replace />} />
 
             <Route path="home" element={<HomeContainer />} />
-            <Route path="user" element={<HomeContainer />} />
+            <Route path="users" element={<UsersContainer />} />
             <Route path="course" element={<HomeContainer />} />
             <Route path="reporting" element={<HomeContainer />} />
             <Route path="settings" element={<HomeContainer />} />

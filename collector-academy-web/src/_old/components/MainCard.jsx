@@ -6,7 +6,6 @@ import { useTheme } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
 // header style
@@ -15,7 +14,7 @@ const headerSX = {
   '& .MuiCardHeader-action': { m: '0px auto', alignSelf: 'center' }
 };
 
-function MainCard(
+const MainCard = forwardRef(function MainCard(
   {
     border = true,
     boxShadow,
@@ -66,10 +65,9 @@ function MainCard(
       {!content && children}
     </Card>
   );
-}
+});
 
-export default forwardRef(MainCard);
-
+// Attach propTypes and defaultProps
 MainCard.propTypes = {
   border: PropTypes.bool,
   boxShadow: PropTypes.bool,
@@ -87,3 +85,5 @@ MainCard.propTypes = {
   modal: PropTypes.bool,
   others: PropTypes.any
 };
+
+export default MainCard;

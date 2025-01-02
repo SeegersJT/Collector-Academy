@@ -3,16 +3,17 @@ import Drawer from 'components/dashboard/drawer/Drawer.component';
 import NavigationGroup from 'components/dashboard/drawer/drawerContent/navigation/NavigationGroup.component';
 import { drawerMenuItems } from './Drawer.helper';
 import NavigationItem from 'components/dashboard/drawer/drawerContent/navigation/NavigationItem.componentn';
+import PropTypes from 'prop-types';
 
 function DrawerContainer() {
   const navigationGroups = drawerMenuItems.map((item) => {
-    const navigationChildren = item.children?.map((childMenuItem) => {
+    const navigationChildren = item.children?.map((childMenuItem, index) => {
       switch (childMenuItem.type) {
         case 'item':
-          return <NavigationItem item={childMenuItem} level={1} />;
+          return <NavigationItem key={index} item={childMenuItem} level={1} />;
         default:
           return (
-            <Typography key={childMenuItem.id} variant="h6" color="error" align="center">
+            <Typography key={index} variant="h6" color="error" align="center">
               {`Fix - Group Children or Items - ${childMenuItem.title}`}
             </Typography>
           );
@@ -34,6 +35,8 @@ function DrawerContainer() {
   return <Drawer navigationGroups={navigationGroups} />;
 }
 
-DrawerContainer.propTypes = {};
+Drawer.propTypes = {
+  navigationGroups: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+};
 
 export default DrawerContainer;

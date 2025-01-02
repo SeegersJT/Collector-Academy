@@ -83,24 +83,29 @@ function MiniBarChart({ title, description, extra, filters, customOptions = {} }
         <Grid item>
           <Typography variant="h5">{title}</Typography>
         </Grid>
-        <Grid item>
-          <Stack direction="row" alignItems="center" spacing={0}>
-            {filters.map((filter, index) => (
-              <Button
-                key={index}
-                size="small"
-                onClick={() => setActiveFilter(index)}
-                color={activeFilter === index ? 'primary' : 'secondary'}
-                variant={activeFilter === index ? 'outlined' : 'text'}
-              >
-                {filter.name}
-              </Button>
-            ))}
-          </Stack>
-        </Grid>
       </Grid>
       <MainCardComponent sx={{ mt: 2 }} content={false}>
         <Box sx={{ p: 3, pb: 0 }}>
+          <Grid container alignItems="center" justifyContent="space-between" item sx={{ mb: 1 }}>
+            <Grid item>
+              <Typography variant="h5">Filters</Typography>
+            </Grid>
+            <Grid>
+              <Stack direction="row" alignItems="center" spacing={0}>
+                {filters.map((filter, index) => (
+                  <Button
+                    key={index}
+                    size={'small'}
+                    onClick={() => setActiveFilter(index)}
+                    color={activeFilter === index ? 'primary' : 'secondary'}
+                    variant={activeFilter === index ? 'outlined' : 'text'}
+                  >
+                    {filter.name}
+                  </Button>
+                ))}
+              </Stack>
+            </Grid>
+          </Grid>
           <Stack spacing={2}>
             <Typography variant="h6" color="text.secondary">
               {description}

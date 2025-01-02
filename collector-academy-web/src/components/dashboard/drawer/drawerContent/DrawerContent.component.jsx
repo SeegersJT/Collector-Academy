@@ -11,7 +11,7 @@ function DrawerContent({ navigationGroups }) {
 }
 
 DrawerContent.propTypes = {
-  navigationGroups: PropTypes.func
+  navigationGroups: PropTypes.array
 };
 
 export default DrawerContent;

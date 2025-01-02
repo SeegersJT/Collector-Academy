@@ -2,6 +2,7 @@ import { Box, Chip, Grid, Stack, Typography } from '@mui/material';
 import MainCardComponent from '../MainCard.component';
 import PropTypes from 'prop-types';
 import { FallOutlined, RiseOutlined } from '@ant-design/icons';
+import { Utils } from 'utils/Utils';
 
 function ComparisonStatistics({ color = 'primary', title, count, percentage, isLoss, extra }) {
   const iconSX = { fontSize: '0.75rem', color: 'inherit', marginLeft: 0, marginRight: 0 };
@@ -15,7 +16,7 @@ function ComparisonStatistics({ color = 'primary', title, count, percentage, isL
         <Grid container alignItems="center">
           <Grid item>
             <Typography variant="h4" color="inherit">
-              {count}
+              {Utils.formatNumber(count)}
             </Typography>
           </Grid>
           {percentage && (
@@ -36,7 +37,7 @@ function ComparisonStatistics({ color = 'primary', title, count, percentage, isL
         <Typography variant="caption" color="text.secondary">
           Average is {isLoss ? 'Lower' : 'Higher'} than last month by:{' '}
           <Typography variant="caption" sx={{ color: `${color || 'primary'}.main` }}>
-            {extra}
+            {Utils.formatNumber(extra)}
           </Typography>
         </Typography>
       </Box>

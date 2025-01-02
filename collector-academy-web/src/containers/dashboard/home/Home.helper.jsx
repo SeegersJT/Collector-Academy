@@ -98,8 +98,6 @@ export const formatCourseActivityData = (cellData) => {
       employeeNo: courseResults.employeeNo,
       username: courseResults.username,
       courseName: courseResults.courseName,
-      // status: courseResults.status,
-      // percentage: courseResults.percentage
       status: (
         <Box
           sx={{

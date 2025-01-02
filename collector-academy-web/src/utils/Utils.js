@@ -1,3 +1,6 @@
+import { CalculationsOperators } from './constants/Calculations.enum';
+import { DateUnit } from './constants/Datetime.enum';
+
 /* eslint-disable max-len */
 export class Utils {
   /**
@@ -28,7 +31,7 @@ export class Utils {
    * @param {number} max - The maximum value.
    * @returns {number} A random number between min and max (inclusive).
    */
-  static getRandomNumber = (min, max) => {
+  static generateRandomNumber = (min, max) => {
     const minValue = Math.ceil(min);
     const maxValue = Math.floor(max);
 
@@ -130,7 +133,7 @@ export class Utils {
    * @returns {boolean} - Returns true if the value is numeric, otherwise false.
    */
   static isNumeric(value) {
-    return /^\d+$/.test(value); // Regular expression to match only digits (0-9)
+    return /^\d+$/.test(value);
   }
 
   static noOp() {}
@@ -142,8 +145,95 @@ export class Utils {
    */
   static capitalizeFirstCharacter(value) {
     if (typeof value !== 'string' || value.length === 0) {
-      return value; // Return the value as is if it's not a string or is an empty string
+      return value;
     }
-    return value.charAt(0).toUpperCase() + value.slice(1); // Capitalize the first character and append the rest of the string
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  /**
+   * Format a value as a valid number with thousands separated by spaces.
+   * @param {number|string} value - The input value to format.
+   * @returns {string} - Returns the formatted number as a string, or an empty string if the value is invalid.
+   */
+  static formatNumber(value) {
+    const number = parseFloat(value);
+
+    if (isNaN(number)) {
+      return '';
+    }
+
+    return number.toLocaleString('en-US', { useGrouping: true }).replace(/,/g, ' ');
+  }
+
+  /**
+   * Compare a datetime with the current datetime based on a specific unit, operator, and value.
+   * @param {Date|string} inputDatetime - The input datetime to compare.
+   * @param {string} unit - The unit of time to compare (YEAR, MONTH, WEEK, etc.).
+   * @param {string} operator - The comparison operator (=, <>, >, <, >=, <=).
+   * @param {number} value - The value to compare against in the specified unit.
+   * @returns {boolean} - Returns true if the condition is met; otherwise false.
+   */
+  static compareDate(inputDatetime, unit, operator, value) {
+    if (!(unit in DateUnit)) {
+      throw new Error(`Invalid unit provided: ${unit}`);
+    }
+
+    if (!Object.values(CalculationsOperators).includes(operator)) {
+      throw new Error(`Invalid operator provided: ${operator}`);
+    }
+
+    const inputDate = new Date(inputDatetime);
+    if (isNaN(inputDate)) {
+      throw new Error('Invalid inputDatetime provided');
+    }
+
+    const now = new Date();
+    let targetDate = new Date(now);
+
+    switch (unit) {
+      case DateUnit.YEAR:
+        targetDate.setFullYear(now.getFullYear() - value);
+        break;
+      case DateUnit.MONTH:
+        targetDate.setMonth(now.getMonth() - value);
+        break;
+      case DateUnit.WEEK:
+        targetDate.setDate(now.getDate() - value * 7);
+        break;
+      case DateUnit.DAY:
+        targetDate.setDate(now.getDate() - value);
+        break;
+      case DateUnit.HOUR:
+        targetDate.setHours(now.getHours() - value);
+        break;
+      case DateUnit.MINUTE:
+        targetDate.setMinutes(now.getMinutes() - value);
+        break;
+      case DateUnit.SECOND:
+        targetDate.setSeconds(now.getSeconds() - value);
+        break;
+      case DateUnit.MILLISECOND:
+        targetDate.setMilliseconds(now.getMilliseconds() - value);
+        break;
+      default:
+        throw new Error(`Unsupported unit: ${unit}`);
+    }
+
+    switch (operator) {
+      case CalculationsOperators.EQUALS:
+        return inputDate.getTime() === targetDate.getTime();
+      case CalculationsOperators.NOT_EQUALS:
+        return inputDate.getTime() !== targetDate.getTime();
+      case CalculationsOperators.MORE_THAN:
+        return inputDate.getTime() > targetDate.getTime();
+      case CalculationsOperators.LESS_THAN:
+        return inputDate.getTime() < targetDate.getTime();
+      case CalculationsOperators.MORE_THAN_EQUALS:
+        return inputDate.getTime() >= targetDate.getTime();
+      case CalculationsOperators.LESS_THAN_EQUALS:
+        return inputDate.getTime() <= targetDate.getTime();
+      default:
+        throw new Error(`Unsupported operator: ${operator}`);
+    }
   }
 }

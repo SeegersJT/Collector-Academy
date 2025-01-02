@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -9,9 +9,11 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableHead,
   TablePagination,
   TableRow,
   TableSortLabel,
+  TextField,
   Toolbar,
   Tooltip,
   Typography
@@ -25,16 +27,13 @@ import { Utils } from 'utils/Utils';
 function renderTitle(title) {
   return (
     <Grid container alignItems="center" justifyContent="space-between">
-      <Grid item>
-        <Typography variant="h5">{title}</Typography>
-      </Grid>
+      <Typography variant="h5">{title}</Typography>
       <Grid item />
     </Grid>
   );
 }
 
 function renderToolbar(selectable, selectedCount) {
-  console.log();
   return (
     selectable && (
       <Toolbar
@@ -73,6 +72,29 @@ function renderToolbar(selectable, selectedCount) {
           </IconButton>
         )}
       </Toolbar>
+    )
+  );
+}
+
+function renderSearchBar(selectable, searchable, searchQuery, handleSearchChange) {
+  return (
+    searchable && (
+      <Grid
+        item
+        xs={12}
+        md={7}
+        lg={4}
+        sx={[
+          {
+            ml: { sm: 2 },
+            mr: { xs: 1, sm: 1 },
+            mt: selectable ? 0 : 2,
+            mb: 1
+          }
+        ]}
+      >
+        <TextField label="Search" variant="outlined" fullWidth value={searchQuery} onChange={handleSearchChange} />
+      </Grid>
     )
   );
 }
@@ -186,10 +208,30 @@ function renderEmptyRows(emptyRows, dense) {
   );
 }
 
-function renderTablePagination(cellDataLength, page, rowsPerPage, handleOnPageChange, handleOnRowsPerPageChange) {
+function renderNoDataFound() {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%',
+        textAlign: 'center',
+        m: 5
+      }}
+    >
+      <Typography variant="h5" color="textSecondary">
+        No data found
+      </Typography>
+    </Box>
+  );
+}
+
+function renderTablePagination(pageOptions, cellDataLength, page, rowsPerPage, handleOnPageChange, handleOnRowsPerPageChange) {
   return (
     <TablePagination
-      rowsPerPageOptions={[5, 10, 25]}
+      rowsPerPageOptions={pageOptions}
       component="div"
       count={cellDataLength}
       rowsPerPage={rowsPerPage}
@@ -200,15 +242,38 @@ function renderTablePagination(cellDataLength, page, rowsPerPage, handleOnPageCh
   );
 }
 
-function DataTable({ title, headerModifiers, columnModifiers, data, onFormatCellData, selectable, singleSelect, dense }) {
+function DataTable({
+  title,
+  headerModifiers,
+  columnModifiers,
+  data,
+  onFormatCellData,
+  rows = 10,
+  pageOptions = [10, 25, 100],
+  selectable,
+  singleSelect,
+  searchable,
+  dense
+}) {
   const [cellData, setCellData] = useState(data);
   const [sortByIndex, setSortByIndex] = useState(0);
   const [sortBy, setSortBy] = useState(false);
   const [sortedCellData, setSortedCellData] = useState([]);
   const [visibleCellData, setVisibleCellData] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(rows);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filterSearchedText = useCallback(() => {
+    const filteredData = cellData.filter((row) =>
+      Object.values(row)
+        .filter((value) => typeof value === 'string')
+        .some((value) => value.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+
+    return filteredData;
+  }, [cellData, searchQuery]);
 
   useEffect(() => {
     setCellData(
@@ -220,12 +285,20 @@ function DataTable({ title, headerModifiers, columnModifiers, data, onFormatCell
   }, [data]);
 
   useEffect(() => {
-    setSortedCellData([...cellData].sort(getComparator(sortBy, sortByIndex)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage));
-  }, [sortBy, sortByIndex, cellData, page, rowsPerPage]);
+    const filteredData = filterSearchedText();
+
+    setSortedCellData(
+      [...filteredData].sort(getComparator(sortBy, sortByIndex)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    );
+  }, [sortBy, sortByIndex, cellData, page, rowsPerPage, searchQuery, filterSearchedText]);
 
   useEffect(() => {
     setVisibleCellData(() => onFormatCellData(sortedCellData));
   }, [sortedCellData, onFormatCellData]);
+
+  useEffect(() => {
+    setSelectedItems([]);
+  }, [searchQuery]);
 
   const getComparator = (order, orderBy) => {
     if (!order) return () => 0;
@@ -255,6 +328,11 @@ function DataTable({ title, headerModifiers, columnModifiers, data, onFormatCell
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    setPage(0);
+  };
+
   const handleRowClick = (uuid, isItemSelected, singleSelect) => {
     if (singleSelect) {
       if (isItemSelected) {
@@ -272,8 +350,10 @@ function DataTable({ title, headerModifiers, columnModifiers, data, onFormatCell
   };
 
   const handleSelectAll = (checked) => {
+    console.log('checked', checked);
     if (checked) {
-      setSelectedItems(cellData.map((singleCellData) => singleCellData.uuid));
+      const filteredItems = filterSearchedText();
+      setSelectedItems(filteredItems.map((singleCellData) => singleCellData.uuid));
     } else {
       setSelectedItems([]);
     }
@@ -290,34 +370,50 @@ function DataTable({ title, headerModifiers, columnModifiers, data, onFormatCell
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cellData.length) : 0;
 
-  console.log('selectedItems', selectedItems);
-
   return (
     <>
-      {renderTitle(title)}
+      {renderTitle(title, title, searchQuery, handleSearchChange)}
       <MainCardComponent sx={{ mt: 2 }} content={false}>
         <Box>
           {renderToolbar(selectable, selectedItems.length)}
-          <TableContainer
-            sx={{
-              width: '100%',
-              overflowX: 'auto',
-              position: 'relative',
-              display: 'block',
-              maxWidth: '100%',
-              '& td, & th': { whiteSpace: 'nowrap' }
-            }}
-          >
-            <Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-              {renderTableHeaderSelectAll(selectable, singleSelect, selectedItems.length, cellData.length, handleSelectAll)}
-              {renderTableHeaders(headerModifiers, sortBy, sortByIndex, sortTableByIndexAndDirection)}
-              <TableBody>
-                {renderTableRows(columnModifiers, visibleCellData, selectable, singleSelect, selectedItems, handleRowClick)}
-                {renderEmptyRows(emptyRows, dense)}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          {renderTablePagination(cellData.length, page, rowsPerPage, handleOnPageChange, handleOnRowsPerPageChange)}
+          {renderSearchBar(selectable, searchable, searchQuery, handleSearchChange)}
+          {visibleCellData.length > 0 ? (
+            <>
+              <TableContainer
+                sx={{
+                  width: '100%',
+                  overflowX: 'auto',
+                  position: 'relative',
+                  display: 'block',
+                  maxWidth: '100%',
+                  maxHeight: '550px',
+                  '& td, & th': { whiteSpace: 'nowrap' }
+                }}
+              >
+                <Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
+                  <TableHead>
+                    <TableRow>
+                      {renderTableHeaderSelectAll(
+                        selectable,
+                        singleSelect,
+                        selectedItems.length,
+                        filterSearchedText().length,
+                        handleSelectAll
+                      )}
+                      {renderTableHeaders(headerModifiers, sortBy, sortByIndex, sortTableByIndexAndDirection)}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {renderTableRows(columnModifiers, visibleCellData, selectable, singleSelect, selectedItems, handleRowClick)}
+                    {renderEmptyRows(emptyRows, dense)}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {renderTablePagination(pageOptions, cellData.length, page, rowsPerPage, handleOnPageChange, handleOnRowsPerPageChange)}
+            </>
+          ) : (
+            renderNoDataFound()
+          )}
         </Box>
       </MainCardComponent>
     </>
@@ -329,10 +425,10 @@ DataTable.propTypes = {
   headerModifiers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      align: PropTypes.oneOf(['left', 'center', 'right']),
-      padding: PropTypes.oneOf(['normal', 'checkbox', 'none']),
-      weight: PropTypes.oneOf(['regular', 'bold']),
-      style: PropTypes.oneOf(['normal', 'italic', 'oblique']),
+      align: PropTypes.oneOf(Object.values(CellAlign)),
+      padding: PropTypes.oneOf(Object.values(CellPadding)),
+      weight: PropTypes.oneOf(Object.values(CellWeight)),
+      style: PropTypes.oneOf(Object.values(CellStyle)),
       color: PropTypes.string,
       label: PropTypes.string.isRequired
     })
@@ -340,17 +436,20 @@ DataTable.propTypes = {
   columnModifiers: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      align: PropTypes.oneOf(['left', 'center', 'right']),
-      padding: PropTypes.oneOf(['normal', 'checkbox', 'none']),
-      weight: PropTypes.oneOf(['regular', 'bold']),
-      style: PropTypes.oneOf(['normal', 'italic', 'oblique']),
+      align: PropTypes.oneOf(Object.values(CellAlign)),
+      padding: PropTypes.oneOf(Object.values(CellPadding)),
+      weight: PropTypes.oneOf(Object.values(CellWeight)),
+      style: PropTypes.oneOf(Object.values(CellStyle)),
       color: PropTypes.string
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   onFormatCellData: PropTypes.func.isRequired,
+  rows: PropTypes.number,
+  pageOptions: PropTypes.arrayOf(PropTypes.number),
   selectable: PropTypes.bool,
   singleSelect: PropTypes.bool,
+  searchable: PropTypes.bool,
   dense: PropTypes.bool
 };
 

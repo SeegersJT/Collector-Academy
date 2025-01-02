@@ -39,8 +39,6 @@ function* confirmationTokenOneTimePinSaga({ payload }) {
     const [endpoint, requestOptions] = api.getOneTimePinRequest(payload);
     const { data } = yield call(axios, endpoint, requestOptions);
 
-    console.log('data', data);
-
     if (Object.hasOwn(data, 'access_token')) {
       const accessToken = data.access_token;
       const decodedData = jwtDecode(accessToken);
@@ -65,9 +63,6 @@ function* confirmationTokenOneTimePinSaga({ payload }) {
         surname: decodedData.surname,
         idNumber: decodedData.id_number
       };
-
-      console.log('auth', auth);
-      console.log('user', user);
 
       yield put(authActions.loginUserSuccess(auth));
       yield put(userActions.setUser(user));

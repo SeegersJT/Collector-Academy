@@ -15,10 +15,10 @@ const dashboard = {
       breadcrumbs: false
     },
     {
-      id: 'user',
-      title: 'User',
+      id: 'users',
+      title: 'Users',
       type: 'item',
-      url: '/dashboard/user',
+      url: '/dashboard/users',
       icon: DashboardOutlined,
       breadcrumbs: false
     },
