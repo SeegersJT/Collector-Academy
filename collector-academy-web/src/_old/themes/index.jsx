@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 
 // material-ui
-import { CssBaseline, StyledEngineProvider } from '@mui/material';
+import { CssBaseline, GlobalStyles, StyledEngineProvider } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // project import
@@ -19,6 +19,29 @@ export default function ThemeCustomization({ children }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const themeTypography = Typography(`'Public Sans', sans-serif`);
   const themeCustomShadows = useMemo(() => CustomShadows(theme), [theme]);
+
+  const GlobalScrollbarStyles = () => (
+    <GlobalStyles
+      styles={{
+        '::-webkit-scrollbar': {
+          width: '10px'
+        },
+        '::-webkit-scrollbar-track': {
+          backgroundColor: '#f1f1f1'
+        },
+        '::-webkit-scrollbar-thumb': {
+          backgroundColor: theme.palette.primary.main,
+          borderRadius: '10px'
+        },
+        '::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: theme.palette.primary[400]
+        },
+        '::-webkit-scrollbar-corner': {
+          backgroundColor: 'transparent'
+        }
+      }}
+    />
+  );
 
   const themeOptions = useMemo(
     () => ({
@@ -53,6 +76,7 @@ export default function ThemeCustomization({ children }) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={themes}>
         <CssBaseline />
+        <GlobalScrollbarStyles />
         {children}
       </ThemeProvider>
     </StyledEngineProvider>

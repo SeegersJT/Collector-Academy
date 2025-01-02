@@ -16,6 +16,10 @@ import java.util.List;
 @Builder
 public class UserDataResponse {
     private Integer employeeNo;
+    private Integer employeeTypeNo;
+    private String employeeType;
+    private Integer performanceManagerEmployeeNo;
+    private String performanceManagerUsername;
     private String username;
     private String name;
     private String surname;

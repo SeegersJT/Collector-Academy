@@ -1,3 +1,4 @@
+import AuthenticatedRoute from 'containers/auth/AuthenticatedRoute,container';
 import LoginContainer from 'containers/auth/login/Login.container';
 import DashboardContainer from 'containers/dashboard/dashboard.container';
 import HomeContainer from 'containers/dashboard/home/Home.container';
@@ -27,17 +28,18 @@ export default function App() {
           </Route>
 
           {/* ===========================================[ AUTHENTICATED ]=========================================== */}
+          <Route element={<AuthenticatedRoute />}>
+            <Route path="/dashboard" element={<DashboardContainer />}>
+              <Route index element={<Navigate to="/dashboard/home" replace />} />
 
-          <Route path="/dashboard" element={<DashboardContainer />}>
-            <Route index element={<Navigate to="/dashboard/home" replace />} />
+              <Route path="home" element={<HomeContainer />} />
+              <Route path="users" element={<UsersContainer />} />
+              <Route path="course" element={<HomeContainer />} />
+              <Route path="reporting" element={<HomeContainer />} />
+              <Route path="settings" element={<HomeContainer />} />
 
-            <Route path="home" element={<HomeContainer />} />
-            <Route path="users" element={<UsersContainer />} />
-            <Route path="course" element={<HomeContainer />} />
-            <Route path="reporting" element={<HomeContainer />} />
-            <Route path="settings" element={<HomeContainer />} />
-
-            <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+              <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+            </Route>
           </Route>
           {/* ===========================================[ AUTHENTICATED ]=========================================== */}
 

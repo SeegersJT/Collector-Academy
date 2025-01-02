@@ -28,7 +28,7 @@ const areaChartOptions = {
   }
 };
 
-function AreaChart({ title, filters, customOptions = {} }) {
+function AreaChart({ title, filters, height = 450, customOptions = {} }) {
   const theme = useTheme();
   const { primary, secondary } = theme.palette.text;
   const line = theme.palette.divider;
@@ -116,7 +116,7 @@ function AreaChart({ title, filters, customOptions = {} }) {
               </Stack>
             </Grid>
           </Grid>
-          <ReactApexChart options={options} series={series} type="area" height={450} />
+          <ReactApexChart options={options} series={series} type="area" height={height} />
         </Box>
       </MainCardComponent>
     </>
@@ -139,6 +139,7 @@ AreaChart.propTypes = {
       tickAmount: PropTypes.number.isRequired
     })
   ).isRequired,
+  height: PropTypes.number,
   customOptions: PropTypes.object
 };
 

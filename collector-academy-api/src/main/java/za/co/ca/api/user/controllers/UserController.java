@@ -88,9 +88,9 @@ public class UserController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('PERFORMANCE_MANAGER')")
-    public ResponseEntity<List<UserDataResponse>> getAllUsersByEmployeeType() throws Exception {
+    public ResponseEntity<List<UserDataResponse>> getAllUsers() throws Exception {
         log.info("Users Get All Request");
-        List<UserDataResponse> response = userService.getAllUsersByEmployeeType();
+        List<UserDataResponse> response = userService.getAllUsers();
         return ResponseEntity.ok(response);
     }
 
@@ -120,7 +120,7 @@ public class UserController {
     public ResponseEntity<UserDataResponse> userDelete(
             @Valid @RequestParam(required = true) Integer employeeNo
     ) throws Exception {
-        log.info("User Update Request :: Employee No - '" + employeeNo + "'");
+        log.info("User Delete Request :: Employee No - '" + employeeNo + "'");
         UserDataResponse response = userService.userDelete(employeeNo);
         return ResponseEntity.ok(response);
     }

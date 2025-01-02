@@ -19,10 +19,11 @@ import {
   Typography
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { DeleteOutlined, EditOutlined, FilterOutlined } from '@ant-design/icons';
+import { FilterOutlined } from '@ant-design/icons';
 import MainCardComponent from 'components/card/MainCard.component';
 import { CellAlign, CellPadding, CellStyle, CellWeight } from 'utils/constants/Table.enum';
 import { Utils } from 'utils/Utils';
+import Loading from 'components/loading/Loading.component';
 
 function renderTitle(title) {
   return (
@@ -33,7 +34,7 @@ function renderTitle(title) {
   );
 }
 
-function renderToolbar(selectable, selectedCount) {
+function renderToolbar(selectable, toolbarData, selectedItemsCount, handleOnToolbarClick) {
   return (
     selectable && (
       <Toolbar
@@ -44,27 +45,27 @@ function renderToolbar(selectable, selectedCount) {
           }
         ]}
       >
-        {selectedCount > 0 ? (
+        {selectedItemsCount > 0 ? (
           <Typography sx={{ flex: '1 1 50%' }} color="inherit" variant="subtitle1" component="div">
-            {selectedCount} selected
+            {selectedItemsCount} selected
           </Typography>
         ) : (
           <Typography sx={{ flex: '1 1 50%' }} variant="h6" id="tableTitle" component="div">
             No Rows Selected
           </Typography>
         )}
-        {selectedCount > 0 ? (
+        {selectedItemsCount > 0 ? (
           <>
-            <Tooltip title="Delete">
-              <IconButton>
-                <DeleteOutlined />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Edit">
-              <IconButton>
-                <EditOutlined />
-              </IconButton>
-            </Tooltip>
+            {toolbarData.map((toolbar, index) => {
+              console.log('toolbar', toolbar);
+              return (
+                <Tooltip key={index} title={toolbar.title}>
+                  <IconButton color={toolbar.iconColor} onClick={() => handleOnToolbarClick(index)}>
+                    {toolbar.icon}
+                  </IconButton>
+                </Tooltip>
+              );
+            })}
           </>
         ) : (
           <IconButton disabled>
@@ -96,6 +97,74 @@ function renderSearchBar(selectable, searchable, searchQuery, handleSearchChange
         <TextField label="Search" variant="outlined" fullWidth value={searchQuery} onChange={handleSearchChange} />
       </Grid>
     )
+  );
+}
+
+function renderLoader() {
+  return <Loading />;
+}
+
+function renderDataTable(
+  visibleCellData,
+  height,
+  selectable,
+  singleSelect,
+  selectedItems,
+  headerModifiers,
+  sortBy,
+  dense,
+  sortByIndex,
+  sortTableByIndexAndDirection,
+  columnModifiers,
+  emptyRows,
+  pageOptions,
+  cellData,
+  page,
+  rowsPerPage,
+  dataLoading,
+  filterSearchedText,
+  handleSelectAll,
+  handleOnPageChange,
+  handleRowClick,
+  handleOnRowsPerPageChange
+) {
+  console.log('dataLoading', dataLoading);
+  return visibleCellData.length > 0 ? (
+    <>
+      <TableContainer
+        sx={{
+          width: '100%',
+          overflowX: 'auto',
+          position: 'relative',
+          display: dataLoading ? 'flex' : 'block',
+          justifyContent: dataLoading ? 'center' : 'none',
+          alignItems: dataLoading ? 'center' : 'none',
+          maxWidth: '100%',
+          height: height,
+          '& td, & th': { whiteSpace: 'nowrap' }
+        }}
+      >
+        {dataLoading ? (
+          renderLoader()
+        ) : (
+          <Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
+            <TableHead>
+              <TableRow>
+                {renderTableHeaderSelectAll(selectable, singleSelect, selectedItems.length, filterSearchedText().length, handleSelectAll)}
+                {renderTableHeaders(headerModifiers, sortBy, sortByIndex, sortTableByIndexAndDirection)}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {renderTableRows(columnModifiers, visibleCellData, selectable, singleSelect, selectedItems, handleRowClick)}
+              {renderEmptyRows(emptyRows, dense)}
+            </TableBody>
+          </Table>
+        )}
+      </TableContainer>
+      {renderTablePagination(pageOptions, cellData.length, page, rowsPerPage, handleOnPageChange, handleOnRowsPerPageChange)}
+    </>
+  ) : (
+    renderNoDataFound()
   );
 }
 
@@ -247,13 +316,17 @@ function DataTable({
   headerModifiers,
   columnModifiers,
   data,
-  onFormatCellData,
+  dataLoading,
+  toolbarData,
+  height = '550px',
   rows = 10,
   pageOptions = [10, 25, 100],
   selectable,
   singleSelect,
   searchable,
-  dense
+  dense,
+  onFormatCellData,
+  onToolbarClick
 }) {
   const [cellData, setCellData] = useState(data);
   const [sortByIndex, setSortByIndex] = useState(0);
@@ -368,6 +441,11 @@ function DataTable({
     setPage(0);
   };
 
+  const handleOnToolbarClick = (index) => {
+    const filterSelectedItems = cellData.filter((item) => selectedItems.includes(item.uuid));
+    onToolbarClick(index, filterSelectedItems);
+  };
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cellData.length) : 0;
 
   return (
@@ -375,44 +453,31 @@ function DataTable({
       {renderTitle(title, title, searchQuery, handleSearchChange)}
       <MainCardComponent sx={{ mt: 2 }} content={false}>
         <Box>
-          {renderToolbar(selectable, selectedItems.length)}
+          {renderToolbar(selectable, toolbarData, selectedItems.length, handleOnToolbarClick)}
           {renderSearchBar(selectable, searchable, searchQuery, handleSearchChange)}
-          {visibleCellData.length > 0 ? (
-            <>
-              <TableContainer
-                sx={{
-                  width: '100%',
-                  overflowX: 'auto',
-                  position: 'relative',
-                  display: 'block',
-                  maxWidth: '100%',
-                  maxHeight: '550px',
-                  '& td, & th': { whiteSpace: 'nowrap' }
-                }}
-              >
-                <Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-                  <TableHead>
-                    <TableRow>
-                      {renderTableHeaderSelectAll(
-                        selectable,
-                        singleSelect,
-                        selectedItems.length,
-                        filterSearchedText().length,
-                        handleSelectAll
-                      )}
-                      {renderTableHeaders(headerModifiers, sortBy, sortByIndex, sortTableByIndexAndDirection)}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {renderTableRows(columnModifiers, visibleCellData, selectable, singleSelect, selectedItems, handleRowClick)}
-                    {renderEmptyRows(emptyRows, dense)}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              {renderTablePagination(pageOptions, cellData.length, page, rowsPerPage, handleOnPageChange, handleOnRowsPerPageChange)}
-            </>
-          ) : (
-            renderNoDataFound()
+          {renderDataTable(
+            visibleCellData,
+            height,
+            selectable,
+            singleSelect,
+            selectedItems,
+            headerModifiers,
+            sortBy,
+            dense,
+            sortByIndex,
+            sortTableByIndexAndDirection,
+            columnModifiers,
+            emptyRows,
+            pageOptions,
+            cellData,
+            page,
+            rowsPerPage,
+            dataLoading,
+            filterSearchedText,
+            handleSelectAll,
+            handleOnPageChange,
+            handleRowClick,
+            handleOnRowsPerPageChange
           )}
         </Box>
       </MainCardComponent>
@@ -444,13 +509,17 @@ DataTable.propTypes = {
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-  onFormatCellData: PropTypes.func.isRequired,
+  dataLoading: PropTypes.bool,
+  toolbarData: PropTypes.arrayOf(PropTypes.object),
+  height: PropTypes.string,
   rows: PropTypes.number,
   pageOptions: PropTypes.arrayOf(PropTypes.number),
   selectable: PropTypes.bool,
   singleSelect: PropTypes.bool,
   searchable: PropTypes.bool,
-  dense: PropTypes.bool
+  dense: PropTypes.bool,
+  onFormatCellData: PropTypes.func.isRequired,
+  onToolbarClick: PropTypes.func
 };
 
 export default DataTable;

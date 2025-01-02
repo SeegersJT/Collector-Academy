@@ -2,17 +2,19 @@ import { Grid, Typography } from '@mui/material';
 import DefaultBox from 'components/box/DefaultBox.component';
 import CardList from 'components/card/list/CardList.component';
 import ComparisonStatistics from 'components/card/statistic/ComparisonStatistic.component';
-import AreaChart from 'components/charts/AreaChart.component';
-import PieChart from 'components/charts/PieChart.component';
 import DataTable from 'components/tables/DataTable.component';
-import { getCourseActivityData } from 'containers/dashboard/home/Home.helper';
-import { formatUsersData, getColumnModifiers, getHeaderModifiers } from 'containers/dashboard/users/Users.helper';
+import { formatUsersData, getColumnModifiers, getHeaderModifiers, getToolbarData } from 'containers/dashboard/users/Users.helper';
 import PropTypes from 'prop-types';
 
-function Users({ theme, usersData, actionsListData }) {
+function Users({ theme, usersData, usersDataLoading, actionsListData, onToolbarClick }) {
   return (
     <DefaultBox>
       {/* Row 1 */}
+      <Grid item xs={12} md={5} lg={4}>
+        <CardList title="Actions" data={actionsListData} scrollable height="200px" />
+      </Grid>
+
+      {/* Row 2 */}
       <Grid item xs={12} sx={{ mb: -2.25 }}>
         <Typography variant="h5">Users Activity</Typography>
       </Grid>
@@ -29,14 +31,6 @@ function Users({ theme, usersData, actionsListData }) {
         <ComparisonStatistics color="error" title="Total Typing Test Success" count="0" percentage={100} isLoss extra="0" />
       </Grid>
 
-      {/* Row 2 */}
-      <Grid item xs={12} md={5} lg={4}>
-        <CardList title="Actions" data={actionsListData} scrollable height="400px" />
-      </Grid>
-      <Grid item xs={12} md={12} lg={8}>
-        <AreaChart title="Course Activity" filters={getCourseActivityData(theme)} />
-      </Grid>
-
       {/* Row 3 */}
       <Grid item xs={12} md={7} lg={12}>
         <DataTable
@@ -44,10 +38,13 @@ function Users({ theme, usersData, actionsListData }) {
           headerModifiers={getHeaderModifiers(theme)}
           columnModifiers={getColumnModifiers(theme)}
           data={usersData}
-          onFormatCellData={formatUsersData}
+          dataLoading={usersDataLoading}
+          toolbarData={getToolbarData(onToolbarClick)}
           rows={10}
           selectable
           searchable
+          onFormatCellData={formatUsersData}
+          onToolbarClick={onToolbarClick}
         />
       </Grid>
     </DefaultBox>
@@ -57,7 +54,9 @@ function Users({ theme, usersData, actionsListData }) {
 Users.propTypes = {
   theme: PropTypes.object.isRequired,
   usersData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  actionsListData: PropTypes.arrayOf(PropTypes.object).isRequired
+  usersDataLoading: PropTypes.bool,
+  actionsListData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onToolbarClick: PropTypes.func
 };
 
 export default Users;

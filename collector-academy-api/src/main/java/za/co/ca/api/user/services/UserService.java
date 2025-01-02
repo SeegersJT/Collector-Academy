@@ -207,6 +207,8 @@ public class UserService {
 
         return UserDataResponse.builder()
                 .employeeNo(employee.getEmployeeNo())
+                .employeeTypeNo(employee.getEmployeeType().getEmployeeTypeNo())
+                .employeeType(employee.getEmployeeType().getEmployeeType().name())
                 .username(employee.getUsername())
                 .name(employee.getName())
                 .surname(employee.getSurname())
@@ -219,7 +221,7 @@ public class UserService {
                 .build();
     }
 
-    public List<UserDataResponse> getAllUsersByEmployeeType() {
+    public List<UserDataResponse> getAllUsers() {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
         List<Employee> employees = switch (authenticatedEmployee.getEmployeeType()) {
@@ -233,8 +235,23 @@ public class UserService {
         List<UserDataResponse> userDataResponses = new ArrayList<UserDataResponse>();
 
         for (Employee employee : employees) {
+
+            Integer performanceManagerEmployeeNo = 1;
+            String performanceManagerUsername = "N/A";
+
+            if (employee.getPerformanceManagerEmployeeNo() != 1) {
+                Employee performanceManagerEmployee = employeeService.findByEmployeeNo(employee.getPerformanceManagerEmployeeNo());
+
+                performanceManagerEmployeeNo = performanceManagerEmployee.getEmployeeNo();
+                performanceManagerUsername = performanceManagerEmployee.getUsername();
+            }
+
             UserDataResponse userDataResponse = UserDataResponse.builder()
                     .employeeNo(employee.getEmployeeNo())
+                    .employeeTypeNo(employee.getEmployeeType().getEmployeeTypeNo())
+                    .employeeType(employee.getEmployeeType().getEmployeeType().name())
+                    .performanceManagerEmployeeNo(performanceManagerEmployeeNo)
+                    .performanceManagerUsername(performanceManagerUsername)
                     .username(employee.getUsername())
                     .name(employee.getName())
                     .surname(employee.getSurname())

@@ -17,6 +17,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Optional<Employee> findByEmployeeNo(Integer employeeNo);
     Optional<Employee> findByEmailAddress(String emailAddress);
     Optional<Employee> findByIdNumber(String idNumber);
+
     @Query("SELECT e FROM Employee e WHERE e.active = true AND e.employeeType.employeeTypeNo <> 1")
     List<Employee> findAllBySuperuser();
 
