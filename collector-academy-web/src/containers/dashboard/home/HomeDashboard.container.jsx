@@ -1,8 +1,8 @@
 import { useTheme } from '@mui/material/styles';
 import { AndroidOutlined, HeatMapOutlined, PieChartOutlined } from '@ant-design/icons';
-import Home from 'components/dashboard/home/Home.component';
+import Home from 'components/dashboard/home/HomeDashboard.component';
 
-function HomeContainer() {
+function HomeDashboardContainer() {
   const theme = useTheme();
 
   const onCardListClick = (data) => {
@@ -189,6 +189,6 @@ function HomeContainer() {
   return <Home theme={theme} courseResultsData={courseResultsData} eventsListData={eventsListData(theme)} />;
 }
 
-HomeContainer.propTypes = {};
+HomeDashboardContainer.propTypes = {};
 
-export default HomeContainer;
+export default HomeDashboardContainer;

@@ -1,12 +1,12 @@
 import { useTheme } from '@mui/material/styles';
 
-import Users from 'components/dashboard/users/Users.component';
-import { formatActionsListData } from './Users.helper';
+import { formatActionsListData } from './UsersDashboard.helper';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestUsers } from 'redux/actions/Users.action';
+import UsersDashboard from 'components/dashboard/users/UsersDashboard.component';
 
-function UsersContainer() {
+function UsersDashboardContainer() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ function UsersContainer() {
   };
 
   return (
-    <Users
+    <UsersDashboard
       theme={theme}
       usersData={users}
       usersDataLoading={usersLoading}
@@ -42,6 +42,6 @@ function UsersContainer() {
   );
 }
 
-UsersContainer.propTypes = {};
+UsersDashboardContainer.propTypes = {};
 
-export default UsersContainer;
+export default UsersDashboardContainer;

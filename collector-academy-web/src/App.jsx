@@ -2,12 +2,14 @@ import AuthenticatedRoute from 'containers/auth/AuthenticatedRoute,container';
 import LoginContainer from 'containers/auth/login/Login.container';
 import PasswordForgotContainer from 'containers/auth/passwordForgot/PasswordForgot.container';
 import DashboardContainer from 'containers/dashboard/dashboard.container';
-import HomeContainer from 'containers/dashboard/home/Home.container';
-import UsersContainer from 'containers/dashboard/users/Users.container';
+import HomeDashboardContainer from 'containers/dashboard/home/HomeDashboard.container';
+import HomeContainer from 'containers/dashboard/home/HomeDashboard.container';
+import UsersDashboardContainer from 'containers/dashboard/users/UsersDashboard.container';
 import GlobalContainer from 'containers/global/global.container';
 import OneTimePinContainer from 'containers/token/oneTimePin/OneTimePin.container';
 import PasswordResetContainer from 'containers/token/passwordReset/PasswordReset.container';
 import TokenContainer from 'containers/token/Token.container';
+import UserContainer from 'containers/user/User.container';
 import { useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
@@ -36,13 +38,21 @@ export default function App() {
             <Route path="/dashboard" element={<DashboardContainer />}>
               <Route index element={<Navigate to="/dashboard/home" replace />} />
 
-              <Route path="home" element={<HomeContainer />} />
-              {roleNo <= 4 && <Route path="users" element={<UsersContainer />} />}
+              <Route path="home" element={<HomeDashboardContainer />} />
+              {roleNo <= 4 && <Route path="users" element={<UsersDashboardContainer />} />}
               <Route path="course" element={<HomeContainer />} />
               <Route path="reporting" element={<HomeContainer />} />
               <Route path="settings" element={<HomeContainer />} />
 
               <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+            </Route>
+
+            <Route path="/profile" element={<ProfileContainer />}>
+              <Route index element={<Navigate to="/profile" replace />} />
+
+              {/* <Route path="profile" element={<UserProfileContainer />} /> */}
+              <Route path="" element={<ProfileEditContainer />} />
+              {/* <Route path="add" element={<ProfileAddContainer />} /> */}
             </Route>
           </Route>
           {/* ===========================================[ AUTHENTICATED ]=========================================== */}

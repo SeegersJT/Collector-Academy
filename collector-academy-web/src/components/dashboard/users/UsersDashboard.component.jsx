@@ -3,10 +3,10 @@ import DefaultBox from 'components/box/DefaultBox.component';
 import CardList from 'components/card/list/CardList.component';
 import ComparisonStatistics from 'components/card/statistic/ComparisonStatistic.component';
 import DataTable from 'components/tables/DataTable.component';
-import { formatUsersData, getColumnModifiers, getHeaderModifiers, getToolbarData } from 'containers/dashboard/users/Users.helper';
+import { formatUsersData, getColumnModifiers, getHeaderModifiers, getToolbarData } from 'containers/dashboard/users/UsersDashboard.helper';
 import PropTypes from 'prop-types';
 
-function Users({ theme, usersData, usersDataLoading, actionsListData, onToolbarClick }) {
+function UsersDashboard({ theme, usersData, usersDataLoading, actionsListData, onToolbarClick }) {
   return (
     <DefaultBox>
       {/* Row 1 */}
@@ -51,7 +51,7 @@ function Users({ theme, usersData, usersDataLoading, actionsListData, onToolbarC
   );
 }
 
-Users.propTypes = {
+UsersDashboard.propTypes = {
   theme: PropTypes.object.isRequired,
   usersData: PropTypes.arrayOf(PropTypes.object).isRequired,
   usersDataLoading: PropTypes.bool,
@@ -59,4 +59,4 @@ Users.propTypes = {
   onToolbarClick: PropTypes.func
 };
 
-export default Users;
+export default UsersDashboard;

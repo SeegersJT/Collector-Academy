@@ -11,10 +11,10 @@ import {
   getCourseActivityData,
   getHeaderModifiers,
   getUserActivityData
-} from 'containers/dashboard/home/Home.helper';
+} from 'containers/dashboard/home/HomeDashboard.helper';
 import PropTypes from 'prop-types';
 
-function Home({ theme, courseResultsData, eventsListData }) {
+function HomeDashboard({ theme, courseResultsData, eventsListData }) {
   return (
     <DefaultBox>
       {/* Row 1 */}
@@ -61,10 +61,10 @@ function Home({ theme, courseResultsData, eventsListData }) {
   );
 }
 
-Home.propTypes = {
+HomeDashboard.propTypes = {
   theme: PropTypes.object.isRequired,
   courseResultsData: PropTypes.arrayOf(PropTypes.object).isRequired,
   eventsListData: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-export default Home;
+export default HomeDashboard;
