@@ -26,5 +26,5 @@ function* userRequestSaga({ accessToken }) {
 }
 
 export function* watchUsersSagas() {
-  yield takeEvery(usersActions.USERS_REQUEST, userRequestSaga);
+  yield takeEvery(usersActions.REQUEST_USERS, userRequestSaga);
 }
