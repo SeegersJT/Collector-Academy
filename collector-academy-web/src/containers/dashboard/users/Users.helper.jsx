@@ -27,18 +27,16 @@ export const getColumnModifiers = () => [
   { id: 'gender', align: CellAlign.LEFT, padding: CellPadding.NORMAL }
 ];
 
-export const getToolbarData = (onToolbarClick) => [
+export const getToolbarData = () => [
   {
     title: 'Delete',
     icon: <DeleteOutlined />,
-    iconColor: 'error',
-    onClick: onToolbarClick
+    iconColor: 'error'
   },
   {
     title: 'Edit',
     icon: <EditOutlined />,
-    iconColor: 'warning',
-    onClick: onToolbarClick
+    iconColor: 'warning'
   }
 ];
 

@@ -7,7 +7,7 @@ import { Utils } from 'utils/Utils';
 function OneTimePinContainer() {
   const dispatch = useDispatch();
 
-  const token = useSelector((state) => state.token);
+  const { token, oneTimePinLoading } = useSelector((state) => state.token);
 
   const [otp, setOTP] = useState('');
 
@@ -18,7 +18,7 @@ function OneTimePinContainer() {
   const handleComplete = (newData) => {
     const onValidateSuccess = () => {
       const oneTimePinPayload = {
-        confirmation_token: token.token,
+        confirmation_token: token,
         one_time_pin: newData
       };
 
@@ -26,7 +26,7 @@ function OneTimePinContainer() {
     };
 
     const validationPayload = {
-      confirmationToken: token?.token
+      confirmationToken: token
     };
 
     dispatch(requestConfirmationTokenValidation(validationPayload, onValidateSuccess));
@@ -36,7 +36,15 @@ function OneTimePinContainer() {
     return Utils.isNumeric(value);
   };
 
-  return <OneTimePin otp={otp} validateChar={handleValidateChar} onChange={handleChange} onComplete={handleComplete} />;
+  return (
+    <OneTimePin
+      otp={otp}
+      validateChar={handleValidateChar}
+      oneTimePinLoading={oneTimePinLoading}
+      onChange={handleChange}
+      onComplete={handleComplete}
+    />
+  );
 }
 
 export default OneTimePinContainer;

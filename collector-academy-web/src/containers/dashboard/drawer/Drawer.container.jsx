@@ -5,12 +5,12 @@ import { drawerMenuItems } from './Drawer.helper';
 import NavigationItem from 'components/dashboard/drawer/drawerContent/navigation/NavigationItem.componentn';
 import PropTypes from 'prop-types';
 
-function DrawerContainer() {
+function DrawerContainer({ activeUserRoleNo }) {
   const navigationGroups = drawerMenuItems.map((item) => {
     const navigationChildren = item.children?.map((childMenuItem, index) => {
       switch (childMenuItem.type) {
         case 'item':
-          return <NavigationItem key={index} item={childMenuItem} level={1} />;
+          return activeUserRoleNo <= childMenuItem.role && <NavigationItem key={index} item={childMenuItem} level={1} />;
         default:
           return (
             <Typography key={index} variant="h6" color="error" align="center">

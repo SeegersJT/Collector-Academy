@@ -57,7 +57,6 @@ function renderToolbar(selectable, toolbarData, selectedItemsCount, handleOnTool
         {selectedItemsCount > 0 ? (
           <>
             {toolbarData.map((toolbar, index) => {
-              console.log('toolbar', toolbar);
               return (
                 <Tooltip key={index} title={toolbar.title}>
                   <IconButton color={toolbar.iconColor} onClick={() => handleOnToolbarClick(index)}>

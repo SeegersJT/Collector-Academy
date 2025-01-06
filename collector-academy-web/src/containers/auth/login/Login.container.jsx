@@ -28,6 +28,7 @@ function LoginContainer() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+
     dispatch(loginUserRequest(credentials));
   };
 

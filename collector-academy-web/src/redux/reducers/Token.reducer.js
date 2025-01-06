@@ -1,6 +1,8 @@
 import {
   CONFIRMATION_TOKEN_IS_TOKEN_VALID_SET,
   CONFIRMATION_TOKEN_IS_TOKEN_VALIDATED_SET,
+  CONFIRMATION_TOKEN_ONE_TIME_PIN_REQUEST_LOADING,
+  CONFIRMATION_TOKEN_PASSWORD_RESET_REQUEST_LOADING,
   CONFIRMATION_TOKEN_RESET,
   CONFIRMATION_TOKEN_SET,
   CONFIRMATION_TOKEN_VALIDATION_FAILURE,
@@ -14,7 +16,9 @@ const initialState = {
   tokenExpiryDate: null,
   isTokenValidated: false,
   isTokenValid: false,
-  tokenValidationLoading: false
+  tokenValidationLoading: false,
+  oneTimePinLoading: false,
+  passwordResetLoading: false
 };
 
 const tokenReducer = (state = initialState, action) => {
@@ -63,6 +67,18 @@ const tokenReducer = (state = initialState, action) => {
       return {
         ...state,
         tokenValidationLoading: action.loading
+      };
+
+    case CONFIRMATION_TOKEN_ONE_TIME_PIN_REQUEST_LOADING:
+      return {
+        ...state,
+        oneTimePinLoading: action.loading
+      };
+
+    case CONFIRMATION_TOKEN_PASSWORD_RESET_REQUEST_LOADING:
+      return {
+        ...state,
+        passwordResetLoading: action.loading
       };
 
     default:

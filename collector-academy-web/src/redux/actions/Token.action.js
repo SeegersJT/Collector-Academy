@@ -14,6 +14,9 @@ export const CONFIRMATION_TOKEN_IS_TOKEN_VALID_SET = '[TOKEN] CONFIRMATION TOKEN
 export const CONFIRMATION_TOKEN_ONE_TIME_PIN_REQUEST = '[TOKEN] CONFIRMATION TOKEN - ONE TIME PIN - REQUEST';
 export const CONFIRMATION_TOKEN_ONE_TIME_PIN_REQUEST_LOADING = '[TOKEN] CONFIRMATION TOKEN - ONE TIME PIN - REQUEST - LOADING';
 
+export const CONFIRMATION_TOKEN_PASSWORD_RESET_REQUEST = '[TOKEN] CONFIRMATION TOKEN - PASSWORD RESET - REQUEST';
+export const CONFIRMATION_TOKEN_PASSWORD_RESET_REQUEST_LOADING = '[TOKEN] CONFIRMATION TOKEN - PASSWORD RESET - REQUEST - LOADING';
+
 export const setConfirmationToken = (payload) => ({
   type: CONFIRMATION_TOKEN_SET,
   payload
@@ -59,5 +62,15 @@ export const requestOneTimePinConfirmationToken = (payload) => ({
 
 export const requestOneTimePinConfirmationTokenLoading = (loading) => ({
   type: CONFIRMATION_TOKEN_ONE_TIME_PIN_REQUEST_LOADING,
+  loading
+});
+
+export const requestPasswordResetConfirmationToken = (payload) => ({
+  type: CONFIRMATION_TOKEN_PASSWORD_RESET_REQUEST,
+  payload
+});
+
+export const requestPasswordResetConfirmationTokenLoading = (loading) => ({
+  type: CONFIRMATION_TOKEN_PASSWORD_RESET_REQUEST_LOADING,
   loading
 });

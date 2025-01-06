@@ -7,6 +7,9 @@ export const LOGIN_USER_REQUEST_LOADING = '[AUTH] LOGIN USER - REQUEST - LOADING
 
 export const LOGOUT_USER = '[AUTH] LOGOUT USER';
 
+export const FORGOT_PASSWORD_REQUEST = '[AUTH] FORGOT PASSWORD - REQUEST';
+export const FORGOT_PASSWORD_REQUEST_LOADING = '[AUTH] FORGOT PASSWORD - REQUEST - LOADING';
+
 export const resetAuth = () => ({
   type: AUTH_RESET
 });
@@ -32,5 +35,15 @@ export const logoutUser = () => ({
 
 export const loginUserRequestLoading = (loading) => ({
   type: LOGIN_USER_REQUEST_LOADING,
+  loading
+});
+
+export const requestForgotPassword = (payload) => ({
+  type: FORGOT_PASSWORD_REQUEST,
+  payload
+});
+
+export const requestForgotPasswordLoading = (loading) => ({
+  type: FORGOT_PASSWORD_REQUEST_LOADING,
   loading
 });

@@ -1,4 +1,10 @@
-import { LOGIN_USER_FAILURE, LOGIN_USER_SUCCESS, LOGIN_USER_REQUEST_LOADING, AUTH_RESET } from '../actions/Auth.action';
+import {
+  LOGIN_USER_FAILURE,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_REQUEST_LOADING,
+  AUTH_RESET,
+  FORGOT_PASSWORD_REQUEST_LOADING
+} from '../actions/Auth.action';
 
 const initialState = {
   isAuthenticated: false,
@@ -6,7 +12,8 @@ const initialState = {
   expireDate: null,
   issuesAt: null,
   jwtID: null,
-  loginRequestLoading: false
+  loginRequestLoading: false,
+  forgotPasswordRequestLoading: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -31,6 +38,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loginRequestLoading: action.loading
+      };
+
+    case FORGOT_PASSWORD_REQUEST_LOADING:
+      return {
+        ...state,
+        forgotPasswordRequestLoading: action.loading
       };
 
     default:

@@ -27,7 +27,11 @@ function TokenContainer() {
   const navigateToTokenType = useCallback((tokenType) => {
     switch (tokenType) {
       case 'ONE_TIME_PIN':
+      case 'PASSWORD_FORGOT':
         navigateTo('/token/one-time-pin');
+        break;
+      case 'PASSWORD_RESET':
+        navigateTo('/token/password-reset');
         break;
       default:
         console.warn('Unhandled token type:', tokenType);

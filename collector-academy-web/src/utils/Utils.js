@@ -3,6 +3,8 @@ import { DateUnit } from './constants/Datetime.enum';
 
 /* eslint-disable max-len */
 export class Utils {
+  static countdownInterval = null;
+
   /**
    * Check if a value is undefined.
    * @param {any} value - The value to check.
@@ -97,12 +99,16 @@ export class Utils {
   static startCountdown(targetDate, callback) {
     const target = new Date(targetDate);
 
-    const interval = setInterval(() => {
+    if (Utils.countdownInterval) {
+      clearInterval(Utils.countdownInterval);
+    }
+
+    Utils.countdownInterval = setInterval(() => {
       const now = new Date();
       const timeDiff = target - now;
 
       if (timeDiff <= 0) {
-        clearInterval(interval);
+        clearInterval(Utils.countdownInterval);
         callback('Expired');
         return;
       }

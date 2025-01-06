@@ -12,7 +12,8 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/home',
       icon: DashboardOutlined,
-      breadcrumbs: false
+      breadcrumbs: false,
+      role: 5
     },
     {
       id: 'users',
@@ -20,7 +21,8 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/users',
       icon: DashboardOutlined,
-      breadcrumbs: false
+      breadcrumbs: false,
+      role: 4
     },
     {
       id: 'course',
@@ -28,7 +30,8 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/course',
       icon: DashboardOutlined,
-      breadcrumbs: false
+      breadcrumbs: false,
+      role: 5
     },
     {
       id: 'reporting',
@@ -36,7 +39,8 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/reporting',
       icon: DashboardOutlined,
-      breadcrumbs: false
+      breadcrumbs: false,
+      role: 5
     },
     {
       id: 'settings',
@@ -44,7 +48,8 @@ const dashboard = {
       type: 'item',
       url: '/dashboard/settings',
       icon: DashboardOutlined,
-      breadcrumbs: false
+      breadcrumbs: false,
+      role: 5
     }
   ]
 };

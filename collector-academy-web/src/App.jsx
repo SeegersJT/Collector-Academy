@@ -1,16 +1,20 @@
 import AuthenticatedRoute from 'containers/auth/AuthenticatedRoute,container';
 import LoginContainer from 'containers/auth/login/Login.container';
+import PasswordForgotContainer from 'containers/auth/passwordForgot/PasswordForgot.container';
 import DashboardContainer from 'containers/dashboard/dashboard.container';
 import HomeContainer from 'containers/dashboard/home/Home.container';
 import UsersContainer from 'containers/dashboard/users/Users.container';
 import GlobalContainer from 'containers/global/global.container';
 import OneTimePinContainer from 'containers/token/oneTimePin/OneTimePin.container';
+import PasswordResetContainer from 'containers/token/passwordReset/PasswordReset.container';
 import TokenContainer from 'containers/token/Token.container';
+import { useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
 
 export default function App() {
+  const { roleNo } = useSelector((state) => state.user);
   return (
     <Router>
       <GlobalContainer>
@@ -20,11 +24,11 @@ export default function App() {
 
           {/* Auth Routes */}
           <Route path="/auth/login" element={<LoginContainer />} />
+          <Route path="/auth/password-forgot" element={<PasswordForgotContainer />} />
 
           <Route path="/token" element={<TokenContainer />}>
             <Route path="one-time-pin" element={<OneTimePinContainer />} />
-            {/* <Route path="/auth/password-forgot" element={<PasswordForgotContainer />} /> */}
-            {/* <Route path="/auth/password-reset" element={<PasswordResetContainer />} /> */}
+            <Route path="password-reset" element={<PasswordResetContainer />} />
           </Route>
 
           {/* ===========================================[ AUTHENTICATED ]=========================================== */}
@@ -33,7 +37,7 @@ export default function App() {
               <Route index element={<Navigate to="/dashboard/home" replace />} />
 
               <Route path="home" element={<HomeContainer />} />
-              <Route path="users" element={<UsersContainer />} />
+              {roleNo <= 4 && <Route path="users" element={<UsersContainer />} />}
               <Route path="course" element={<HomeContainer />} />
               <Route path="reporting" element={<HomeContainer />} />
               <Route path="settings" element={<HomeContainer />} />

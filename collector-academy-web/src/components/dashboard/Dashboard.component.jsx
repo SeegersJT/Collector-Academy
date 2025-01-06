@@ -4,10 +4,10 @@ import HeaderContainer from 'containers/dashboard/header/Header.container';
 import { Outlet } from 'react-router';
 import BreadcrumbsContainer from 'containers/breadcrumbs/Breadcrumbs.container';
 
-function Dashboard() {
+function Dashboard({ activeUserRoleNo }) {
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>
-      <DrawerContainer />
+      <DrawerContainer activeUserRoleNo={activeUserRoleNo} />
       <Box component="main" sx={{ width: 'calc(100% - 260px)', ml: '275px', flexGrow: 1 }}>
         <HeaderContainer />
         <BreadcrumbsContainer />

@@ -76,7 +76,7 @@ function Login({ credentials, showPassword, isLoginRequestLoading, onUsernameCha
 
               <Grid item xs={12} sx={{ mt: -1 }}>
                 <Stack direction="row-reverse" justifyContent="space-between" alignItems="center" spacing={2}>
-                  <Link variant="h6" component={RouterLink} color="text.primary">
+                  <Link variant="h6" component={RouterLink} to="/auth/password-forgot" color="text.primary">
                     Forgot Password?
                   </Link>
                 </Stack>
@@ -88,7 +88,15 @@ function Login({ credentials, showPassword, isLoginRequestLoading, onUsernameCha
               )} */}
               <Grid item xs={12}>
                 <AnimateButton>
-                  <Button disableElevation fullWidth size="large" type="submit" variant="contained" color="primary">
+                  <Button
+                    disableElevation
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={isLoginRequestLoading}
+                  >
                     {isLoginRequestLoading ? <CircularProgress size={26} color="inherit" /> : 'Login'}
                   </Button>
                 </AnimateButton>
