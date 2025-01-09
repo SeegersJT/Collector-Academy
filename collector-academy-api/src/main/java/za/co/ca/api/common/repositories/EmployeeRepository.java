@@ -26,4 +26,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     @Query("SELECT e FROM Employee e WHERE e.branch.branchNo = :branchNo AND e.performanceManagerEmployeeNo = :performanceManagerEmployeeNo AND e.employeeType.employeeTypeNo <> 1 AND e.active = true")
     List<Employee> findAllByPerformanceManager(@Param("branchNo") Integer branchNo, @Param("performanceManagerEmployeeNo") Integer performanceManagerEmployeeNo);
+
+    @Query("SELECT e FROM Employee e WHERE e.employeeType.employeeTypeNo <> 1 AND e.employeeType.employeeTypeNo = 4 AND e.active = true")
+    List<Employee> findAllByPerformanceManagers();
 }

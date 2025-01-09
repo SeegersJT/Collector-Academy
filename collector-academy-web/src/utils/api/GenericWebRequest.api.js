@@ -41,6 +41,10 @@ export const getAuthHeaders = (accessToken = null) => ({
   Authorization: `Bearer ${accessToken}`
 });
 
+export const getContentTypeFormDataHeaders = () => ({
+  'Content-Type': 'multipart/form-data'
+});
+
 export const getCachControlHeaders = () => ({
   'Cache-Control': 'no-cache'
 });

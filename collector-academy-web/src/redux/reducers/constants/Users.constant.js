@@ -10,6 +10,7 @@ export const formatConstantUsers = (user) => ({
   idNumber: user.idNumber || '',
   emailAddress: user.emailAddress || '',
   mobileNumber: user.mobileNumber || '',
+  genderNo: user.genderNo || null,
   gender: user.gender || '',
   branchNo: user.branchNo || null,
   branchName: user.branchName || '',

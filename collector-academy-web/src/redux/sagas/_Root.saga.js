@@ -3,7 +3,8 @@ import { watchSystemSagas } from './System.saga';
 import { watchAuthSagas } from './Auth.saga';
 import { watchTokenSagas } from './Token.saga';
 import { watchUsersSagas } from './Users.saga';
+import { watchCommonSaga } from './Common.saga';
 
 export default function* rootSaga() {
-  yield all([watchSystemSagas(), watchAuthSagas(), watchTokenSagas(), watchUsersSagas()]);
+  yield all([watchSystemSagas(), watchAuthSagas(), watchTokenSagas(), watchUsersSagas(), watchCommonSaga()]);
 }

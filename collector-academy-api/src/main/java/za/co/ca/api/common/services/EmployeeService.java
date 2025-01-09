@@ -64,6 +64,10 @@ public class EmployeeService {
         return employeeRepository.findAllByPerformanceManager(branchNo, performanceManagerEmployeeNo);
     }
 
+    public List<Employee> findAllByPerformanceManagers() {
+        return employeeRepository.findAllByPerformanceManagers();
+    }
+
     public Employee getEmployeeByUsernameOrEmail(String usernameOrEmail) {
         Employee employeeByUsername = findByUsername(usernameOrEmail);
 

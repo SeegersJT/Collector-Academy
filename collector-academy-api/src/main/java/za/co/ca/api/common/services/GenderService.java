@@ -7,6 +7,8 @@ import za.co.ca.api.common.repositories.GenderRepository;
 import za.co.ca.api.common.enums.GenderEnum;
 import za.co.ca.api.common.exceptions.DataNotFoundException;
 
+import java.util.List;
+
 /**
  * @author Hanno Seegers
  */
@@ -24,5 +26,9 @@ public class GenderService {
     public Gender findByGender(GenderEnum genderEnum) {
         return genderRepository.findByGender(genderEnum)
                 .orElseThrow(() -> new DataNotFoundException("Gender not found - '" + genderEnum.name()  + "'"));
+    }
+
+    public List<Gender> findAll() {
+        return genderRepository.findAll();
     }
 }

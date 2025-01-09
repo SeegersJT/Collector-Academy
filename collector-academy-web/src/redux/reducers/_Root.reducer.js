@@ -5,12 +5,14 @@ import authReducer from './Auth.reducer';
 import tokenReducer from './Token.reducer';
 import userReducer from './User.reducer';
 import usersReducer from './Users.reducer';
+import commonReducer from './Common.reducer';
 
 const RootReducer = combineReducers({
   system: systemReducer,
   token: tokenReducer,
   auth: authReducer,
   user: userReducer,
+  common: commonReducer,
   users: usersReducer
 });
 

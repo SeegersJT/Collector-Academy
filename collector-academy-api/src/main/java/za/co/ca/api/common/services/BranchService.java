@@ -8,6 +8,8 @@ import za.co.ca.api.common.enums.BranchEnum;
 import za.co.ca.api.common.exceptions.DataNotFoundException;
 import za.co.ca.api.common.models.Branch;
 
+import java.util.List;
+
 /**
  * @author Hanno Seegers
  */
@@ -26,6 +28,10 @@ public class BranchService {
     public Branch findByBranchName(BranchEnum branchEnum) {
         return branchRepository.findByBranchName(branchEnum)
                 .orElseThrow(() -> new DataNotFoundException("Branch Not Found - '" + branchEnum.name() + "'"));
+    }
+
+    public List<Branch> findAll() {
+        return branchRepository.findAll();
     }
 
     public void validateBranchName(BranchEnum branchEnum) {

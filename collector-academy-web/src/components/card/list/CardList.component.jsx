@@ -10,7 +10,7 @@ import {
   Typography
 } from '@mui/material';
 import MainCardComponent from 'components/card/MainCard.component';
-import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
+import { GiftOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { Utils } from 'utils/Utils';
 
@@ -45,8 +45,10 @@ function CardList({ title, data, scrollable, height }) {
   useEffect(() => {
     if (Utils.isEmpty(list)) {
       setList(emptyList);
+    } else {
+      setList(data);
     }
-  }, [list]);
+  }, [data, list]);
   return (
     <>
       <Grid container alignItems="center" justifyContent="space-between">

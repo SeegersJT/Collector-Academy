@@ -2,19 +2,23 @@ import { Grid, Typography } from '@mui/material';
 import DefaultBox from 'components/box/DefaultBox.component';
 import CardList from 'components/card/list/CardList.component';
 import ComparisonStatistics from 'components/card/statistic/ComparisonStatistic.component';
+import FileUpload from 'components/fileUpload/FileUpload.component';
 import DataTable from 'components/tables/DataTable.component';
 import { formatUsersData, getColumnModifiers, getHeaderModifiers, getToolbarData } from 'containers/dashboard/users/home/UsersHome.helper';
 import PropTypes from 'prop-types';
 
-function UsersHome({ theme, usersData, usersDataLoading, actionsListData, onToolbarClick }) {
+function UsersHome({
+  theme,
+  usersData,
+  usersDataLoading,
+  addUsersFileUploadValidateLoading,
+  actionsListData,
+  onToolbarClick,
+  onFileUpload
+}) {
   return (
     <DefaultBox>
-      {/* Row 1 */}
-      <Grid item xs={12} md={5} lg={4}>
-        <CardList title="Actions" data={actionsListData} scrollable height="200px" />
-      </Grid>
-
-      {/* Row 2 */}
+      {/* Row 3 */}
       <Grid item xs={12} sx={{ mb: -2.25 }}>
         <Typography variant="h5">Users Activity</Typography>
       </Grid>
@@ -31,7 +35,17 @@ function UsersHome({ theme, usersData, usersDataLoading, actionsListData, onTool
         <ComparisonStatistics color="error" title="Total Typing Test Success" count="0" percentage={100} isLoss extra="0" />
       </Grid>
 
-      {/* Row 3 */}
+      {/* Row 1 */}
+      <Grid item xs={12} md={5} lg={4}>
+        <CardList title="Actions" data={actionsListData} scrollable height="200px" />
+      </Grid>
+
+      {/* Row 2 */}
+      <Grid item xs={12} md={5} lg={12}>
+        <FileUpload onFileUpload={onFileUpload} loading={addUsersFileUploadValidateLoading} />
+      </Grid>
+
+      {/* Row 4 */}
       <Grid item xs={12} md={7} lg={12}>
         <DataTable
           title="Users"

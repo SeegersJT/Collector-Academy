@@ -26,6 +26,7 @@ public class UserDataResponse {
     private String idNumber;
     private String emailAddress;
     private String mobileNumber;
+    private Integer genderNo;
     private String gender;
     private Integer branchNo;
     private String branchName;

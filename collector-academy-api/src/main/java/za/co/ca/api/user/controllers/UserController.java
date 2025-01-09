@@ -32,13 +32,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping(value = "/password-reset", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/password-reset", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('BRANCH_MANAGER')")
     public ResponseEntity<GeneralAPIResponse> userPasswordReset(
-            @Valid @RequestBody UserPasswordResetRequest userPasswordResetRequest
+            @Valid @RequestParam(required = true) Integer employeeNo
     ) throws Exception {
-        log.info("User Password Reset Request: Employee No - '{}'", userPasswordResetRequest.getEmployee_no());
-        GeneralAPIResponse response = userService.resetEmployeePassword(userPasswordResetRequest);
+        log.info("User Password Reset Request: Employee No - '{}'", employeeNo);
+        GeneralAPIResponse response = userService.resetEmployeePassword(employeeNo);
         return ResponseEntity.ok(response);
     }
 
@@ -115,7 +115,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SUPERUSER')")
     public ResponseEntity<UserDataResponse> userDelete(
             @Valid @RequestParam(required = true) Integer employeeNo

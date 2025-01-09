@@ -1,8 +1,9 @@
-import AuthenticatedRoute from 'containers/auth/AuthenticatedRoute,container';
+import AuthenticatedRoute from 'middleware/AuthenticatedRoute.container';
 import LoginContainer from 'containers/auth/login/Login.container';
 import PasswordForgotContainer from 'containers/auth/passwordForgot/PasswordForgot.container';
 import DashboardContainer from 'containers/dashboard/dashboard.container';
 import HomeDashboardContainer from 'containers/dashboard/home/HomeDashboard.container';
+import UsersAddContainer from 'containers/dashboard/users/add/UsersAdd.container';
 import UsersEditContainer from 'containers/dashboard/users/edit/UsersEdit.container';
 import UsersHomeContainer from 'containers/dashboard/users/home/UsersHome.container';
 import UsersDashboardContainer from 'containers/dashboard/users/UsersDashboard.container';
@@ -12,6 +13,7 @@ import PasswordResetContainer from 'containers/token/passwordReset/PasswordReset
 import TokenContainer from 'containers/token/Token.container';
 import { useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import RouteNotFound from 'middleware/RouteNotFound.container';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
 
@@ -53,14 +55,11 @@ export default function App() {
                   <Route index element={<Navigate to="/dashboard/users/home" replace />} />
                   <Route path="home" element={<UsersHomeContainer />} />
 
-                  {/* ====[ USERS - ADD ]==== */}
-                  {/* <Route path="add" element={<UsersAddContainer />} /> */}
-
-                  {/* ====[ USERS - EDIT ]==== */}
+                  <Route path="add" element={<UsersAddContainer />} />
                   <Route path="edit" element={<UsersEditContainer />} />
 
                   {/* ====[ REROUTE - TO - USERS HOME ]==== */}
-                  <Route path="*" element={<Navigate to="/dashboard/users/home" replace />} />
+                  <Route path="*" element={<RouteNotFound destination="/dashboard/users" />} />
                 </Route>
               )}
 
@@ -69,14 +68,14 @@ export default function App() {
               <Route path="settings" element={<HomeDashboardContainer />} />
 
               {/* ====[ REROUTE - TO - DAHSBOARD HOME ]==== */}
-              <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
+              <Route path="*" element={<RouteNotFound destination="/dashboard" />} />
             </Route>
           </Route>
 
           {/* ===========================================[ AUTHENTICATED ]=========================================== */}
 
           {/* ====[ REROUTE - TO - ROOT ]==== */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<RouteNotFound destination="/" />} />
         </Routes>
       </GlobalContainer>
     </Router>

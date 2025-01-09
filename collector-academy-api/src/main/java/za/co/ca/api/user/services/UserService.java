@@ -62,9 +62,8 @@ public class UserService {
     private final BranchService branchService;
     private final ExcelService excelService;
 
-    public GeneralAPIResponse resetEmployeePassword(UserPasswordResetRequest UserPasswordResetRequest) throws Exception {
+    public GeneralAPIResponse resetEmployeePassword(Integer employeeNo) throws Exception {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
-        Integer employeeNo = UserPasswordResetRequest.getEmployee_no();
 
         Employee employee = employeeService.findByEmployeeNo(employeeNo);
         Password password = employee.getPasswordData();
@@ -215,6 +214,7 @@ public class UserService {
                 .idNumber(employee.getIdNumber())
                 .emailAddress(employee.getEmailAddress())
                 .mobileNumber(employee.getMobileNumber())
+                .genderNo(employee.getGender().getGenderNo())
                 .gender(employee.getGender().getGender().name())
                 .branchNo(employee.getBranch().getBranchNo())
                 .branchName(employee.getBranch().getBranchName().name())
@@ -258,6 +258,7 @@ public class UserService {
                     .idNumber(employee.getIdNumber())
                     .emailAddress(employee.getEmailAddress())
                     .mobileNumber(employee.getMobileNumber())
+                    .genderNo(employee.getGender().getGenderNo())
                     .gender(employee.getGender().getGender().name())
                     .branchNo(employee.getBranch().getBranchNo())
                     .branchName(employee.getBranch().getBranchName().name())
@@ -374,6 +375,16 @@ public class UserService {
 
         employeeService.updateEmployee(prevEmployee);
 
+        Integer performanceManagerEmployeeNo = 1;
+        String performanceManagerUsername = "N/A";
+
+        if (prevEmployee.getPerformanceManagerEmployeeNo() != 1) {
+            Employee performanceManagerEmployee = employeeService.findByEmployeeNo(prevEmployee.getPerformanceManagerEmployeeNo());
+
+            performanceManagerEmployeeNo = performanceManagerEmployee.getEmployeeNo();
+            performanceManagerUsername = performanceManagerEmployee.getUsername();
+        }
+
         // ===================================================================
         // REPEATING CODE. COMPRESS INTO ONE
         // ===================================================================
@@ -400,12 +411,17 @@ public class UserService {
 
         return UserDataResponse.builder()
                 .employeeNo(prevEmployee.getEmployeeNo())
+                .employeeTypeNo(prevEmployee.getEmployeeType().getEmployeeTypeNo())
+                .employeeType(prevEmployee.getEmployeeType().getEmployeeType().name())
+                .performanceManagerEmployeeNo(performanceManagerEmployeeNo)
+                .performanceManagerUsername(performanceManagerUsername)
                 .username(prevEmployee.getUsername())
                 .name(prevEmployee.getName())
                 .surname(prevEmployee.getSurname())
                 .idNumber(prevEmployee.getIdNumber())
                 .emailAddress(prevEmployee.getEmailAddress())
                 .mobileNumber(prevEmployee.getMobileNumber())
+                .genderNo(prevEmployee.getGender().getGenderNo())
                 .gender(prevEmployee.getGender().getGender().name())
                 .branchNo(prevEmployee.getBranch().getBranchNo())
                 .branchName(prevEmployee.getBranch().getBranchName().name())

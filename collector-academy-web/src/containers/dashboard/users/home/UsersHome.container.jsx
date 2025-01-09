@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestUsers, setSelectedUsers } from 'redux/actions/Users.action';
+import { requestAddUsersFileUploadValidate, requestUsers, setSelectedUsers } from 'redux/actions/Users.action';
 import UsersHome from 'components/dashboard/users/home/UsersHome.component';
 import { formatActionsListData } from './UsersHome.helper';
 import { navigateTo } from 'utils/NavigateService';
@@ -11,7 +11,7 @@ function UsersHomeContainer() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { users, usersLoading } = useSelector((state) => state.users);
+  const { users, usersLoading, addUsersFileUploadValidateLoading } = useSelector((state) => state.users);
   const { accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -42,13 +42,19 @@ function UsersHomeContainer() {
     }
   };
 
+  const handleOnFileUpload = (file) => {
+    dispatch(requestAddUsersFileUploadValidate(accessToken, file));
+  };
+
   return (
     <UsersHome
       theme={theme}
       usersData={users}
       usersDataLoading={usersLoading}
+      addUsersFileUploadValidateLoading={addUsersFileUploadValidateLoading}
       actionsListData={formatActionsListData(theme, handleOnCardListClick)}
       onToolbarClick={handleOnToolbarClick}
+      onFileUpload={handleOnFileUpload}
     />
   );
 }

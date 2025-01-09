@@ -127,7 +127,7 @@ function renderDataTable(
   handleRowClick,
   handleOnRowsPerPageChange
 ) {
-  console.log('dataLoading', dataLoading);
+  console.log('visibleCellData', visibleCellData);
   return visibleCellData.length > 0 ? (
     <>
       <TableContainer
@@ -317,7 +317,7 @@ function DataTable({
   data,
   dataLoading,
   toolbarData,
-  height = '550px',
+  height = 'auto',
   rows = 10,
   pageOptions = [10, 25, 100],
   selectable,

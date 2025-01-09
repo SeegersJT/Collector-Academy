@@ -42,7 +42,7 @@ export const getToolbarData = () => [
 
 export const formatActionsListData = (theme, onCardListClick) => [
   {
-    title: 'Add Users',
+    title: 'Download Users Template',
     description: 'Download the Excel Speadsheet, add the users and Upload said Speadsheet.',
     icon: <PlusCircleOutlined style={{ fontSize: '20px' }} />,
     iconSize: 1,

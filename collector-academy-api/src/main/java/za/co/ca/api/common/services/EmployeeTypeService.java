@@ -7,6 +7,8 @@ import za.co.ca.api.common.enums.EmployeeTypeEnum;
 import za.co.ca.api.common.exceptions.DataNotFoundException;
 import za.co.ca.api.common.models.EmployeeType;
 
+import java.util.List;
+
 /**
  * @author Hanno Seegers
  */
@@ -24,5 +26,10 @@ public class EmployeeTypeService {
     public EmployeeType findByEmployeeType(EmployeeTypeEnum employeeTypeEnum) {
         return employeeTypeRepository.findByEmployeeType(employeeTypeEnum)
                 .orElseThrow(() -> new DataNotFoundException("Employee Type not found - '" + employeeTypeEnum.name() + "'"));
+    }
+
+    public List<EmployeeType> findAll() {
+        return employeeTypeRepository.findAll();
+
     }
 }
