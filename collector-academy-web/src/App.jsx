@@ -14,6 +14,10 @@ import TokenContainer from 'containers/token/Token.container';
 import { useSelector } from 'react-redux';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import RouteNotFound from 'middleware/RouteNotFound.container';
+import UsersAddStatusContainer from 'containers/dashboard/users/add/status/UsersAddStatus.container';
+import CoursesDashboardContainer from 'containers/dashboard/courses/CoursesDashboard.container';
+import CoursesHomeContainer from 'containers/dashboard/courses/home/CoursesHome.container';
+import CoursesEditContainer from 'containers/dashboard/courses/edit/CoursesEdit.container';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
 
@@ -44,17 +48,15 @@ export default function App() {
             {/* ====[ DASHBOARD ]==== */}
             <Route path="/dashboard" element={<DashboardContainer />}>
               <Route index element={<Navigate to="/dashboard/home" replace />} />
-
-              {/* ====[ HOME - DASHBOARD ]==== */}
               <Route path="home" element={<HomeDashboardContainer />} />
 
-              {/* ====[ USER - DASHBOARD ]==== */}
+              {/* ====[ USERS - DASHBOARD ]==== */}
               {roleNo <= 4 && (
                 <Route path="users" element={<UsersDashboardContainer />}>
-                  {/* ====[ HOME - USER - DASHBOARD ]==== */}
                   <Route index element={<Navigate to="/dashboard/users/home" replace />} />
                   <Route path="home" element={<UsersHomeContainer />} />
 
+                  <Route path="add/status" element={<UsersAddStatusContainer />} />
                   <Route path="add" element={<UsersAddContainer />} />
                   <Route path="edit" element={<UsersEditContainer />} />
 
@@ -63,7 +65,19 @@ export default function App() {
                 </Route>
               )}
 
-              <Route path="course" element={<HomeDashboardContainer />} />
+              {/* ====[ COURSES - DASHBOARD ]==== */}
+              {roleNo <= 4 && (
+                <Route path="courses" element={<CoursesDashboardContainer />}>
+                  <Route index element={<Navigate to="/dashboard/courses/home" replace />} />
+                  <Route path="home" element={<CoursesHomeContainer />} />
+
+                  <Route path="edit" element={<CoursesEditContainer />} />
+
+                  {/* ====[ REROUTE - TO - COURSES HOME ]==== */}
+                  <Route path="*" element={<RouteNotFound destination="/dashboard/courses" />} />
+                </Route>
+              )}
+
               <Route path="reporting" element={<HomeDashboardContainer />} />
               <Route path="settings" element={<HomeDashboardContainer />} />
 

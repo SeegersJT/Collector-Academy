@@ -53,7 +53,9 @@ function CardList({ title, data, scrollable, height }) {
     <>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item>
-          <Typography variant="h5">{title}</Typography>
+          <Typography sx={{ height: '24px' }} variant="h5">
+            {title}
+          </Typography>
         </Grid>
         <Grid item />
       </Grid>

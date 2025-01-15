@@ -231,7 +231,7 @@ function renderTableRows(columnModifiers, visibleCellData, selectable, singleSel
       <TableRow
         hover
         role="checkbox"
-        sx={selectable && { cursor: 'pointer' }}
+        sx={{ cursor: selectable ? 'pointer' : 'inherit', backgroundColor: row.rowColor ? row.rowColor : 'inherit' }}
         tabIndex={-1}
         key={rowIndex}
         selected={isItemSelected}
@@ -239,9 +239,10 @@ function renderTableRows(columnModifiers, visibleCellData, selectable, singleSel
       >
         {renderTableCellSelect(selectable, isItemSelected)}
         {Object.entries(row).map(([key, value]) => {
-          const modifier = columnModifiers.find((columModifier) => columModifier.id === key);
-          return (
-            key !== 'uuid' && (
+          console.log('key', key);
+          if (key !== 'uuid' && key !== 'rowColor') {
+            const modifier = columnModifiers.find((columModifier) => columModifier.id === key);
+            return (
               <TableCell
                 key={key}
                 align={modifier.align ? modifier.align : CellAlign.LEFT}
@@ -254,8 +255,8 @@ function renderTableRows(columnModifiers, visibleCellData, selectable, singleSel
               >
                 {value === null ? 'N/A' : value}
               </TableCell>
-            )
-          );
+            );
+          }
         })}
       </TableRow>
     );
@@ -316,8 +317,8 @@ function DataTable({
   columnModifiers,
   data,
   dataLoading,
-  toolbarData,
-  height = 'auto',
+  toolbarData = [],
+  height = '550px',
   rows = 10,
   pageOptions = [10, 25, 100],
   selectable,

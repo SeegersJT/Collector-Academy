@@ -2,9 +2,14 @@ import { useTheme } from '@mui/material/styles';
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestAddUsersFileUploadValidate, requestUsers, setSelectedUsers } from 'redux/actions/Users.action';
+import {
+  requestAddUsersFileUploadValidate,
+  requestAddUserTemplateDownload,
+  requestUsers,
+  setSelectedUsers
+} from 'redux/actions/Users.action';
 import UsersHome from 'components/dashboard/users/home/UsersHome.component';
-import { formatActionsListData } from './UsersHome.helper';
+import { formatAddActionsListData, formatDownloadActionsListData } from './UsersHome.helper';
 import { navigateTo } from 'utils/NavigateService';
 
 function UsersHomeContainer() {
@@ -18,8 +23,12 @@ function UsersHomeContainer() {
     dispatch(requestUsers(accessToken));
   }, [dispatch, accessToken]);
 
-  const handleOnCardListClick = (data) => {
-    console.log('data', data);
+  const handleOnAddCardListClick = () => {
+    navigateTo('/dashboard/users/add');
+  };
+
+  const handleOnDownloadCardListClick = () => {
+    dispatch(requestAddUserTemplateDownload(accessToken));
   };
 
   const handleOnToolbarClick = (index, selectedItems) => {
@@ -29,10 +38,6 @@ function UsersHomeContainer() {
 
     switch (index) {
       case 0:
-        // handle Users Delete Code
-        break;
-
-      case 1:
         dispatch(setSelectedUsers(selectedUsers));
         navigateTo('/dashboard/users/edit');
         break;
@@ -52,7 +57,8 @@ function UsersHomeContainer() {
       usersData={users}
       usersDataLoading={usersLoading}
       addUsersFileUploadValidateLoading={addUsersFileUploadValidateLoading}
-      actionsListData={formatActionsListData(theme, handleOnCardListClick)}
+      addActionsListData={formatAddActionsListData(theme, handleOnAddCardListClick)}
+      downloadActionsListData={formatDownloadActionsListData(theme, handleOnDownloadCardListClick)}
       onToolbarClick={handleOnToolbarClick}
       onFileUpload={handleOnFileUpload}
     />

@@ -1,4 +1,5 @@
-import { Tooltip, Typography } from '@mui/material';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Stack, Tooltip, Typography } from '@mui/material';
 import { CellAlign, CellPadding, CellWeight } from 'utils/constants/Table.enum';
 
 export const getHeaderModifiers = () => [
@@ -8,7 +9,8 @@ export const getHeaderModifiers = () => [
   { id: 'EMAIL_ADDRESS', label: 'EMAIL ADDRESS', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
   { id: 'MOBILE_NUMBER', label: 'MOBILE NUMBER', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
   { id: 'GENDER', label: 'GENDER', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
-  { id: 'BRANCH_NAME', label: 'BRANCH NAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD }
+  { id: 'BRANCH_NAME', label: 'BRANCH NAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
+  { id: 'PERFORMANCE_MANAGER', label: 'PERFORMANCE MANAGER', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD }
 ];
 
 export const getColumnModifiers = () => [
@@ -18,41 +20,11 @@ export const getColumnModifiers = () => [
   { id: 'EMAIL_ADDRESS', label: 'EMAIL ADDRESS', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
   { id: 'MOBILE_NUMBER', label: 'MOBILE NUMBER', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
   { id: 'GENDER', label: 'GENDER', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
-  { id: 'BRANCH_NAME', label: 'BRANCH NAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD }
+  { id: 'BRANCH_NAME', label: 'BRANCH NAME', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD },
+  { id: 'PERFORMANCE_MANAGER', label: 'PERFORMANCE MANAGER', align: CellAlign.LEFT, padding: CellPadding.NORMAL, weight: CellWeight.BOLD }
 ];
 
-//   export const getToolbarData = () => [
-//     {
-//       title: 'Delete',
-//       icon: <DeleteOutlined />,
-//       iconColor: 'error'
-//     },
-//     {
-//       title: 'Edit',
-//       icon: <EditOutlined />,
-//       iconColor: 'warning'
-//     }
-//   ];
-
-//   export const formatActionsListData = (theme, onCardListClick) => [
-//     {
-//       title: 'Download Users Template',
-//       description: 'Download the Excel Speadsheet, add the users and Upload said Speadsheet.',
-//       icon: <PlusCircleOutlined style={{ fontSize: '20px' }} />,
-//       iconSize: 1,
-//       color: theme.palette.success.main,
-//       backgroundColor: theme.palette.success.lighter,
-//       onClick: () => onCardListClick('/users/add')
-//     }
-//   ];
-
-export const formatUsersData = (cellData, validityUsersData, validityReasonUsersData) => {
-  console.log('=====================================');
-  console.log('cellData', cellData);
-  console.log('validityUsersData', validityUsersData);
-  console.log('validityReasonUsersData', validityReasonUsersData);
-  console.log('=====================================');
-
+export const formatUsersData = (theme, cellData, validityUsersData, validityReasonUsersData) => {
   return cellData.map((user) => {
     const randomId = user.randomId;
 
@@ -65,7 +37,14 @@ export const formatUsersData = (cellData, validityUsersData, validityReasonUsers
 
       return (
         <Tooltip key={`${randomId}-${header}`} title={isValid ? '' : reason}>
-          <Typography color={isValid ? 'textPrimary' : 'error'}>{user[header]}</Typography>
+          <Stack direction="row" spacing={2} alignItems="center">
+            {isValid ? (
+              <CheckCircleOutlined style={{ fontSize: '1.15rem', color: theme.palette.success.main }} />
+            ) : (
+              <CloseCircleOutlined style={{ fontSize: '1.15rem', color: theme.palette.error.main }} />
+            )}
+            <Typography color={isValid ? 'textPrimary' : 'error'}>{user[header]}</Typography>
+          </Stack>
         </Tooltip>
       );
     };
@@ -78,7 +57,8 @@ export const formatUsersData = (cellData, validityUsersData, validityReasonUsers
       EMAIL_ADDRESS: formatCell('EMAIL_ADDRESS'),
       MOBILE_NUMBER: formatCell('MOBILE_NUMBER'),
       GENDER: formatCell('GENDER'),
-      BRANCH_NAME: formatCell('BRANCH_NAME')
+      BRANCH_NAME: formatCell('BRANCH_NAME'),
+      PERFORMANCE_MANAGER: formatCell('PERFORMANCE_MANAGER')
     };
   });
 };

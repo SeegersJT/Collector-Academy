@@ -156,10 +156,63 @@ function* addUsersFileUploadRequestSaga({ accessToken, file }) {
   yield put(usersActions.requestAddUsersFileUploadValidateLoading(false));
 }
 
+function* addUsersTemplateDownloadRequestSaga({ accessToken }) {
+  yield put(usersActions.requestAddUserTemplateDownloadLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getAddUsersTemplateDownloadRequest(accessToken);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    const blob = new Blob([data]);
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'collector_academy_users_template.xlsx';
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(usersActions.requestAddUserTemplateDownloadLoading(false));
+}
+
+function* addValidateUsersRequestSaga({ accessToken, payload }) {
+  yield put(usersActions.requestAddValidateUsersLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getAddValidateUsersRequest(accessToken, payload);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(usersActions.setUsersUploadStatus(data));
+
+    navigateTo('/dashboard/users/add/status');
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(usersActions.requestAddValidateUsersLoading(false));
+}
+
 export function* watchUsersSagas() {
   yield takeEvery(usersActions.REQUEST_USERS, usersRequestSaga);
   yield takeEvery(usersActions.REQUEST_UPDATE_USERS, usersUpdateRequestSaga);
   yield takeEvery(usersActions.REQUEST_USERS_RESET_PASSWORD, usersResetPasswordRequestSaga);
   yield takeEvery(usersActions.REQUEST_USERS_DELETE, usersDeleteRequestSaga);
   yield takeEvery(usersActions.REQUEST_ADD_USERS_FILE_UPLOAD_VALIDATE, addUsersFileUploadRequestSaga);
+  yield takeEvery(usersActions.REQUEST_ADD_USERS_TEMPLATE_DOWNLOAD, addUsersTemplateDownloadRequestSaga);
+  yield takeEvery(usersActions.REQUEST_ADD_VALIDATE_USERS, addValidateUsersRequestSaga);
 }

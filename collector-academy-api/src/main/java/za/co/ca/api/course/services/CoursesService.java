@@ -11,7 +11,9 @@ import za.co.ca.api.course.enums.*;
 import za.co.ca.api.course.models.*;
 import za.co.ca.api.course.payloads.requests.*;
 import za.co.ca.api.course.payloads.responses.*;
+import za.co.ca.api.course.repositories.CourseDifficultyRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -36,11 +38,25 @@ public class CoursesService {
     private final CourseTestLogStatusService courseTestLogStatusService;
     private final CourseTestLogService courseTestLogService;
     private final CourseTestResultStatusService courseTestResultStatusService;
+    private final CourseDifficultyService courseDifficultyService;
 
     private final AuthenticatedService authenticatedService;
 
     // COURSES
-    // TODO - GETTERS
+    public CourseResponse getCourse(String courseNo) {
+        Course course = courseService.findByCourseNo(courseNo);
+
+        return buildCourseResponse(course);
+
+    }
+
+    public List<CourseResponse> getAllCourses() {
+        List<Course> courses = courseService.findAll();
+
+        return buildCoursesResponse(courses);
+
+    }
+
     public CourseResponse insertCourse(CourseRequest courseRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -57,6 +73,7 @@ public class CoursesService {
 
         return buildCourseResponse(course);
     }
+
     public CourseResponse updateCourse(String courseNo, CourseRequest courseRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -73,6 +90,7 @@ public class CoursesService {
 
         return buildCourseResponse(course);
     }
+
     public GeneralAPIResponse deleteCourse(String courseNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -92,7 +110,18 @@ public class CoursesService {
     }
 
     // MODULES
-    // TODO - GETTERS
+    public CourseModuleResponse getCourseModule(String courseModuleNo) {
+        CourseModule courseModule = courseModuleService.findByCourseModuleNo(courseModuleNo);
+
+        return buildCourseModuleResponse(courseModule);
+    }
+
+    public List<CourseModuleResponse> getAllCourseModules(String courseNo) {
+        List<CourseModule> courseModules = courseModuleService.findByCourseNo(courseNo);
+
+        return buildCourseModulesResponse(courseModules);
+    }
+
     public CourseModuleResponse insertCourseModule(String courseNo, CourseModuleRequest courseModuleRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -111,6 +140,7 @@ public class CoursesService {
 
         return buildCourseModuleResponse(courseModule);
     }
+
     public CourseModuleResponse updateCourseModule(String courseModuleNo, CourseModuleRequest courseModuleRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -126,6 +156,7 @@ public class CoursesService {
 
         return buildCourseModuleResponse(courseModule);
     }
+
     public GeneralAPIResponse deleteCourseModule(String courseModuleNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -162,6 +193,7 @@ public class CoursesService {
 
         return buildCoursePageResponse(coursePage);
     }
+
     public CoursePageResponse updateCoursePage(String coursePageNo, CoursePageRequest coursePageRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -177,6 +209,7 @@ public class CoursesService {
 
         return buildCoursePageResponse(coursePage);
     }
+
     public GeneralAPIResponse deleteCoursePage(String coursePageNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -213,6 +246,7 @@ public class CoursesService {
 
         return buildCourseTestResponse(courseTest);
     }
+
     public CourseTestResponse updateCourseTest(String courseTestNo, CourseTestRequest courseTestRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -230,6 +264,7 @@ public class CoursesService {
 
         return buildCourseTestResponse(courseTest);
     }
+
     public GeneralAPIResponse deleteCourseTest(String courseTestNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -267,6 +302,7 @@ public class CoursesService {
 
         return buildCourseTestQuestionResponse(courseTestQuestion);
     }
+
     public CourseTestQuestionResponse updateCourseTestQuestion(String courseTestQuestionNo, CourseTestQuestionRequest courseTestQuestionRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -281,6 +317,7 @@ public class CoursesService {
 
         return buildCourseTestQuestionResponse(courseTestQuestion);
     }
+
     public GeneralAPIResponse deleteCourseTestQuestion(String courseTestQuestionNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -317,6 +354,7 @@ public class CoursesService {
 
         return buildCourseTestAnswerResponse(courseTestAnswer);
     }
+
     public CourseTestAnswerResponse updateCourseTestAnswer(String courseTestAnswerNo, CourseTestAnswerRequest courseTestAnswerRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -332,6 +370,7 @@ public class CoursesService {
 
         return buildCourseTestAnswerResponse(courseTestAnswer);
     }
+
     public GeneralAPIResponse deleteCourseTestAnswer(String courseTestAnswerNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -368,6 +407,7 @@ public class CoursesService {
 
         return buildCourseTestResultResponse(courseTestResult);
     }
+
     public CourseTestResultResponse updateCourseTestResult(String courseTestResultNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -393,6 +433,7 @@ public class CoursesService {
 
         return buildCourseTestResultResponse(courseTestResult);
     }
+
     public GeneralAPIResponse deleteCourseTestResult(String courseTestResultNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -431,6 +472,7 @@ public class CoursesService {
 
         return buildCourseTestLogResponse(courseTestLog);
     }
+
     public CourseTestLogResponse updateCourseTestLog(String courseTestLogNo, CourseTestLogRequest courseTestLogRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -453,6 +495,7 @@ public class CoursesService {
 
         return buildCourseTestLogResponse(courseTestLog);
     }
+
     public GeneralAPIResponse deleteCourseTestLog(String courseTestLogNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -497,6 +540,7 @@ public class CoursesService {
 
         return buildCourseResultResponse(courseResult);
     }
+
     public CourseResultResponse updateCourseResult(String courseResultNo, CourseResultRequest courseResultRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -519,6 +563,7 @@ public class CoursesService {
 
         return buildCourseResultResponse(courseResult);
     }
+
     public GeneralAPIResponse deleteCourseResult(String courseResultNo) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -535,17 +580,50 @@ public class CoursesService {
         return buildGeneralAPIResponse("Successfully Deleted Course Result :: '" + courseResult.getCourseResultNo() + "'");
     }
 
+    // COURSE DIFFICULTY
+    public CourseDifficultyResponse getCourseDifficulty(Integer courseDifficultyNO) {
+        CourseDifficulty courseDifficulty = courseDifficultyService.findByCourseDifficultyNo(courseDifficultyNO);
+
+        return buildCourseDifficultyResponse(courseDifficulty);
+    }
+
+    public List<CourseDifficultyResponse> getAllCourseDifficulties() {
+        List<CourseDifficulty> courseDifficulties = courseDifficultyService.findAll();
+
+        return buildCourseDifficultiesResponse(courseDifficulties);
+    }
+    // TODO - INSERT
+    // TODO - UPDATE
+    // TODO - DELETE
+
     // RESPONSE BUILDERS
     private CourseResponse buildCourseResponse(Course course) {
+        CourseDifficulty courseDifficulty = courseDifficultyService.findByCourseDifficultyNo(course.getCourseDifficultyNo());
+
+
         return CourseResponse.builder()
                 .courseNo(course.getCourseNo())
                 .courseTitle(course.getCourseTitle())
                 .courseDescription(course.getCourseDescription())
                 .courseDuration(course.getCourseDuration())
-                .courseDifficultyNo(course.getCourseDifficultyNo())
+                .courseDifficultyNo(courseDifficulty.getCourseDifficultyNo())
+                .courseDifficulty(courseDifficulty.getCourseDifficulty().name())
+                .courseDate(course.getSystemDate())
                 .active(course.getActive())
                 .build();
     }
+
+    private List<CourseResponse> buildCoursesResponse(List<Course> courses) {
+        List<CourseResponse> courseResponses = new ArrayList<CourseResponse>();
+
+        for (Course course : courses) {
+            CourseResponse courseResponse = buildCourseResponse(course);
+            courseResponses.add(courseResponse);
+        }
+
+        return courseResponses;
+    }
+
     private CourseModuleResponse buildCourseModuleResponse(CourseModule courseModule) {
         return CourseModuleResponse.builder()
                 .courseModuleNo(courseModule.getCourseModuleNo())
@@ -556,6 +634,19 @@ public class CoursesService {
                 .active(courseModule.getActive())
                 .build();
     }
+
+    private List<CourseModuleResponse> buildCourseModulesResponse(List<CourseModule> courseModules) {
+
+        List<CourseModuleResponse> courseModuleResponses = new ArrayList<CourseModuleResponse>();
+
+        for (CourseModule courseModule : courseModules) {
+            CourseModuleResponse courseModuleResponse = buildCourseModuleResponse(courseModule);
+            courseModuleResponses.add(courseModuleResponse);
+        }
+
+        return courseModuleResponses;
+    }
+
     private CoursePageResponse buildCoursePageResponse(CoursePage coursePage) {
         return CoursePageResponse.builder()
                 .coursePageNo(coursePage.getCoursePageNo())
@@ -566,6 +657,7 @@ public class CoursesService {
                 .active(coursePage.getActive())
                 .build();
     }
+
     private CourseTestResponse buildCourseTestResponse(CourseTest courseTest) {
         return CourseTestResponse.builder()
                 .courseTestNo(courseTest.getCourseTestNo())
@@ -578,6 +670,7 @@ public class CoursesService {
                 .active(courseTest.getActive())
                 .build();
     }
+
     private CourseTestQuestionResponse buildCourseTestQuestionResponse(CourseTestQuestion courseTestQuestion) {
         return CourseTestQuestionResponse.builder()
                 .courseTestQuestionNo(courseTestQuestion.getCourseTestQuestionNo())
@@ -587,6 +680,7 @@ public class CoursesService {
                 .active(courseTestQuestion.getActive())
                 .build();
     }
+
     private CourseTestAnswerResponse buildCourseTestAnswerResponse(CourseTestAnswer courseTestAnswer) {
         return CourseTestAnswerResponse.builder()
                 .courseTestAnswerNo(courseTestAnswer.getCourseTestAnswerNo())
@@ -597,6 +691,7 @@ public class CoursesService {
                 .active(courseTestAnswer.getActive())
                 .build();
     }
+
     private CourseResultResponse buildCourseResultResponse(CourseResult courseResult) {
         return CourseResultResponse.builder()
                 .courseResultNo(courseResult.getCourseResultNo())
@@ -613,6 +708,7 @@ public class CoursesService {
                 .active(courseResult.getActive())
                 .build();
     }
+
     private CourseTestResultResponse buildCourseTestResultResponse(CourseTestResult courseTestResult) {
         return CourseTestResultResponse.builder()
                 .courseTestResultNo(courseTestResult.getCourseTestResultNo())
@@ -623,6 +719,7 @@ public class CoursesService {
                 .active(courseTestResult.getActive())
                 .build();
     }
+
     private CourseTestLogResponse buildCourseTestLogResponse(CourseTestLog courseTestLog) {
         return CourseTestLogResponse.builder()
                 .courseTestLogNo(courseTestLog.getCourseTestLogNo())
@@ -633,6 +730,25 @@ public class CoursesService {
                 .active(courseTestLog.getActive())
                 .build();
     }
+
+    private CourseDifficultyResponse buildCourseDifficultyResponse(CourseDifficulty courseDifficulty) {
+        return CourseDifficultyResponse.builder()
+                .courseDifficultyNo(courseDifficulty.getCourseDifficultyNo())
+                .courseDifficulty(courseDifficulty.getCourseDifficulty().name())
+                .build();
+    }
+
+    private List<CourseDifficultyResponse> buildCourseDifficultiesResponse(List<CourseDifficulty> courseDifficulties) {
+        List<CourseDifficultyResponse> courseDifficultyResponses = new ArrayList<CourseDifficultyResponse>();
+
+        for (CourseDifficulty courseDifficulty : courseDifficulties) {
+            CourseDifficultyResponse courseDifficultyResponse = buildCourseDifficultyResponse(courseDifficulty);
+            courseDifficultyResponses.add(courseDifficultyResponse);
+        }
+
+        return courseDifficultyResponses;
+    }
+
     private GeneralAPIResponse buildGeneralAPIResponse(String message) {
         return GeneralAPIResponse.builder()
                 .message(message)
@@ -653,6 +769,7 @@ public class CoursesService {
 
         courseModuleService.saveCourseModules(courseModules);
     }
+
     private void deleteCoursePages(String courseModuleNo, AuthenticatedEmployee authenticatedEmployee) {
         List<CoursePage> coursePages = coursePageService.findByCourseModuleNo(courseModuleNo);
 
@@ -664,6 +781,7 @@ public class CoursesService {
 
         coursePageService.saveCoursePages(coursePages);
     }
+
     private void deleteCourseTests(String courseNo, AuthenticatedEmployee authenticatedEmployee) {
         List<CourseTest> courseTests = courseTestService.findByCourseNo(courseNo);
 
@@ -678,6 +796,7 @@ public class CoursesService {
 
         courseTestService.saveCourseTests(courseTests);
     }
+
     private void deleteCourseQuestions(String courseTestNo, AuthenticatedEmployee authenticatedEmployee) {
         List<CourseTestQuestion> courseTestQuestions = courseTestQuestionService.findByCourseTestNo(courseTestNo);
 
@@ -691,6 +810,7 @@ public class CoursesService {
 
         courseTestQuestionService.saveCourseTestQuestions(courseTestQuestions);
     }
+
     private void deleteCourseTestAnswers(String courseTestQuestionNo, AuthenticatedEmployee authenticatedEmployee) {
         List<CourseTestAnswer> courseTestAnswers = courseTestAnswerService.findByCourseTestQuestionNo(courseTestQuestionNo);
 
@@ -702,6 +822,7 @@ public class CoursesService {
 
         courseTestAnswerService.saveCourseTestAnswers(courseTestAnswers);
     }
+
     private void deleteCourseResults(String courseNo, AuthenticatedEmployee authenticatedEmployee) {
         List<CourseResult> courseResults = courseResultService.findByCourseNo(courseNo);
 
@@ -713,14 +834,17 @@ public class CoursesService {
 
         courseResultService.saveCourseResults(courseResults);
     }
+
     private void deleteCourseTestResultsByTestNo(String courseTestNo, AuthenticatedEmployee authenticatedEmployee) {
         List<CourseTestResult> courseTestResults = courseTestResultService.findByCourseTestNo(courseTestNo);
         deleteCourseTestResults(courseTestResults, authenticatedEmployee);
     }
+
     private void deleteCourseTestResultsByResultNo(String courseResultNo, AuthenticatedEmployee authenticatedEmployee) {
         List<CourseTestResult> courseTestResults = courseTestResultService.findByCourseResultNo(courseResultNo);
         deleteCourseTestResults(courseTestResults, authenticatedEmployee);
     }
+
     private void deleteCourseTestResults(List<CourseTestResult> courseTestResults, AuthenticatedEmployee authenticatedEmployee) {
         for (CourseTestResult courseTestResult : courseTestResults) {
             courseTestResult.setActive(false);
@@ -752,6 +876,7 @@ public class CoursesService {
             return "Something went wrong";
         }
     }
+
     private String getCompletedBreakoutStep(Integer courseResultStatusNo) {
         if (courseResultStatusNo == null) {
             return "Course completed without a result status";
@@ -777,9 +902,11 @@ public class CoursesService {
         }
         return score;
     }
+
     private double calculateResultPercentage(int score, int totalQuestions) {
         return ((double) score / totalQuestions) * 100;
     }
+
     private CourseTestResultStatusEnum determineResultStatus(double resultPercentage, CourseTest courseTest, List<CourseTestResult> results) {
         if (resultPercentage >= courseTest.getTestPassPercentage()) {
             return CourseTestResultStatusEnum.PASSED;
@@ -797,6 +924,7 @@ public class CoursesService {
             };
         }
     }
+
     private void completeCourseIfEligible(CourseResult courseResult, List<CourseTestResult> allCourseTestResults, List<CourseTest> courseTests, AuthenticatedEmployee authenticatedEmployee) {
         CourseTestResultStatus passedTestStatus = courseTestResultStatusService.findByCourseTestResultStatus(CourseTestResultStatusEnum.PASSED);
         CourseTestResultStatus failedTestStatus = courseTestResultStatusService.findByCourseTestResultStatus(CourseTestResultStatusEnum.FAILED_LAST_ATTEMPT);
@@ -831,6 +959,7 @@ public class CoursesService {
             courseResultService.saveCourseResult(courseResult);
         }
     }
+
     private void updateCourseTestResultStatus(CourseTestResult courseTestResult, List<CourseTestQuestion> courseTestQuestions, List<CourseTestLog> courseTestLogs, CourseTest courseTest, List<CourseTestResult> courseTestResults) {
         if (courseTestQuestions.size() == courseTestLogs.size()) {
             int score = calculateScore(courseTestQuestions, courseTestLogs);

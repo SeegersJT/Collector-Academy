@@ -4,7 +4,7 @@ import CardList from 'components/card/list/CardList.component';
 import MainCardComponent from 'components/card/MainCard.component';
 import PopUp from 'components/popup/PopUp.component';
 import SelectLabel from 'components/selectLabel/SelectLabel.component';
-import { textFieldStyle } from 'containers/dashboard/users/edit/UsersEdit.helper';
+import { Utils } from 'utils/Utils';
 
 function UsersEdit({
   theme,
@@ -51,7 +51,7 @@ function UsersEdit({
                     onSelectedMenuItemsChange={(branchNo) => onSelectedUserChange(branchNo, 'branchNo')}
                   />
                   <TextField
-                    sx={textFieldStyle(theme, isValidUser?.idNumber)}
+                    sx={Utils.textFieldStyle(theme, isValidUser?.idNumber)}
                     required={isValidUser?.idNumber !== 1}
                     id="users-edit-idnumber"
                     label="ID Number"
@@ -65,7 +65,7 @@ function UsersEdit({
               <Grid item lg={12}>
                 <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2 }}>
                   <TextField
-                    sx={textFieldStyle(theme, isValidUser?.name)}
+                    sx={Utils.textFieldStyle(theme, isValidUser?.name)}
                     required={isValidUser?.name !== 1}
                     id="user-edit-name"
                     label="Name"
@@ -75,7 +75,7 @@ function UsersEdit({
                     onChange={(event) => onSelectedUserChange(event.target.value, 'name')}
                   />
                   <TextField
-                    sx={textFieldStyle(theme, isValidUser?.surname)}
+                    sx={Utils.textFieldStyle(theme, isValidUser?.surname)}
                     required={isValidUser?.surname !== 1}
                     id="user-edit-surname"
                     label="Surname"
@@ -89,7 +89,7 @@ function UsersEdit({
               <Grid item lg={12}>
                 <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2 }}>
                   <TextField
-                    sx={textFieldStyle(theme, isValidUser?.emailAddress)}
+                    sx={Utils.textFieldStyle(theme, isValidUser?.emailAddress)}
                     required={isValidUser?.emailAddress !== 1}
                     id="user-edit-emailaddress"
                     label="Email Address"
@@ -99,7 +99,7 @@ function UsersEdit({
                     onChange={(event) => onSelectedUserChange(event.target.value, 'emailAddress')}
                   />
                   <TextField
-                    sx={textFieldStyle(theme, isValidUser?.mobileNumber)}
+                    sx={Utils.textFieldStyle(theme, isValidUser?.mobileNumber)}
                     required={isValidUser?.mobileNumber !== 1}
                     id="user-edit-mobilenumber"
                     label="Mobile Number"

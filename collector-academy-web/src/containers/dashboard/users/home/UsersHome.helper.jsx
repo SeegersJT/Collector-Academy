@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownloadOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { CellAlign, CellPadding, CellWeight } from 'utils/constants/Table.enum';
 
 export const getHeaderModifiers = () => [
@@ -29,26 +29,33 @@ export const getColumnModifiers = () => [
 
 export const getToolbarData = () => [
   {
-    title: 'Delete',
-    icon: <DeleteOutlined />,
-    iconColor: 'error'
-  },
-  {
     title: 'Edit',
     icon: <EditOutlined />,
     iconColor: 'warning'
   }
 ];
 
-export const formatActionsListData = (theme, onCardListClick) => [
+export const formatAddActionsListData = (theme, onCardListClick) => [
   {
-    title: 'Download Users Template',
-    description: 'Download the Excel Speadsheet, add the users and Upload said Speadsheet.',
+    title: 'Add Users',
+    description: 'Go to the Add Users page',
     icon: <PlusCircleOutlined style={{ fontSize: '20px' }} />,
     iconSize: 1,
     color: theme.palette.success.main,
     backgroundColor: theme.palette.success.lighter,
-    onClick: () => onCardListClick('/users/add')
+    onClick: onCardListClick
+  }
+];
+
+export const formatDownloadActionsListData = (theme, onCardListClick) => [
+  {
+    title: 'Download Users Template',
+    description: 'Download the Excel Speadsheet, add the users and Upload said Speadsheet.',
+    icon: <DownloadOutlined style={{ fontSize: '20px' }} />,
+    iconSize: 1,
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.lighter,
+    onClick: onCardListClick
   }
 ];
 

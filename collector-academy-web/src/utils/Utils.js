@@ -1,5 +1,6 @@
 import { CalculationsOperators } from './constants/Calculations.enum';
 import { DateUnit } from './constants/Datetime.enum';
+import regex from './regex/Regex';
 
 /* eslint-disable max-len */
 export class Utils {
@@ -139,7 +140,7 @@ export class Utils {
    * @returns {boolean} - Returns true if the value is numeric, otherwise false.
    */
   static isNumeric(value) {
-    return /^\d+$/.test(value);
+    return regex.isNumeric.test(value);
   }
 
   static noOp() {}
@@ -241,5 +242,127 @@ export class Utils {
       default:
         throw new Error(`Unsupported operator: ${operator}`);
     }
+  }
+
+  /**
+   * Convert a number of minutes into a readable string format with hours and minutes.
+   * @param {number} value - The input value in minutes to format.
+   * @returns {string} - Returns a formatted string like "30 min", "1 hour", or "1 hour 30 min".
+   */
+  static formatMinutes(value) {
+    if (typeof value !== 'number' || value < 0) {
+      return '';
+    }
+
+    const hours = Math.floor(value / 60);
+    const minutes = value % 60;
+
+    if (hours > 0 && minutes > 0) {
+      return `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min`;
+    } else if (hours > 0) {
+      return `${hours} hour${hours > 1 ? 's' : ''}`;
+    } else {
+      return `${minutes} min`;
+    }
+  }
+
+  /**
+   * Convert a datetime string into the format "YYYY-mm-dd hh:mm:ss".
+   * @param {string} datetime - The input datetime string.
+   * @returns {string} - Returns the formatted datetime string, or an empty string if the input is invalid.
+   */
+  static formatDateTime(datetime) {
+    const date = new Date(datetime);
+
+    if (isNaN(date.getTime())) {
+      return '';
+    }
+
+    const pad = (num) => String(num).padStart(2, '0');
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  /**
+   * Get the appropriate color based on theme, type, and colorKey.
+   * @param {object} theme - The theme object containing the palette.
+   * @param {number} type - The type indicating the color category.
+   * @param {string} colorKey - The key indicating which color to retrieve.
+   * @returns {string} - The resolved color value.
+   */
+  static getColor(theme, type, colorKey) {
+    const colorMapping = {
+      0: theme.palette.error.main,
+      2: theme.palette.warning.main,
+      1: colorKey === 'hover' || colorKey === 'focus' ? theme.palette.primary.main : theme.palette.secondary.light,
+      default: colorKey === 'text' ? theme.palette.secondary[600] : theme.palette.secondary.light
+    };
+
+    return colorMapping[type] || colorMapping.default;
+  }
+
+  /**
+   * Generate the text field styles based on theme and type.
+   * @param {object} theme - The theme object containing the palette.
+   * @param {number} type - The type indicating the color category.
+   * @returns {object} - The styles for the text field.
+   */
+  static textFieldStyle(theme, type) {
+    const getColor = (key) => this.getColor(theme, type, key);
+
+    return {
+      flex: 1,
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: getColor('border')
+        },
+        '&:hover fieldset': {
+          borderColor: getColor('hover')
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: getColor('focus')
+        },
+        '& .MuiFormLabel-root': {
+          color: getColor('text')
+        }
+      },
+      '& .MuiFormLabel-root.Mui-focused': {
+        color: getColor('focus')
+      }
+    };
+  }
+
+  /**
+   * Check if the provided user status is valid.
+   * @param {object|null|undefined} isValidUser - The user status object to validate.
+   * @returns {boolean} - Returns `true` if the user status is valid, otherwise `false`.
+   */
+  static checkIsValidStatus(isValidUser) {
+    if (this.isNull(isValidUser)) {
+      return true;
+    }
+
+    if (!isValidUser || typeof isValidUser !== 'object') {
+      return false;
+    }
+
+    const values = Object.values(isValidUser);
+
+    if (values.includes(0)) {
+      return false;
+    }
+
+    if (values.includes(2)) {
+      return true;
+    }
+
+    return false;
   }
 }

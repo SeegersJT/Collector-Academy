@@ -25,10 +25,10 @@ const dashboard = {
       role: 4
     },
     {
-      id: 'course',
-      title: 'Course',
+      id: 'courses',
+      title: 'Courses',
       type: 'item',
-      url: '/dashboard/course',
+      url: '/dashboard/courses',
       icon: DashboardOutlined,
       breadcrumbs: false,
       role: 5

@@ -12,7 +12,8 @@ function UsersHome({
   usersData,
   usersDataLoading,
   addUsersFileUploadValidateLoading,
-  actionsListData,
+  addActionsListData,
+  downloadActionsListData,
   onToolbarClick,
   onFileUpload
 }) {
@@ -37,7 +38,10 @@ function UsersHome({
 
       {/* Row 1 */}
       <Grid item xs={12} md={5} lg={4}>
-        <CardList title="Actions" data={actionsListData} scrollable height="200px" />
+        <CardList title="Actions" data={addActionsListData} scrollable height="200px" />
+      </Grid>
+      <Grid item xs={12} md={5} lg={4}>
+        <CardList data={downloadActionsListData} scrollable height="200px" />
       </Grid>
 
       {/* Row 2 */}

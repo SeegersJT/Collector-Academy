@@ -7,7 +7,7 @@ import { addSystemNotification } from 'redux/actions/System.action';
 import { SNACK_ERROR } from 'redux/reducers/System.reducer';
 import { Utils } from 'utils/Utils';
 
-function FileUpload({ onFileUpload, loading }) {
+function FileUpload({ onFileUpload, loading, height = '120px', buttonLabel = 'Upload' }) {
   const dispatch = useDispatch();
 
   const onDrop = useCallback(
@@ -33,6 +33,11 @@ function FileUpload({ onFileUpload, loading }) {
     <Box
       {...getRootProps()}
       sx={{
+        height: height,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         border: '2px dashed',
         borderColor: isDragActive ? 'primary.main' : 'grey.500',
         borderRadius: 2,
@@ -54,11 +59,11 @@ function FileUpload({ onFileUpload, loading }) {
             </Typography>
           ) : (
             <Typography variant="body1" color="textSecondary">
-              Add Users - Drag and drop the Excel User Template file here, or Click to Browse Files.
+              Upload Users - Drag and drop the Excel User Template file here, or Click to Browse Files.
             </Typography>
           )}
           <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-            Add Users
+            {buttonLabel}
           </Button>
         </>
       )}

@@ -18,6 +18,13 @@ export const REQUEST_ADD_USERS_FILE_UPLOAD_VALIDATE = '[USERS] ADD USERS - FILE 
 export const REQUEST_ADD_USERS_FILE_UPLOAD_VALIDATE_LOADING = '[USERS] ADD USERS - FILE UPLOAD - VALIDATE - REQUEST - LOADING';
 export const SET_ADD_USERS_FILE_UPLOAD_VALIDATE = '[USERS] ADD USERS - FILE UPLOAD - VALIDATE - SET';
 
+export const REQUEST_ADD_USERS_TEMPLATE_DOWNLOAD = '[USERS] ASS USERS - TEMPLATE - DOWNLOAD - REQUEST';
+export const REQUEST_ADD_USERS_TEMPLATE_DOWNLOAD_LOADING = '[USERS] ASS USERS - TEMPLATE - DOWNLOAD - REQUEST - LOADING';
+
+export const REQUEST_ADD_VALIDATE_USERS = '[USERS] ADD VALIDATE USERS - REQUEST';
+export const REQUEST_ADD_VALIDATE_USERS_LOADING = '[USERS] ADD VALIDATE USERS - REQUEST - LOADING';
+export const SET_USERS_UPLOAD_STATUS = '[USERS] USERS UPLOAD STATUS - SET';
+
 export const requestUsers = (accessToken) => ({
   type: REQUEST_USERS,
   accessToken
@@ -91,5 +98,31 @@ export const requestAddUsersFileUploadValidateLoading = (loading) => ({
 
 export const setAddUsersFileUploadValidate = (payload) => ({
   type: SET_ADD_USERS_FILE_UPLOAD_VALIDATE,
+  payload
+});
+
+export const requestAddUserTemplateDownload = (accessToken) => ({
+  type: REQUEST_ADD_USERS_TEMPLATE_DOWNLOAD,
+  accessToken
+});
+
+export const requestAddUserTemplateDownloadLoading = (loading) => ({
+  type: REQUEST_ADD_USERS_TEMPLATE_DOWNLOAD_LOADING,
+  loading
+});
+
+export const requestAddValidateUsers = (accessToken, payload) => ({
+  type: REQUEST_ADD_VALIDATE_USERS,
+  accessToken,
+  payload
+});
+
+export const requestAddValidateUsersLoading = (loading) => ({
+  type: REQUEST_ADD_VALIDATE_USERS_LOADING,
+  loading
+});
+
+export const setUsersUploadStatus = (payload) => ({
+  type: SET_USERS_UPLOAD_STATUS,
   payload
 });

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * @author Hanno Seegers
  */
@@ -18,5 +20,7 @@ public class CourseResponse {
     private String courseDescription;
     private Integer courseDuration;
     private Integer courseDifficultyNo;
+    private String courseDifficulty;
+    private Date courseDate;
     private Boolean active;
 }

@@ -129,17 +129,28 @@ public class UserService {
                     throw new DataNotFoundException("Unable find all headers");
                 }
 
-                // ===================================================================
+                // ================================= ==================================
                 // REPEATING CODE. COMPRESS INTO ONE
                 // ===================================================================
                 Branch employeeBranch = getEmployeeBranch(userDataResponse.getBranchName());
-                userDataResponse.setBranchNo(employeeBranch.getBranchNo());
                 String employeeUsername = getEmployeeUsername(employeeBranch.getBranchAbbreviation(), userDataResponse.getName(), userDataResponse.getSurname());
-                userDataResponse.setUsername(employeeUsername);
                 Gender employeeGender = getEmployeeGender(userDataResponse.getGender());
-                userDataResponse.setPassword(generateTemporaryPassword().toString());
                 Password employeePassword = getEmployeePassword(userDataResponse.getPassword(), authenticatedEmployee.getEmployeeNo(), authenticatedEmployee.getBranchNo());
                 EmployeeType employeeType = getEmployeeType(EmployeeTypeEnum.LEARNER);
+
+                userDataResponse.setBranchNo(employeeBranch.getBranchNo());
+                userDataResponse.setUsername(employeeUsername);
+                userDataResponse.setGenderNo(employeeGender.getGenderNo());
+                userDataResponse.setPassword(generateTemporaryPassword().toString());
+                userDataResponse.setEmployeeTypeNo(employeeType.getEmployeeTypeNo());
+                userDataResponse.setEmployeeType(employeeType.getEmployeeType().name());
+
+                if (Objects.equals(userDataResponse.getPerformanceManagerUsername(), "N/A")) {
+                    userDataResponse.setPerformanceManagerEmployeeNo(1);
+                } else {
+                    Employee performanceManagerEmployee = getPerformanceManagerEmployee(userDataResponse.getPerformanceManagerUsername());
+                    userDataResponse.setPerformanceManagerEmployeeNo(performanceManagerEmployee.getEmployeeNo());
+                }
 
                 Employee employee = Employee.builder()
                         .branch(employeeBranch)
@@ -152,6 +163,7 @@ public class UserService {
                         .gender(employeeGender)
                         .password(employeePassword)
                         .employeeType(employeeType)
+                        .performanceManagerEmployeeNo(userDataResponse.getPerformanceManagerEmployeeNo())
                         .systemEmployeeNo(authenticatedEmployee.getEmployeeNo())
                         .systemBranchNo(authenticatedEmployee.getBranchNo())
                         .build();
@@ -468,6 +480,7 @@ public class UserService {
                 case "MOBILE_NUMBER" -> userDataResponse.setMobileNumber(fileValidationCell.getValue());
                 case "GENDER" -> userDataResponse.setGender(fileValidationCell.getValue());
                 case "BRANCH_NAME" -> userDataResponse.setBranchName(fileValidationCell.getValue());
+                case "PERFORMANCE_MANAGER" -> userDataResponse.setPerformanceManagerUsername(fileValidationCell.getValue());
                 default -> errors.add(fileValidationCell.getValue() == null ? "null" : fileValidationCell.getValue());
             }
         }
@@ -533,6 +546,10 @@ public class UserService {
 
     private EmployeeType getEmployeeType(EmployeeTypeEnum employeeTypeEnum) {
         return employeeTypeService.findByEmployeeType(employeeTypeEnum);
+    }
+
+    private Employee getPerformanceManagerEmployee(String performanceManagerUsername) {
+        return employeeService.findByUsername(performanceManagerUsername);
     }
 
     private List<Integer> getUniqueBranchNumbers(List<UserDataResponse> successfulUserUploads) {

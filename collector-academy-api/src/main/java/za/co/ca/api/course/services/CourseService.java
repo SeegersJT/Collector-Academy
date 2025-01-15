@@ -6,6 +6,8 @@ import za.co.ca.api.course.repositories.CourseRepository;
 import za.co.ca.api.common.exceptions.DataNotFoundException;
 import za.co.ca.api.course.models.Course;
 
+import java.util.List;
+
 /**
  * @author Hanno Seegers
  */
@@ -13,6 +15,10 @@ import za.co.ca.api.course.models.Course;
 @RequiredArgsConstructor
 public class CourseService {
     private final CourseRepository courseRepository;
+
+    public List<Course> findAll() {
+        return courseRepository.findAll();
+    }
 
     public Course findByCourseNo(String courseNo) {
         return courseRepository.findByCourseNo(courseNo)

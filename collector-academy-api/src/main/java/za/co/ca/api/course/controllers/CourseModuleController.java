@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import za.co.ca.api.authentication.payloads.responses.GeneralAPIResponse;
 import za.co.ca.api.course.payloads.requests.CourseModuleRequest;
 import za.co.ca.api.course.payloads.responses.CourseModuleResponse;
+import za.co.ca.api.course.payloads.responses.CourseResponse;
 import za.co.ca.api.course.services.CoursesService;
+
+import java.util.List;
 
 /**
  * @author Hanno Seegers
@@ -22,6 +25,26 @@ import za.co.ca.api.course.services.CoursesService;
 public class CourseModuleController {
 
     private final CoursesService coursesService;
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<CourseModuleResponse> getCourseModule(
+            @Valid @RequestParam(required = true, name = "courseModuleNo") String courseModuleNo
+    ) {
+        log.info("Get Course Module Request :: Course Module No: '{}'", courseModuleNo);
+        CourseModuleResponse response = coursesService.getCourseModule(courseModuleNo);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<List<CourseModuleResponse>> getAllCourseModules(
+            @Valid @RequestParam(required = true, name = "courseNo") String courseNo
+    ) {
+        log.info("Get all Courses Modules Request :: Course No: '{}'", courseNo);
+        List<CourseModuleResponse> response = coursesService.getAllCourseModules(courseNo);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SUPERUSER')")

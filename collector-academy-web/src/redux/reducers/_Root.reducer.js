@@ -6,6 +6,7 @@ import tokenReducer from './Token.reducer';
 import userReducer from './User.reducer';
 import usersReducer from './Users.reducer';
 import commonReducer from './Common.reducer';
+import coursesReducer from './Courses.reducer';
 
 const RootReducer = combineReducers({
   system: systemReducer,
@@ -13,7 +14,8 @@ const RootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   common: commonReducer,
-  users: usersReducer
+  users: usersReducer,
+  courses: coursesReducer
 });
 
 export default RootReducer;

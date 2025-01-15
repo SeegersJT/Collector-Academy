@@ -248,7 +248,7 @@ public class ExcelService {
 
     private FileValidationCell validatePerformanceManager(String performanceManagerUsername, String branchName) {
         if (performanceManagerUsername.isEmpty()) {
-            return new FileValidationCell(UploadUsersEnum.BRANCH_NAME.name(), branchName, true, null);
+            return new FileValidationCell(UploadUsersEnum.PERFORMANCE_MANAGER.name(), "N/A", true, null);
         }
 
         if (!Pattern.matches("^[A-Z]{3} [A-Z]+ [A-Z]+$", performanceManagerUsername)) {
@@ -269,10 +269,10 @@ public class ExcelService {
                 return new FileValidationCell(UploadUsersEnum.PERFORMANCE_MANAGER.name(), performanceManagerUsername, false, "Performance Manager cannot be from a different branch.");
             }
 
-            return new FileValidationCell(UploadUsersEnum.BRANCH_NAME.name(), branchName, true, null);
+            return new FileValidationCell(UploadUsersEnum.PERFORMANCE_MANAGER.name(), "N/A", true, null);
 
         } catch ( Exception exception) {
-            return new FileValidationCell(UploadUsersEnum.BRANCH_NAME.name(), branchName, false, "Could not find Performance Manager.");
+            return new FileValidationCell(UploadUsersEnum.PERFORMANCE_MANAGER.name(), performanceManagerUsername, false, "Could not find Performance Manager.");
         }
     }
 }

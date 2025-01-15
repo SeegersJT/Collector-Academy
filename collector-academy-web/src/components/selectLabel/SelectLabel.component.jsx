@@ -87,13 +87,17 @@ function SelectLabel({ title, type = 1, menuItems, multiple = false, selectedIte
         <Select
           labelId="select-label"
           id="select"
+          inputProps={{ 'aria-label': 'Without label' }}
           multiple={multiple}
           value={selectedItems}
           label={title}
           onChange={(event) => handleOnTestChange(event.target.value)}
         >
+          <MenuItem sx={{ display: 'none' }} disabled value="">
+            <em>No Items Selected</em>
+          </MenuItem>
           {menuItems.map((menuItem, index) => (
-            <MenuItem key={index} value={menuItem.value}>
+            <MenuItem disabled={menuItem.value === 0} key={index} value={menuItem.value}>
               {menuItem.label}
             </MenuItem>
           ))}

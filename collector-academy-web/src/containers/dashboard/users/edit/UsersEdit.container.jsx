@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import UsersEdit from 'components/dashboard/users/edit/UsersEdit.component';
-import { checkIsValidUserStatus, validateField } from './UsersEdit.helper';
+import { validateField } from './UsersEdit.helper';
 import { requestUpdateUsers, requestUsersDelete, requestUsersResetPassword } from 'redux/actions/Users.action';
 import { requestAllBranches, requestAllEmployeeTypes, requestAllGenders, requestAllPerformanceManagers } from 'redux/actions/Common.action';
 import { navigateTo } from 'utils/NavigateService';
 import { CheckSquareOutlined, CloseSquareOutlined, DeleteOutlined, RollbackOutlined } from '@ant-design/icons';
+import { Utils } from 'utils/Utils';
 
 function UsersEditContainer() {
   const theme = useTheme();
@@ -77,7 +78,6 @@ function UsersEditContainer() {
 
     setDefaultUsers(filteredUsers);
     setCurrentUsers(filteredUsers);
-    console.log('changed');
   }, [users, selectedUsers]);
 
   useEffect(() => {
@@ -242,6 +242,8 @@ function UsersEditContainer() {
     dispatch(requestUsersDelete(accessToken, currentUsers, onResponse));
   };
 
+  console.log('currentUsers', currentUsers);
+
   return (
     <UsersEdit
       theme={theme}
@@ -249,7 +251,7 @@ function UsersEditContainer() {
       isSingleUser={isSingleUser}
       selectedUser={selectedUser}
       isValidUser={isValidUser}
-      isValidUserStatus={checkIsValidUserStatus(isValidUser)}
+      isValidUserStatus={Utils.checkIsValidStatus(isValidUser)}
       actionListData={actionListData}
       branchMenuItems={branchMenuItems}
       employeeTypeMenuItems={employeeTypeMenuItems}
