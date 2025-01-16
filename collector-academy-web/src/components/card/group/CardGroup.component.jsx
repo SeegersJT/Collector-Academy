@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Grid,
   List,
   ListItemAvatar,
@@ -54,19 +55,55 @@ function CardGroup({ title = 'Card Group', data = [] }) {
         }}
       >
         {data.map((item, index) => (
-          <Grid key={index} item xs={12} lg={2}>
+          <Grid key={index} item xs={12} lg={3}>
             <MainCardComponent sx={{ mt: 2, mr: 2 }} content={false} scrollable={true} height={500}>
               <ListItemButton divider key={index} disabled={item.disabled} onClick={item.onClick}>
                 <ListItemAvatar>
                   <Avatar sx={{ color: item.color, bgcolor: item.backgroundColor }}>{item.icon ? item.icon : <GiftOutlined />}</Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={<Typography variant="subtitle1">{item.title}</Typography>} secondary={item.description} />
+                <ListItemText
+                  primary={
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '250px' // Adjust based on your layout
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                  }
+                  secondary={
+                    <Box
+                      sx={{
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '300px'
+                      }}
+                    >
+                      {item.description}
+                    </Box>
+                  }
+                />
                 <ListItemSecondaryAction>
                   <Stack alignItems="flex-end">
                     <Typography variant="subtitle1" noWrap>
                       {item.titleRight}
                     </Typography>
-                    <Typography variant="h6" color="secondary" noWrap>
+                    <Typography
+                      variant="h6"
+                      color="secondary"
+                      noWrap
+                      sx={{
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '150px' // Adjust based on your layout
+                      }}
+                    >
                       {item.descriptionRight}
                     </Typography>
                   </Stack>

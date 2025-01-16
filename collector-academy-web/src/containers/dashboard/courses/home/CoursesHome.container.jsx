@@ -15,8 +15,8 @@ function CoursesHomeContainer() {
   const { courses, coursesLoading } = useSelector((state) => state.courses);
 
   useEffect(() => {
+    dispatch(coursesActions.resetCourses());
     dispatch(coursesActions.requestAllCourses(accessToken));
-    dispatch(coursesActions.setSelectedCourse(null));
   }, [dispatch, accessToken]);
 
   const coursesActionsListData = (theme) => [
@@ -27,7 +27,7 @@ function CoursesHomeContainer() {
       iconSize: 1,
       color: theme.palette.success.main,
       backgroundColor: theme.palette.success.lighter,
-      onClick: () => {}
+      onClick: () => navigateTo('/dashboard/courses/course-editor')
     }
   ];
 
@@ -43,7 +43,7 @@ function CoursesHomeContainer() {
     switch (index) {
       case 0:
         dispatch(coursesActions.setSelectedCourse(selectedItems[0].courseNo));
-        navigateTo('/dashboard/courses/edit');
+        navigateTo('/dashboard/courses/course-editor');
         break;
 
       default:

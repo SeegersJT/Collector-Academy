@@ -17,7 +17,8 @@ import RouteNotFound from 'middleware/RouteNotFound.container';
 import UsersAddStatusContainer from 'containers/dashboard/users/add/status/UsersAddStatus.container';
 import CoursesDashboardContainer from 'containers/dashboard/courses/CoursesDashboard.container';
 import CoursesHomeContainer from 'containers/dashboard/courses/home/CoursesHome.container';
-import CoursesEditContainer from 'containers/dashboard/courses/edit/CoursesEdit.container';
+import CourseEditorContainer from 'containers/dashboard/courses/course-editor/CourseEditor.container';
+import ModuleEditorContainer from 'containers/dashboard/courses/module-editor/ModuleEditor.container';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
 
@@ -71,7 +72,8 @@ export default function App() {
                   <Route index element={<Navigate to="/dashboard/courses/home" replace />} />
                   <Route path="home" element={<CoursesHomeContainer />} />
 
-                  <Route path="edit" element={<CoursesEditContainer />} />
+                  <Route path="course-editor" element={<CourseEditorContainer />} />
+                  <Route path="module-editor" element={<ModuleEditorContainer />} />
 
                   {/* ====[ REROUTE - TO - COURSES HOME ]==== */}
                   <Route path="*" element={<RouteNotFound destination="/dashboard/courses" />} />

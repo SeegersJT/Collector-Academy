@@ -1,16 +1,4 @@
-import { GiftOutlined } from '@ant-design/icons';
-import {
-  Grid,
-  List,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemSecondaryAction,
-  ListItemText,
-  Stack,
-  TextField,
-  Typography
-} from '@mui/material';
-import Avatar from '_old/components/@extended/Avatar';
+import { Grid, Stack, TextField, Typography } from '@mui/material';
 import DefaultBox from 'components/box/DefaultBox.component';
 import CardGroup from 'components/card/group/CardGroup.component';
 import CardList from 'components/card/list/CardList.component';
@@ -18,10 +6,10 @@ import MainCardComponent from 'components/card/MainCard.component';
 import SelectLabel from 'components/selectLabel/SelectLabel.component';
 import { Utils } from 'utils/Utils';
 
-function CoursesEdit({
+function CourseEditor({
   theme,
   coursesActionListData,
-  coursesModulesData,
+  courseModulesGroupData,
   currentCourse,
   isValidCourse,
   courseDifficultiesMenuItems,
@@ -88,14 +76,16 @@ function CoursesEdit({
             </MainCardComponent>
           </form>
         </Grid>
+
+        {/* Row 2 */}
         <Grid item xs={12} lg={12}>
-          <CardGroup title="Modules" data={coursesModulesData} />
+          <CardGroup title="Modules" data={courseModulesGroupData} />
         </Grid>
       </DefaultBox>
     </>
   );
 }
 
-CoursesEdit.propTypes = {};
+CourseEditor.propTypes = {};
 
-export default CoursesEdit;
+export default CourseEditor;
