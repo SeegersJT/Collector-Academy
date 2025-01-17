@@ -22,3 +22,12 @@ export const formatConstantCourseModule = (courseModule) => ({
   moduleIndex: courseModule.moduleIndex,
   active: courseModule.active || null
 });
+
+export const formatConstantCoursePage = (coursePage) => ({
+  coursePageNo: coursePage.coursePageNo || null,
+  courseModuleNo: coursePage.courseModuleNo || null,
+  pageTitle: coursePage.pageTitle || null,
+  pageDescription: coursePage.pageDescription || null,
+  pageIndex: coursePage.pageIndex,
+  active: coursePage.active || null
+});

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 import za.co.ca.api.common.helpers.Utils;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "vs_course_page")
+@SQLRestriction("active = true")
 public class CoursePage {
 
     @Id

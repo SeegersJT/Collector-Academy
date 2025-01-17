@@ -68,7 +68,7 @@ public class CourseModuleController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SUPERUSER')")
     public ResponseEntity<GeneralAPIResponse> deleteCourseModule(
             @Valid @RequestParam(required = true, name = "courseModuleNo") String courseModuleNo

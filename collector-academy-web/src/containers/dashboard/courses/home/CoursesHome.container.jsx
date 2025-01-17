@@ -15,7 +15,7 @@ function CoursesHomeContainer() {
   const { courses, coursesLoading } = useSelector((state) => state.courses);
 
   useEffect(() => {
-    dispatch(coursesActions.resetCourses());
+    dispatch(coursesActions.resetCourseEditor());
     dispatch(coursesActions.requestAllCourses(accessToken));
   }, [dispatch, accessToken]);
 

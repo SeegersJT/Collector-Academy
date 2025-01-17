@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class CourseModuleResponse {
     private String courseModuleNo;
     private String courseNo;
+    private String courseTitle;
     private String moduleTitle;
     private String moduleDescription;
     private Integer moduleIndex;

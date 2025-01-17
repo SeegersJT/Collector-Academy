@@ -1,18 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CheckSquareOutlined, DeleteOutlined, FolderAddOutlined, FolderOutlined, LoadingOutlined, SaveOutlined } from '@ant-design/icons';
+import {
+  CheckSquareOutlined,
+  DeleteOutlined,
+  FolderAddOutlined,
+  FolderOutlined,
+  LoadingOutlined,
+  SaveOutlined,
+  WarningOutlined
+} from '@ant-design/icons';
 import { useTheme } from '@mui/material/styles';
 import CoursesEdit from 'components/dashboard/courses/course-editor/CourseEditor.component';
 import * as coursesActions from 'redux/actions/Courses.action';
 import { Utils } from 'utils/Utils';
 import { validateField } from './CourseEditor.helper';
+import { navigateTo } from 'utils/NavigateService';
 
 function CourseEditorContainer() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const { accessToken } = useSelector((state) => state.auth);
-  const { courses, courseModules, courseDifficulties, selectedCourse, courseUpdateLoading } = useSelector((state) => state.courses);
+  const { courses, courseModules, courseDifficulties, selectedCourse, courseUpdateLoading, courseInsertLoading, courseDeleteLoading } =
+    useSelector((state) => state.courses);
 
   const [defaultCourse, setDefaultCourse] = useState(null);
   const [currentCourse, setCurrentCourse] = useState(null);
@@ -24,6 +34,7 @@ function CourseEditorContainer() {
   const [courseDifficultiesMenuItems, setCourseDifficultiesMenuItems] = useState([]);
 
   useEffect(() => {
+    dispatch(coursesActions.resetModuleEditor());
     dispatch(coursesActions.requestAllCourseDifficulties(accessToken));
 
     if (!Utils.isNull(selectedCourse)) {
@@ -32,26 +43,51 @@ function CourseEditorContainer() {
   }, [dispatch, accessToken, selectedCourse]);
 
   useEffect(() => {
-    const formatAddCourseModule = {
-      title: 'Add Module',
-      description: 'Add modules to the course to organize pages.',
-      icon: <FolderAddOutlined style={{ fontSize: '20px' }} />,
-      color: theme.palette.success.main,
-      backgroundColor: theme.palette.success.lighter,
-      onClick: () => {}
+    const handleOnGoToModuleEditor = () => {
+      navigateTo('/dashboard/courses/course-editor/module-editor');
     };
 
-    const formatCourseModules = courseModules.map((courseModule) => ({
-      title: courseModule.moduleTitle,
-      description: courseModule.moduleDescription,
-      icon: <FolderOutlined style={{ fontSize: '20px' }} />,
-      color: theme.palette.primary.main,
-      backgroundColor: theme.palette.primary.lighter,
-      onClick: () => {}
-    }));
+    const handleOnSetSelectedModuleNo = (courseModuleNo) => {
+      dispatch(coursesActions.setSelectedCourseModule(courseModuleNo));
+      handleOnGoToModuleEditor();
+    };
 
-    setCourseModulesGroupData([formatAddCourseModule, ...formatCourseModules]);
-  }, [courseModules, theme]);
+    const formatCourseModulesGroupData = [];
+
+    if (selectedCourse) {
+      formatCourseModulesGroupData.push({
+        title: 'Add Module',
+        description: 'Add modules to the course to organize pages.',
+        icon: <FolderAddOutlined style={{ fontSize: '20px' }} />,
+        color: theme.palette.success.main,
+        backgroundColor: theme.palette.success.lighter,
+        onClick: () => handleOnSetSelectedModuleNo(null)
+      });
+    } else {
+      formatCourseModulesGroupData.push({
+        title: 'No Course Created',
+        description: 'Create a Course Before adding Modules',
+        icon: <WarningOutlined style={{ fontSize: '20px' }} />,
+        color: theme.palette.warning.main,
+        backgroundColor: theme.palette.warning.lighter,
+        disabled: true,
+        onClick: () => handleOnSetSelectedModuleNo(null)
+      });
+    }
+
+    formatCourseModulesGroupData.push(
+      ...courseModules.map((courseModule) => ({
+        title: courseModule.moduleTitle,
+        description: courseModule.moduleDescription,
+        icon: <FolderOutlined style={{ fontSize: '20px' }} />,
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.lighter,
+        onClick: () => handleOnSetSelectedModuleNo(courseModule.courseModuleNo)
+      }))
+    );
+
+    setCourseModulesGroupData(formatCourseModulesGroupData);
+  }, [theme, courseModules, selectedCourse]);
 
   useEffect(() => {
     setCourseDifficultiesMenuItems(
@@ -63,13 +99,8 @@ function CourseEditorContainer() {
   }, [courseDifficulties]);
 
   useEffect(() => {
-    console.log('courses', courses);
-    console.log('selectedCourse', selectedCourse);
-
     if (!Utils.isNull(selectedCourse)) {
       const filteredCourse = courses.find((course) => course.courseNo === selectedCourse);
-
-      console.log('filteredCourse', filteredCourse);
 
       if (!Utils.isNull(filteredCourse) || !Utils.isUndefined(filteredCourse)) {
         setDefaultCourse(filteredCourse);
@@ -116,11 +147,11 @@ function CourseEditorContainer() {
       courseActionList.push({
         title: `Add Course${canSave ? '' : ' - No Valid Changes Made'}`,
         description: canSave ? 'Insert changes made to Course' : 'Complete the Course to enable this button',
-        icon: courseUpdateLoading ? <LoadingOutlined style={{ fontSize: '20px' }} /> : <SaveOutlined style={{ fontSize: '20px' }} />,
+        icon: courseInsertLoading ? <LoadingOutlined style={{ fontSize: '20px' }} /> : <SaveOutlined style={{ fontSize: '20px' }} />,
         color: theme.palette.success.main,
         backgroundColor: theme.palette.success.lighter,
-        disabled: !canSave || courseUpdateLoading,
-        onClick: handleOnInserCourseClick
+        disabled: !canSave || courseInsertLoading,
+        onClick: handleOnInsertCourseClick
       });
     }
 
@@ -135,13 +166,13 @@ function CourseEditorContainer() {
     });
 
     courseActionList.push({
-      title: 'Delete Course',
-      description: 'Delete current Course',
-      icon: <DeleteOutlined style={{ fontSize: '20px' }} />,
+      title: `Delete Course${selectedCourse ? '' : ' - No Course to Delete'}`,
+      description: selectedCourse ? 'Delete current Course' : 'No Course to Delete',
+      icon: courseDeleteLoading ? <LoadingOutlined style={{ fontSize: '20px' }} /> : <DeleteOutlined style={{ fontSize: '20px' }} />,
       color: theme.palette.error.main,
       backgroundColor: theme.palette.error.lighter,
-      disabled: true,
-      onClick: () => {}
+      disabled: !selectedCourse || courseDeleteLoading,
+      onClick: handleOnDeleteCourseClick
     });
 
     return courseActionList;
@@ -179,8 +210,12 @@ function CourseEditorContainer() {
     dispatch(coursesActions.requestCourseUpdate(accessToken, currentCourse, currentCourse.courseNo));
   };
 
-  const handleOnInserCourseClick = () => {
+  const handleOnInsertCourseClick = () => {
     dispatch(coursesActions.requestCourseInsert(accessToken, currentCourse));
+  };
+
+  const handleOnDeleteCourseClick = () => {
+    dispatch(coursesActions.requestCourseDelete(accessToken, currentCourse?.courseNo));
   };
 
   return (
@@ -192,7 +227,6 @@ function CourseEditorContainer() {
       isValidCourse={isValidCourse}
       courseDifficultiesMenuItems={courseDifficultiesMenuItems}
       onCurrentCourseChange={handleOnCurrentCourseChange}
-      onCoursesEditSumbit
     />
   );
 }

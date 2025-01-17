@@ -19,6 +19,7 @@ import CoursesDashboardContainer from 'containers/dashboard/courses/CoursesDashb
 import CoursesHomeContainer from 'containers/dashboard/courses/home/CoursesHome.container';
 import CourseEditorContainer from 'containers/dashboard/courses/course-editor/CourseEditor.container';
 import ModuleEditorContainer from 'containers/dashboard/courses/module-editor/ModuleEditor.container';
+import PageEditorContainer from 'containers/dashboard/courses/page-editor/PageEditor.container';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
 
@@ -73,7 +74,8 @@ export default function App() {
                   <Route path="home" element={<CoursesHomeContainer />} />
 
                   <Route path="course-editor" element={<CourseEditorContainer />} />
-                  <Route path="module-editor" element={<ModuleEditorContainer />} />
+                  <Route path="course-editor/module-editor" element={<ModuleEditorContainer />} />
+                  <Route path="course-editor/module-editor/page-editor" element={<PageEditorContainer />} />
 
                   {/* ====[ REROUTE - TO - COURSES HOME ]==== */}
                   <Route path="*" element={<RouteNotFound destination="/dashboard/courses" />} />

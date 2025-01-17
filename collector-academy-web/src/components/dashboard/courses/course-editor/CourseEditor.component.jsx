@@ -13,8 +13,7 @@ function CourseEditor({
   currentCourse,
   isValidCourse,
   courseDifficultiesMenuItems,
-  onCurrentCourseChange,
-  onCoursesEditSumbit
+  onCurrentCourseChange
 }) {
   return (
     <>
@@ -27,54 +26,52 @@ function CourseEditor({
           <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 2 } }}>
             <Typography variant="h5">Course</Typography>
           </Stack>
-          <form noValidate onSubmit={onCoursesEditSumbit}>
-            <MainCardComponent sx={{ mt: 2 }} content={true}>
-              <Grid container item lg={6}>
-                <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2, mr: 1 }}>
-                  <TextField
-                    sx={Utils.textFieldStyle(theme, isValidCourse?.courseTitle)}
-                    id="course-edit-courseTitle"
-                    label="Title"
-                    variant="outlined"
-                    value={currentCourse?.courseTitle}
-                    onChange={(event) => onCurrentCourseChange(event.target.value, 'courseTitle')}
-                  />
-                </Stack>
-              </Grid>
-              <Grid item lg={12}>
-                <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2 }}>
-                  <TextField
-                    sx={Utils.textFieldStyle(theme, isValidCourse?.courseDescription)}
-                    id="course-edit-courseDescription"
-                    label="Description"
-                    variant="outlined"
-                    value={currentCourse?.courseDescription}
-                    onChange={(event) => onCurrentCourseChange(event.target.value, 'courseDescription')}
-                  />
-                </Stack>
-              </Grid>
-              <Grid item lg={12}>
-                <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2 }}>
-                  <TextField
-                    sx={Utils.textFieldStyle(theme, isValidCourse?.courseDuration)}
-                    id="course-edit-courseDuration"
-                    label="Duration (min)"
-                    variant="outlined"
-                    type="number"
-                    value={currentCourse?.courseDuration}
-                    onChange={(event) => onCurrentCourseChange(event.target.value, 'courseDuration')}
-                  />
-                  <SelectLabel
-                    title="Difficulty"
-                    type={isValidCourse?.courseDifficultyNo}
-                    menuItems={courseDifficultiesMenuItems}
-                    selectedItems={[currentCourse?.courseDifficultyNo]}
-                    onSelectedMenuItemsChange={(courseDifficultyNo) => onCurrentCourseChange(courseDifficultyNo, 'courseDifficultyNo')}
-                  />
-                </Stack>
-              </Grid>
-            </MainCardComponent>
-          </form>
+          <MainCardComponent sx={{ mt: 2 }} content={true}>
+            <Grid container item lg={6}>
+              <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2, mr: 1 }}>
+                <TextField
+                  sx={Utils.textFieldStyle(theme, isValidCourse?.courseTitle)}
+                  id="course-edit-courseTitle"
+                  label="Title"
+                  variant="outlined"
+                  value={currentCourse?.courseTitle}
+                  onChange={(event) => onCurrentCourseChange(event.target.value, 'courseTitle')}
+                />
+              </Stack>
+            </Grid>
+            <Grid item lg={12}>
+              <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2 }}>
+                <TextField
+                  sx={Utils.textFieldStyle(theme, isValidCourse?.courseDescription)}
+                  id="course-edit-courseDescription"
+                  label="Description"
+                  variant="outlined"
+                  value={currentCourse?.courseDescription}
+                  onChange={(event) => onCurrentCourseChange(event.target.value, 'courseDescription')}
+                />
+              </Stack>
+            </Grid>
+            <Grid item lg={12}>
+              <Stack direction="row" spacing={2} sx={{ width: '100%', mb: 2 }}>
+                <TextField
+                  sx={Utils.textFieldStyle(theme, isValidCourse?.courseDuration)}
+                  id="course-edit-courseDuration"
+                  label="Duration (min)"
+                  variant="outlined"
+                  type="number"
+                  value={currentCourse?.courseDuration}
+                  onChange={(event) => onCurrentCourseChange(event.target.value, 'courseDuration')}
+                />
+                <SelectLabel
+                  title="Difficulty"
+                  type={isValidCourse?.courseDifficultyNo}
+                  menuItems={courseDifficultiesMenuItems}
+                  selectedItems={[currentCourse?.courseDifficultyNo]}
+                  onSelectedMenuItemsChange={(courseDifficultyNo) => onCurrentCourseChange(courseDifficultyNo, 'courseDifficultyNo')}
+                />
+              </Stack>
+            </Grid>
+          </MainCardComponent>
         </Grid>
 
         {/* Row 2 */}

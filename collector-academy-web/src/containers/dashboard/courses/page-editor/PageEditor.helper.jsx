@@ -2,8 +2,8 @@ import regex from 'utils/regex/Regex';
 
 export const validateField = (type, value) => {
   switch (type) {
-    case 'moduleTitle':
-    case 'moduleDescription':
+    case 'pageTitle':
+    case 'pageDescription':
       return (
         regex.startsWithCapitalLetter.test(value) &&
         regex.containsAlphanumericOrSpaces.test(value) &&

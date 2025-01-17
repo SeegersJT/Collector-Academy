@@ -174,7 +174,18 @@ public class CoursesService {
     }
 
     // PAGES
-    // TODO - GETTERS
+    public CoursePageResponse getCoursePage(String coursePageNo) {
+        CoursePage coursePage = coursePageService.findByCoursePageNo(coursePageNo);
+
+        return buildCoursePageResponse(coursePage);
+    }
+
+    public List<CoursePageResponse> getAllCoursePages(String courseModuleNo) {
+        List<CoursePage> coursePages = coursePageService.findByCourseModuleNo(courseModuleNo);
+
+        return buildCoursePagesResponse(coursePages);
+    }
+
     public CoursePageResponse insertCoursePage(String courseModuleNo, CoursePageRequest coursePageRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -657,6 +668,19 @@ public class CoursesService {
                 .active(coursePage.getActive())
                 .build();
     }
+
+    private List<CoursePageResponse> buildCoursePagesResponse(List<CoursePage> coursePages) {
+
+        List<CoursePageResponse> coursePageResponses = new ArrayList<CoursePageResponse>();
+
+        for (CoursePage coursePage : coursePages) {
+            CoursePageResponse coursePageResponse = buildCoursePageResponse(coursePage);
+            coursePageResponses.add(coursePageResponse);
+        }
+
+        return coursePageResponses;
+    }
+
 
     private CourseTestResponse buildCourseTestResponse(CourseTest courseTest) {
         return CourseTestResponse.builder()
