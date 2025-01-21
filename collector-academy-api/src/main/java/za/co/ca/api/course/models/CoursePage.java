@@ -38,6 +38,9 @@ public class CoursePage {
     @Column(name = "page_index")
     private Integer pageIndex;
 
+    @Column(name = "page_content", columnDefinition = "LONGTEXT")
+    private String pageContent;
+
     @Column(name = "active")
     private Boolean active;
 

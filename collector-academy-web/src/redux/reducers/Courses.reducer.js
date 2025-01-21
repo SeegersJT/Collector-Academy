@@ -5,13 +5,22 @@ const initialState = {
   courses: [],
   courseModules: [],
   coursePages: [],
+  courseTests: [],
+  courseTestQuestions: [],
+  courseTestAnswers: [],
   courseDifficulties: [],
   selectedCourse: null,
   selectedCourseModule: null,
   selectedCoursePage: null,
+  selectedCourseTest: null,
+  selectedCourseTestQuestion: null,
+  selectedCourseTestAnswer: null,
   coursesLoading: false,
   courseModulesLoading: false,
   coursePagesLoading: false,
+  courseTestsLoading: false,
+  courseTestQuestionsLoading: false,
+  courseTestAnswersLoading: false,
   courseDifficultiesLoading: false,
   courseUpdateLoading: false,
   courseInsertLoading: false,
@@ -21,7 +30,16 @@ const initialState = {
   courseModuleDeleteLoading: false,
   coursePageUpdateLoading: false,
   coursePageInsertLoading: false,
-  coursePageDeleteLoading: false
+  coursePageDeleteLoading: false,
+  courseTestUpdateLoading: false,
+  courseTestInsertLoading: false,
+  courseTestDeleteLoading: false,
+  courseTestQuestionUpdateLoading: false,
+  courseTestQuestionInsertLoading: false,
+  courseTestQuestionDeleteLoading: false,
+  courseTestAnswerUpdateLoading: false,
+  courseTestAnswerInsertLoading: false,
+  courseTestAnswerDeleteLoading: false
 };
 
 const coursesReducer = (state = initialState, action) => {
@@ -50,6 +68,27 @@ const coursesReducer = (state = initialState, action) => {
         coursePageUpdateLoading: initialState.coursePageUpdateLoading,
         coursePageInsertLoading: initialState.coursePageInsertLoading,
         coursePageDeleteLoading: initialState.coursePageDeleteLoading,
+        // RESET TESTS
+        courseTests: initialState.courseTests,
+        selectedCourseTest: initialState.selectedCourseTest,
+        courseTestsLoading: initialState.courseTestsLoading,
+        courseTestUpdateLoading: initialState.courseTestUpdateLoading,
+        courseTestInsertLoading: initialState.courseTestInsertLoading,
+        courseTestDeleteLoading: initialState.courseTestDeleteLoading,
+        // RESET QUESTIONS
+        courseTestQuestions: initialState.courseTestQuestions,
+        selectedCourseTestQuestion: initialState.selectedCourseTestQuestion,
+        courseTestQuestionsLoading: initialState.courseTestQuestionsLoading,
+        courseTestQuestionUpdateLoading: initialState.courseTestQuestionUpdateLoading,
+        courseTestQuestionInsertLoading: initialState.courseTestQuestionInsertLoading,
+        courseTestQuestionDeleteLoading: initialState.courseTestQuestionDeleteLoading,
+        // RESET ANSWERS
+        courseTestAnswers: initialState.courseTestAnswers,
+        selectedCourseTestAnswer: initialState.selectedCourseTestAnswer,
+        courseTestAnswersLoading: initialState.courseTestAnswersLoading,
+        courseTestAnswerUpdateLoading: initialState.courseTestAnswerUpdateLoading,
+        courseTestAnswerInsertLoading: initialState.courseTestAnswerInsertLoading,
+        courseTestAnswerDeleteLoading: initialState.courseTestAnswerDeleteLoading,
         // RESET DIFFICULTIES
         courseDifficulties: initialState.courseDifficulties,
         courseDifficultiesLoading: initialState.courseDifficultiesLoading
@@ -58,12 +97,14 @@ const coursesReducer = (state = initialState, action) => {
     case coursesActions.RESET_MODULE_EDITOR:
       return {
         ...state,
+        // RESET MODULES
         courseModules: initialState.courseModules,
         selectedCourseModule: initialState.selectedCourseModule,
         courseModulesLoading: initialState.courseModulesLoading,
         courseModuleUpdateLoading: initialState.courseModuleUpdateLoading,
         courseModuleInsertLoading: initialState.courseModuleInsertLoading,
         courseModuleDeleteLoading: initialState.courseModuleDeleteLoading,
+        // RESET PAGES
         coursePages: initialState.coursePages,
         selectedCoursePage: initialState.selectedCoursePage,
         coursePagesLoading: initialState.coursePagesLoading,
@@ -75,12 +116,70 @@ const coursesReducer = (state = initialState, action) => {
     case coursesActions.RESET_PAGE_EDITOR:
       return {
         ...state,
+        // RESET PAGES
         coursePages: initialState.coursePages,
         selectedCoursePage: initialState.selectedCoursePage,
         coursePagesLoading: initialState.coursePagesLoading,
         coursePageUpdateLoading: initialState.coursePageUpdateLoading,
         coursePageInsertLoading: initialState.coursePageInsertLoading,
         coursePageDeleteLoading: initialState.coursePageDeleteLoading
+      };
+
+    case coursesActions.RESET_TEST_EDITOR:
+      return {
+        ...state,
+        // RESET TESTS
+        courseTests: initialState.courseTests,
+        selectedCourseTest: initialState.selectedCourseTest,
+        courseTestsLoading: initialState.courseTestsLoading,
+        courseTestUpdateLoading: initialState.courseTestUpdateLoading,
+        courseTestInsertLoading: initialState.courseTestInsertLoading,
+        courseTestDeleteLoading: initialState.courseTestDeleteLoading,
+        // RESET QUESTIONS
+        courseTestQuestions: initialState.courseTestQuestions,
+        selectedCourseTestQuestion: initialState.selectedCourseTestQuestion,
+        courseTestQuestionsLoading: initialState.courseTestQuestionsLoading,
+        courseTestQuestionUpdateLoading: initialState.courseTestQuestionUpdateLoading,
+        courseTestQuestionInsertLoading: initialState.courseTestQuestionInsertLoading,
+        courseTestQuestionDeleteLoading: initialState.courseTestQuestionDeleteLoading,
+        // RESET ANSWERS
+        courseTestAnswers: initialState.courseTestAnswers,
+        selectedCourseTestAnswer: initialState.selectedCourseTestAnswer,
+        courseTestAnswersLoading: initialState.courseTestAnswersLoading,
+        courseTestAnswerUpdateLoading: initialState.courseTestAnswerUpdateLoading,
+        courseTestAnswerInsertLoading: initialState.courseTestAnswerInsertLoading,
+        courseTestAnswerDeleteLoading: initialState.courseTestAnswerDeleteLoading
+      };
+
+    case coursesActions.RESET_QUESTION_EDITOR:
+      return {
+        ...state,
+        // RESET QUESTIONS
+        courseTestQuestions: initialState.courseTestQuestions,
+        selectedCourseTestQuestion: initialState.selectedCourseTestQuestion,
+        courseTestQuestionsLoading: initialState.courseTestQuestionsLoading,
+        courseTestQuestionUpdateLoading: initialState.courseTestQuestionUpdateLoading,
+        courseTestQuestionInsertLoading: initialState.courseTestQuestionInsertLoading,
+        courseTestQuestionDeleteLoading: initialState.courseTestQuestionDeleteLoading,
+        // RESET ANSWERS
+        courseTestAnswers: initialState.courseTestAnswers,
+        selectedCourseTestAnswer: initialState.selectedCourseTestAnswer,
+        courseTestAnswersLoading: initialState.courseTestAnswersLoading,
+        courseTestAnswerUpdateLoading: initialState.courseTestAnswerUpdateLoading,
+        courseTestAnswerInsertLoading: initialState.courseTestAnswerInsertLoading,
+        courseTestAnswerDeleteLoading: initialState.courseTestAnswerDeleteLoading
+      };
+
+    case coursesActions.RESET_ANSWER_EDITOR:
+      return {
+        ...state,
+        // RESET ANSWERS
+        courseTestAnswers: initialState.courseTestAnswers,
+        selectedCourseTestAnswer: initialState.selectedCourseTestAnswer,
+        courseTestAnswersLoading: initialState.courseTestAnswersLoading,
+        courseTestAnswerUpdateLoading: initialState.courseTestAnswerUpdateLoading,
+        courseTestAnswerInsertLoading: initialState.courseTestAnswerInsertLoading,
+        courseTestAnswerDeleteLoading: initialState.courseTestAnswerDeleteLoading
       };
 
     case coursesActions.SET_ALL_COURSES:
@@ -246,6 +345,170 @@ const coursesReducer = (state = initialState, action) => {
         ...state,
         coursePages: updatedCoursePages,
         selectedCoursePage: action.payload?.coursePageNo
+      };
+    }
+
+    case coursesActions.REQUEST_ALL_COURSE_TESTS_LOADING:
+      return {
+        ...state,
+        courseTestsLoading: action.payload
+      };
+
+    case coursesActions.SET_ALL_COURSE_TESTS:
+      return {
+        ...state,
+        courseTests: action.payload.map((courseTest) => courseConstants.formatConstantCourseTest(courseTest))
+      };
+
+    case coursesActions.SET_SELECTED_COURSE_TEST:
+      return {
+        ...state,
+        selectedCourseTest: action.payload
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_UPDATE_LOADING:
+      return {
+        ...state,
+        courseTestUpdateLoading: action.loading
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_INSERT_LOADING:
+      return {
+        ...state,
+        courseTestInsertLoading: action.loading
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_DELETE_LOADING:
+      return {
+        ...state,
+        courseTestDeleteLoading: action.loading
+      };
+
+    case coursesActions.SET_COURSE_TEST_CHANGE: {
+      const courseTestExists = state.courseTests.some((courseTest) => courseTest.courseTestNo === action.payload.courseTestNo);
+
+      const updatedCourseTests = courseTestExists
+        ? state.courseTests.map((courseTest) =>
+            courseTest.courseTestNo === action.payload.courseTestNo ? { ...action.payload } : { ...courseTest }
+          )
+        : [...state.courseTests, { ...action.payload }];
+
+      return {
+        ...state,
+        courseTests: updatedCourseTests,
+        selectedCourseTest: action.payload?.courseTestNo
+      };
+    }
+
+    case coursesActions.REQUEST_ALL_COURSE_TEST_QUESTIONS_LOADING:
+      return {
+        ...state,
+        courseTestQuestionsLoading: action.payload
+      };
+
+    case coursesActions.SET_ALL_COURSE_TEST_QUESTIONS:
+      return {
+        ...state,
+        courseTestQuestions: action.payload.map((courseTestQuestion) =>
+          courseConstants.formatConstantCourseTestQuestion(courseTestQuestion)
+        )
+      };
+
+    case coursesActions.SET_SELECTED_COURSE_TEST_QUESTION:
+      return {
+        ...state,
+        selectedCourseTestQuestion: action.payload
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_QUESTION_UPDATE_LOADING:
+      return {
+        ...state,
+        courseTestQuestionUpdateLoading: action.loading
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_QUESTION_INSERT_LOADING:
+      return {
+        ...state,
+        courseTestQuestionInsertLoading: action.loading
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_QUESTION_DELETE_LOADING:
+      return {
+        ...state,
+        courseTestQuestionDeleteLoading: action.loading
+      };
+
+    case coursesActions.SET_COURSE_TEST_QUESTION_CHANGE: {
+      const courseTestQuestionExists = state.courseTestQuestions.some(
+        (courseTestQuestion) => courseTestQuestion.courseTestQuestionNo === action.payload.courseTestQuestionNo
+      );
+
+      const updatedCourseTestQuestions = courseTestQuestionExists
+        ? state.courseTestQuestions.map((courseTestQuestion) =>
+            courseTestQuestion.courseTestQuestionNo === action.payload.courseTestQuestionNo
+              ? { ...action.payload }
+              : { ...courseTestQuestion }
+          )
+        : [...state.courseTestQuestions, { ...action.payload }];
+
+      return {
+        ...state,
+        courseTestQuestions: updatedCourseTestQuestions,
+        selectedCourseTestQuestion: action.payload?.courseTestQuestionNo
+      };
+    }
+
+    case coursesActions.REQUEST_ALL_COURSE_TEST_ANSWERS_LOADING:
+      return {
+        ...state,
+        courseTestAnswersLoading: action.payload
+      };
+
+    case coursesActions.SET_ALL_COURSE_TEST_ANSWERS:
+      return {
+        ...state,
+        courseTestAnswers: action.payload.map((courseTestAnswer) => courseConstants.formatConstantCourseTestAnswer(courseTestAnswer))
+      };
+
+    case coursesActions.SET_SELECTED_COURSE_TEST_ANSWER:
+      return {
+        ...state,
+        selectedCourseTestAnswer: action.payload
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_ANSWER_UPDATE_LOADING:
+      return {
+        ...state,
+        courseTestAnswerUpdateLoading: action.loading
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_ANSWER_INSERT_LOADING:
+      return {
+        ...state,
+        courseTestAnswerInsertLoading: action.loading
+      };
+
+    case coursesActions.REQUEST_COURSE_TEST_ANSWER_DELETE_LOADING:
+      return {
+        ...state,
+        courseTestAnswerDeleteLoading: action.loading
+      };
+
+    case coursesActions.SET_COURSE_TEST_ANSWER_CHANGE: {
+      const courseTestAnswerExists = state.courseTestAnswers.some(
+        (courseTestAnswer) => courseTestAnswer.courseTestAnswerNo === action.payload.courseTestAnswerNo
+      );
+
+      const updatedCourseTestAnswers = courseTestAnswerExists
+        ? state.courseTestAnswers.map((courseTestAnswer) =>
+            courseTestAnswer.courseTestAnswerNo === action.payload.courseTestAnswerNo ? { ...action.payload } : { ...courseTestAnswer }
+          )
+        : [...state.courseTestAnswers, { ...action.payload }];
+
+      return {
+        ...state,
+        courseTestAnswers: updatedCourseTestAnswers,
+        selectedCourseTestAnswer: action.payload?.courseTestAnswerNo
       };
     }
 

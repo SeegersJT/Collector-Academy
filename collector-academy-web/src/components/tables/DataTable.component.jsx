@@ -127,7 +127,6 @@ function renderDataTable(
   handleRowClick,
   handleOnRowsPerPageChange
 ) {
-  console.log('visibleCellData', visibleCellData);
   return visibleCellData.length > 0 ? (
     <>
       <TableContainer
@@ -239,7 +238,6 @@ function renderTableRows(columnModifiers, visibleCellData, selectable, singleSel
       >
         {renderTableCellSelect(selectable, isItemSelected)}
         {Object.entries(row).map(([key, value]) => {
-          console.log('key', key);
           if (key !== 'uuid' && key !== 'rowColor') {
             const modifier = columnModifiers.find((columModifier) => columModifier.id === key);
             return (
@@ -423,7 +421,6 @@ function DataTable({
   };
 
   const handleSelectAll = (checked) => {
-    console.log('checked', checked);
     if (checked) {
       const filteredItems = filterSearchedText();
       setSelectedItems(filteredItems.map((singleCellData) => singleCellData.uuid));

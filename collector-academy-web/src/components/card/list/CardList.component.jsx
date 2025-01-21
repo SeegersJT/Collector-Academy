@@ -49,11 +49,12 @@ function CardList({ title, data, scrollable, height }) {
       setList(data);
     }
   }, [data, list]);
+
   return (
     <>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item>
-          <Typography sx={{ height: '24px' }} variant="h5">
+          <Typography component="div" sx={{ height: '24px' }} variant="h5">
             {title}
           </Typography>
         </Grid>

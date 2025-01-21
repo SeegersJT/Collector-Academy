@@ -28,6 +28,35 @@ export const formatConstantCoursePage = (coursePage) => ({
   courseModuleNo: coursePage.courseModuleNo || null,
   pageTitle: coursePage.pageTitle || null,
   pageDescription: coursePage.pageDescription || null,
+  pageContent: coursePage.pageContent || null,
   pageIndex: coursePage.pageIndex,
   active: coursePage.active || null
+});
+
+export const formatConstantCourseTest = (courseTest) => ({
+  courseTestNo: courseTest.courseTestNo || null,
+  courseNo: courseTest.courseNo || null,
+  testTitle: courseTest.testTitle || null,
+  courseDifficultyNo: courseTest.courseDifficultyNo || null,
+  testDuration: courseTest.testDuration || null,
+  testPassPercentage: courseTest.testPassPercentage,
+  retries: courseTest.retries || null,
+  active: courseTest.active || null
+});
+
+export const formatConstantCourseTestQuestion = (courseTestQuestion) => ({
+  courseTestQuestionNo: courseTestQuestion.courseTestQuestionNo || null,
+  courseTestNo: courseTestQuestion.courseTestNo || null,
+  questionTitle: courseTestQuestion.questionTitle || null,
+  questionIndex: courseTestQuestion.questionIndex || null,
+  active: courseTestQuestion.active || null
+});
+
+export const formatConstantCourseTestAnswer = (courseTestAnswer) => ({
+  courseTestAnswerNo: courseTestAnswer.courseTestAnswerNo || null,
+  courseTestQuestionNo: courseTestAnswer.courseTestQuestionNo || null,
+  testAnswer: courseTestAnswer.testAnswer || null,
+  correctAnswer: courseTestAnswer.correctAnswer || null,
+  courseAnswerIndex: courseTestAnswer.courseAnswerIndex || null,
+  active: courseTestAnswer.active || null
 });

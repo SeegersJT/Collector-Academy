@@ -275,6 +275,255 @@ function* coursePageDeleteRequestSaga({ accessToken, coursePageNo }) {
   yield put(coursesActions.requestCoursePageDeleteLoading(false));
 }
 
+function* courseTestsRequestSaga({ accessToken, courseNo }) {
+  yield put(coursesActions.requestAllCourseTestsLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestsRequest(accessToken, courseNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setAllCourseTests(data));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestAllCourseTestsLoading(false));
+}
+
+function* courseTestUpdateRequestSaga({ accessToken, payload, courseTestNo }) {
+  yield put(coursesActions.requestCourseTestUpdateLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestUpdateRequest(accessToken, payload, courseTestNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setCourseTestChange(data));
+    yield put(systemActions.addSystemNotification('Successfully Updated Course Test', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestUpdateLoading(false));
+}
+
+function* courseTestInsertRequestSaga({ accessToken, payload, courseNo }) {
+  yield put(coursesActions.requestCourseTestInsertLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestInsertRequest(accessToken, payload, courseNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setCourseTestChange(data));
+    yield put(systemActions.addSystemNotification('Successfully Inserted Course Test', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestInsertLoading(false));
+}
+
+function* courseTestDeleteRequestSaga({ accessToken, courseTestNo }) {
+  yield put(coursesActions.requestCourseTestDeleteLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestDeleteRequest(accessToken, courseTestNo);
+
+    yield call(axios, endpoint, requestOptions);
+
+    navigateTo('/dashboard/courses/course-editor');
+    yield put(systemActions.addSystemNotification('Successfully Deleted Course Test', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestDeleteLoading(false));
+}
+
+function* courseTestQuestionsRequestSaga({ accessToken, courseTestNo }) {
+  yield put(coursesActions.requestAllCourseTestQuestionsLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestQuestionsRequest(accessToken, courseTestNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setAllCourseTestQuestions(data));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestAllCourseTestQuestionsLoading(false));
+}
+
+function* courseTestQuestionUpdateRequestSaga({ accessToken, payload, courseTestQuestionNo }) {
+  yield put(coursesActions.requestCourseTestQuestionUpdateLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestQuestionUpdateRequest(accessToken, payload, courseTestQuestionNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setCourseTestQuestionChange(data));
+    yield put(systemActions.addSystemNotification('Successfully Updated Course Test Question', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestQuestionUpdateLoading(false));
+}
+
+function* courseTestQuestionInsertRequestSaga({ accessToken, payload, courseTestNo }) {
+  yield put(coursesActions.requestCourseTestQuestionInsertLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestQuestionInsertRequest(accessToken, payload, courseTestNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setCourseTestQuestionChange(data));
+    yield put(systemActions.addSystemNotification('Successfully Inserted Course Test Question', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestQuestionInsertLoading(false));
+}
+
+function* courseTestQuestionDeleteRequestSaga({ accessToken, courseTestQuestionNo }) {
+  yield put(coursesActions.requestCourseTestQuestionDeleteLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestQuestionDeleteRequest(accessToken, courseTestQuestionNo);
+
+    yield call(axios, endpoint, requestOptions);
+
+    navigateTo('/dashboard/courses/course-editor/test-editor');
+    yield put(systemActions.addSystemNotification('Successfully Deleted Course Test Question', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestQuestionDeleteLoading(false));
+}
+
+function* courseTestAnswersRequestSaga({ accessToken, courseTestQuestionNo }) {
+  yield put(coursesActions.requestAllCourseTestAnswersLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestAnswersRequest(accessToken, courseTestQuestionNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setAllCourseTestAnswers(data));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestAllCourseTestAnswersLoading(false));
+}
+
+function* courseTestAnswerUpdateRequestSaga({ accessToken, payload, courseTestAnswerNo }) {
+  yield put(coursesActions.requestCourseTestAnswerUpdateLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestAnswerUpdateRequest(accessToken, payload, courseTestAnswerNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setCourseTestAnswerChange(data));
+    yield put(systemActions.addSystemNotification('Successfully Updated Course Test Answer', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestAnswerUpdateLoading(false));
+}
+
+function* courseTestAnswerInsertRequestSaga({ accessToken, payload, courseTestQuestionNo }) {
+  yield put(coursesActions.requestCourseTestAnswerInsertLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestAnswerInsertRequest(accessToken, payload, courseTestQuestionNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setCourseTestAnswerChange(data));
+    yield put(systemActions.addSystemNotification('Successfully Inserted Course Test Answer', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestAnswerInsertLoading(false));
+}
+
+function* courseTestAnswerDeleteRequestSaga({ accessToken, courseTestAnswerNo }) {
+  yield put(coursesActions.requestCourseTestAnswerDeleteLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseTestAnswerDeleteRequest(accessToken, courseTestAnswerNo);
+
+    yield call(axios, endpoint, requestOptions);
+
+    navigateTo('/dashboard/courses/course-editor/test-editor/question-editor');
+    yield put(systemActions.addSystemNotification('Successfully Deleted Course Test Answer', SNACK_SUCCESS));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestCourseTestAnswerDeleteLoading(false));
+}
+
 export function* watchCoursesSagas() {
   yield takeEvery(coursesActions.REQUEST_ALL_COURSES, coursesRequestSaga);
   yield takeEvery(coursesActions.REQUEST_ALL_COURSE_DIFFICULTIES, getAllCourseDifficultiesRequestSaga);
@@ -289,4 +538,16 @@ export function* watchCoursesSagas() {
   yield takeEvery(coursesActions.REQUEST_COURSE_PAGE_UPDATE, coursePageUpdateRequestSaga);
   yield takeEvery(coursesActions.REQUEST_COURSE_PAGE_INSERT, coursePageInsertRequestSaga);
   yield takeEvery(coursesActions.REQUEST_COURSE_PAGE_DELETE, coursePageDeleteRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_ALL_COURSE_TESTS, courseTestsRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_UPDATE, courseTestUpdateRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_INSERT, courseTestInsertRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_DELETE, courseTestDeleteRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_ALL_COURSE_TEST_QUESTIONS, courseTestQuestionsRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_QUESTION_UPDATE, courseTestQuestionUpdateRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_QUESTION_INSERT, courseTestQuestionInsertRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_QUESTION_DELETE, courseTestQuestionDeleteRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_ALL_COURSE_TEST_ANSWERS, courseTestAnswersRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_ANSWER_UPDATE, courseTestAnswerUpdateRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_ANSWER_INSERT, courseTestAnswerInsertRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_COURSE_TEST_ANSWER_DELETE, courseTestAnswerDeleteRequestSaga);
 }

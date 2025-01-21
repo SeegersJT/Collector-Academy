@@ -3,17 +3,23 @@ import DefaultBox from 'components/box/DefaultBox.component';
 import CardGroup from 'components/card/group/CardGroup.component';
 import CardList from 'components/card/list/CardList.component';
 import MainCardComponent from 'components/card/MainCard.component';
+import PopUp from 'components/popup/PopUp.component';
 import SelectLabel from 'components/selectLabel/SelectLabel.component';
+import PropTypes from 'prop-types';
 import { Utils } from 'utils/Utils';
 
 function CourseEditor({
   theme,
   coursesActionListData,
   courseModulesGroupData,
+  courseTestsGroupData,
   currentCourse,
   isValidCourse,
   courseDifficultiesMenuItems,
-  onCurrentCourseChange
+  deleteCourseModalRef,
+  courseDeleteLoading,
+  onCurrentCourseChange,
+  onDeleteCoursePopUpClick
 }) {
   return (
     <>
@@ -24,7 +30,9 @@ function CourseEditor({
         </Grid>
         <Grid item xs={12} lg={8}>
           <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 2 } }}>
-            <Typography variant="h5">Course</Typography>
+            <Typography component="div" variant="h5">
+              Course
+            </Typography>
           </Stack>
           <MainCardComponent sx={{ mt: 2 }} content={true}>
             <Grid container item lg={6}>
@@ -78,11 +86,46 @@ function CourseEditor({
         <Grid item xs={12} lg={12}>
           <CardGroup title="Modules" data={courseModulesGroupData} />
         </Grid>
+
+        {/* Row 3 */}
+        <Grid item xs={12} lg={12}>
+          <CardGroup title="Tests" data={courseTestsGroupData} />
+        </Grid>
       </DefaultBox>
+      <PopUp
+        ref={deleteCourseModalRef}
+        title="Delete Course"
+        description="Are you sure you want to Delete this Course?"
+        backButton
+        loading={courseDeleteLoading}
+        onClick={onDeleteCoursePopUpClick}
+      />
     </>
   );
 }
 
-CourseEditor.propTypes = {};
+CourseEditor.propTypes = {
+  theme: PropTypes.object.isRequired,
+  coursesActionListData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  courseModulesGroupData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  courseTestsGroupData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentCourse: PropTypes.shape({
+    courseTitle: PropTypes.string.isRequired,
+    courseDescription: PropTypes.string.isRequired,
+    courseDuration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    courseDifficultyNo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+  }),
+  isValidCourse: PropTypes.shape({
+    courseTitle: PropTypes.number,
+    courseDescription: PropTypes.number,
+    courseDuration: PropTypes.number,
+    courseDifficultyNo: PropTypes.number
+  }),
+  courseDifficultiesMenuItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteCourseModalRef: PropTypes.object.isRequired,
+  courseDeleteLoading: PropTypes.bool.isRequired,
+  onCurrentCourseChange: PropTypes.func.isRequired,
+  onDeleteCoursePopUpClick: PropTypes.func.isRequired
+};
 
 export default CourseEditor;

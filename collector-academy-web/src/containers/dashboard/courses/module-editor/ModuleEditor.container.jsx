@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import { DeleteOutlined, FileAddOutlined, FileDoneOutlined, LoadingOutlined, SaveOutlined, WarningOutlined } from '@ant-design/icons';
@@ -11,6 +11,8 @@ import * as coursesActions from 'redux/actions/Courses.action';
 function ModuleEditorContainer() {
   const theme = useTheme();
   const dispatch = useDispatch();
+
+  const deleteCourseModuleModalRef = useRef();
 
   const { accessToken } = useSelector((state) => state.auth);
   const {
@@ -202,6 +204,10 @@ function ModuleEditorContainer() {
   };
 
   const handleOnDeleteModuleClick = () => {
+    deleteCourseModuleModalRef.current.callPopUpOpen();
+  };
+
+  const handleOnDeleteCourseModulePopUpClick = () => {
     dispatch(coursesActions.requestCourseModuleDelete(accessToken, currentCourseModule?.courseModuleNo));
   };
 
@@ -213,7 +219,10 @@ function ModuleEditorContainer() {
       isValidCourseModule={isValidCourseModule}
       moduleActionListData={moduleActionListData()}
       coursePagesGroupData={coursePagesGroupData}
+      deleteCourseModuleModalRef={deleteCourseModuleModalRef}
+      courseModuleDeleteLoading={courseModuleDeleteLoading}
       onCurrentCourseModuleChange={handleOnCurrentCourseModuleChange}
+      onDeleteCourseModulePopUpClick={handleOnDeleteCourseModulePopUpClick}
     />
   );
 }

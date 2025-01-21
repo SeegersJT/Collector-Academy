@@ -5,9 +5,7 @@ import Home from 'components/dashboard/home/HomeDashboard.component';
 function HomeDashboardContainer() {
   const theme = useTheme();
 
-  const onCardListClick = (data) => {
-    console.log('CLICKED', data);
-  };
+  const onCardListClick = () => {};
 
   const courseResultsData = [
     { employeeNo: 175846, username: 'VHO HANNO S', courseName: 'How to JAVA for dummies', statusNo: 1, status: 'PASSED', percentage: 50 },

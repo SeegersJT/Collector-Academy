@@ -1,6 +1,9 @@
 export const RESET_COURSE_EDITOR = '[COURSES] COURSE EDITOR - RESET';
 export const RESET_MODULE_EDITOR = '[COURSES] MODULE EDITOR - RESET';
 export const RESET_PAGE_EDITOR = '[COURSES] PAGE EDITOR - RESET';
+export const RESET_TEST_EDITOR = '[COURSES] TEST EDITOR - RESET';
+export const RESET_QUESTION_EDITOR = '[COURSES] QUESTION EDITOR - RESET';
+export const RESET_ANSWER_EDITOR = '[COURSES] ANSWER EDITOR - RESET';
 
 export const REQUEST_ALL_COURSES = '[COURSES] ALL COURSES - REQUEST';
 export const REQUEST_ALL_COURSES_LOADING = '[COURSES] ALL COURSES - REQUEST - LOADING';
@@ -48,6 +51,48 @@ export const REQUEST_COURSE_PAGE_DELETE = '[COURSES] COURSE PAGE DELETE - REQUES
 export const REQUEST_COURSE_PAGE_DELETE_LOADING = '[COURSES] COURSE PAGE DELETE - REQUEST - LOADING';
 export const SET_COURSE_PAGE_CHANGE = '[COURSES] COURSE PAGE CHANGE - SET';
 
+export const SET_SELECTED_COURSE_TEST = '[COURSES] SELECTED COURSE TEST - SET';
+
+export const REQUEST_ALL_COURSE_TESTS = '[COURSES] ALL COURSE TESTS - REQUEST';
+export const REQUEST_ALL_COURSE_TESTS_LOADING = '[COURSES] ALL COURSE TESTS - REQUEST - LOADING';
+export const SET_ALL_COURSE_TESTS = '[COURSES] COURSE TESTS - SET';
+
+export const REQUEST_COURSE_TEST_UPDATE = '[COURSES]  COURSE TEST UPDATE - REQUEST';
+export const REQUEST_COURSE_TEST_UPDATE_LOADING = '[COURSES]  COURSE TEST UPDATE - REQUEST - LOADING';
+export const REQUEST_COURSE_TEST_INSERT = '[COURSES]  COURSE TEST INSERT - REQUEST';
+export const REQUEST_COURSE_TEST_INSERT_LOADING = '[COURSES]  COURSE TEST INSERT - REQUEST - LOADING';
+export const REQUEST_COURSE_TEST_DELETE = '[COURSES]  COURSE TEST DELETE - REQUEST';
+export const REQUEST_COURSE_TEST_DELETE_LOADING = '[COURSES]  COURSE TEST DELETE - REQUEST - LOADING';
+export const SET_COURSE_TEST_CHANGE = '[COURSES] COURSE TEST CHANGE - SET';
+
+export const SET_SELECTED_COURSE_TEST_QUESTION = '[COURSES] SELECTED COURSE TEST QUESTION - SET';
+
+export const REQUEST_ALL_COURSE_TEST_QUESTIONS = '[COURSES] ALL COURSE TEST QUESTIONS - REQUEST';
+export const REQUEST_ALL_COURSE_TEST_QUESTIONS_LOADING = '[COURSES] ALL COURSE TEST QUESTIONS - REQUEST - LOADING';
+export const SET_ALL_COURSE_TEST_QUESTIONS = '[COURSES] COURSE TEST QUESTIONS - SET';
+
+export const REQUEST_COURSE_TEST_QUESTION_UPDATE = '[COURSES]  COURSE TEST QUESTION UPDATE - REQUEST';
+export const REQUEST_COURSE_TEST_QUESTION_UPDATE_LOADING = '[COURSES]  COURSE TEST QUESTION UPDATE - REQUEST - LOADING';
+export const REQUEST_COURSE_TEST_QUESTION_INSERT = '[COURSES]  COURSE TEST QUESTION INSERT - REQUEST';
+export const REQUEST_COURSE_TEST_QUESTION_INSERT_LOADING = '[COURSES]  COURSE TEST QUESTION INSERT - REQUEST - LOADING';
+export const REQUEST_COURSE_TEST_QUESTION_DELETE = '[COURSES]  COURSE TEST QUESTION DELETE - REQUEST';
+export const REQUEST_COURSE_TEST_QUESTION_DELETE_LOADING = '[COURSES]  COURSE TEST QUESTION DELETE - REQUEST - LOADING';
+export const SET_COURSE_TEST_QUESTION_CHANGE = '[COURSES] COURSE TEST CHANGE QUESTION - SET';
+
+export const SET_SELECTED_COURSE_TEST_ANSWER = '[COURSES] SELECTED COURSE TEST ANSWER - SET';
+
+export const REQUEST_ALL_COURSE_TEST_ANSWERS = '[COURSES] ALL COURSE TEST ANSWERS - REQUEST';
+export const REQUEST_ALL_COURSE_TEST_ANSWERS_LOADING = '[COURSES] ALL COURSE TEST ANSWERS - REQUEST - LOADING';
+export const SET_ALL_COURSE_TEST_ANSWERS = '[COURSES] COURSE TEST ANSWERS - SET';
+
+export const REQUEST_COURSE_TEST_ANSWER_UPDATE = '[COURSES]  COURSE TEST ANSWER UPDATE - REQUEST';
+export const REQUEST_COURSE_TEST_ANSWER_UPDATE_LOADING = '[COURSES]  COURSE TEST ANSWER UPDATE - REQUEST - LOADING';
+export const REQUEST_COURSE_TEST_ANSWER_INSERT = '[COURSES]  COURSE TEST ANSWER INSERT - REQUEST';
+export const REQUEST_COURSE_TEST_ANSWER_INSERT_LOADING = '[COURSES]  COURSE TEST ANSWER INSERT - REQUEST - LOADING';
+export const REQUEST_COURSE_TEST_ANSWER_DELETE = '[COURSES]  COURSE TEST ANSWER DELETE - REQUEST';
+export const REQUEST_COURSE_TEST_ANSWER_DELETE_LOADING = '[COURSES]  COURSE TEST ANSWER DELETE - REQUEST - LOADING';
+export const SET_COURSE_TEST_ANSWER_CHANGE = '[COURSES] COURSE TEST CHANGE ANSWER - SET';
+
 export const resetCourseEditor = () => ({
   type: RESET_COURSE_EDITOR
 });
@@ -58,6 +103,18 @@ export const resetModuleEditor = () => ({
 
 export const resetPageEditor = () => ({
   type: RESET_PAGE_EDITOR
+});
+
+export const resetTestEditor = () => ({
+  type: RESET_TEST_EDITOR
+});
+
+export const resetQuestionEditor = () => ({
+  type: RESET_QUESTION_EDITOR
+});
+
+export const resetAnswerEditor = () => ({
+  type: RESET_ANSWER_EDITOR
 });
 
 export const requestAllCourses = (accessToken) => ({
@@ -253,5 +310,188 @@ export const requestCoursePageDeleteLoading = (loading) => ({
 
 export const setCoursePageChange = (payload) => ({
   type: SET_COURSE_PAGE_CHANGE,
+  payload
+});
+
+export const requestAllCourseTests = (accessToken, courseNo) => ({
+  type: REQUEST_ALL_COURSE_TESTS,
+  accessToken,
+  courseNo
+});
+
+export const requestAllCourseTestsLoading = (loading) => ({
+  type: REQUEST_ALL_COURSE_TESTS_LOADING,
+  loading
+});
+
+export const setAllCourseTests = (payload) => ({
+  type: SET_ALL_COURSE_TESTS,
+  payload
+});
+
+export const setSelectedCourseTest = (payload) => ({
+  type: SET_SELECTED_COURSE_TEST,
+  payload
+});
+
+export const requestCourseTestUpdate = (accessToken, payload, courseTestNo) => ({
+  type: REQUEST_COURSE_TEST_UPDATE,
+  accessToken,
+  payload,
+  courseTestNo
+});
+
+export const requestCourseTestUpdateLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_UPDATE_LOADING,
+  loading
+});
+
+export const requestCourseTestInsert = (accessToken, payload, courseNo) => ({
+  type: REQUEST_COURSE_TEST_INSERT,
+  accessToken,
+  payload,
+  courseNo
+});
+
+export const requestCourseTestInsertLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_INSERT_LOADING,
+  loading
+});
+
+export const requestCourseTestDelete = (accessToken, courseTestNo) => ({
+  type: REQUEST_COURSE_TEST_DELETE,
+  accessToken,
+  courseTestNo
+});
+
+export const requestCourseTestDeleteLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_DELETE_LOADING,
+  loading
+});
+
+export const setCourseTestChange = (payload) => ({
+  type: SET_COURSE_TEST_CHANGE,
+  payload
+});
+
+export const setSelectedCourseTestQuestion = (payload) => ({
+  type: SET_SELECTED_COURSE_TEST_QUESTION,
+  payload
+});
+
+export const requestAllCourseTestQuestions = (accessToken, courseTestNo) => ({
+  type: REQUEST_ALL_COURSE_TEST_QUESTIONS,
+  accessToken,
+  courseTestNo
+});
+
+export const requestAllCourseTestQuestionsLoading = (loading) => ({
+  type: REQUEST_ALL_COURSE_TEST_QUESTIONS_LOADING,
+  loading
+});
+
+export const setAllCourseTestQuestions = (payload) => ({
+  type: SET_ALL_COURSE_TEST_QUESTIONS,
+  payload
+});
+
+export const requestCourseTestQuestionUpdate = (accessToken, payload, courseTestQuestionNo) => ({
+  type: REQUEST_COURSE_TEST_QUESTION_UPDATE,
+  accessToken,
+  payload,
+  courseTestQuestionNo
+});
+
+export const requestCourseTestQuestionUpdateLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_QUESTION_UPDATE_LOADING,
+  loading
+});
+
+export const requestCourseTestQuestionInsert = (accessToken, payload, courseTestNo) => ({
+  type: REQUEST_COURSE_TEST_QUESTION_INSERT,
+  accessToken,
+  payload,
+  courseTestNo
+});
+
+export const requestCourseTestQuestionInsertLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_QUESTION_INSERT_LOADING,
+  loading
+});
+
+export const requestCourseTestQuestionDelete = (accessToken, courseTestQuestionNo) => ({
+  type: REQUEST_COURSE_TEST_QUESTION_DELETE,
+  accessToken,
+  courseTestQuestionNo
+});
+
+export const requestCourseTestQuestionDeleteLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_QUESTION_DELETE_LOADING,
+  loading
+});
+
+export const setCourseTestQuestionChange = (payload) => ({
+  type: SET_COURSE_TEST_QUESTION_CHANGE,
+  payload
+});
+
+export const setSelectedCourseTestAnswer = (payload) => ({
+  type: SET_SELECTED_COURSE_TEST_ANSWER,
+  payload
+});
+
+export const requestAllCourseTestAnswers = (accessToken, courseTestQuestionNo) => ({
+  type: REQUEST_ALL_COURSE_TEST_ANSWERS,
+  accessToken,
+  courseTestQuestionNo
+});
+
+export const requestAllCourseTestAnswersLoading = (loading) => ({
+  type: REQUEST_ALL_COURSE_TEST_ANSWERS_LOADING,
+  loading
+});
+
+export const setAllCourseTestAnswers = (payload) => ({
+  type: SET_ALL_COURSE_TEST_ANSWERS,
+  payload
+});
+
+export const requestCourseTestAnswerUpdate = (accessToken, payload, courseTestAnswerNo) => ({
+  type: REQUEST_COURSE_TEST_ANSWER_UPDATE,
+  accessToken,
+  payload,
+  courseTestAnswerNo
+});
+
+export const requestCourseTestAnswerUpdateLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_ANSWER_UPDATE_LOADING,
+  loading
+});
+
+export const requestCourseTestAnswerInsert = (accessToken, payload, courseTestQuestionNo) => ({
+  type: REQUEST_COURSE_TEST_ANSWER_INSERT,
+  accessToken,
+  payload,
+  courseTestQuestionNo
+});
+
+export const requestCourseTestAnswerInsertLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_ANSWER_INSERT_LOADING,
+  loading
+});
+
+export const requestCourseTestAnswerDelete = (accessToken, courseTestAnswerNo) => ({
+  type: REQUEST_COURSE_TEST_ANSWER_DELETE,
+  accessToken,
+  courseTestAnswerNo
+});
+
+export const requestCourseTestAnswerDeleteLoading = (loading) => ({
+  type: REQUEST_COURSE_TEST_ANSWER_DELETE_LOADING,
+  loading
+});
+
+export const setCourseTestAnswerChange = (payload) => ({
+  type: SET_COURSE_TEST_ANSWER_CHANGE,
   payload
 });

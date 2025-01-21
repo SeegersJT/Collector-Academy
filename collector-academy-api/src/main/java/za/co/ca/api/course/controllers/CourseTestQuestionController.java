@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import za.co.ca.api.authentication.payloads.responses.GeneralAPIResponse;
 import za.co.ca.api.course.payloads.requests.CourseTestQuestionRequest;
 import za.co.ca.api.course.payloads.responses.CourseTestQuestionResponse;
+import za.co.ca.api.course.payloads.responses.CourseTestResponse;
 import za.co.ca.api.course.services.CoursesService;
+
+import java.util.List;
 
 /**
  * @author Hanno Seegers
@@ -22,6 +25,26 @@ import za.co.ca.api.course.services.CoursesService;
 public class CourseTestQuestionController {
 
     private final CoursesService coursesService;
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<CourseTestQuestionResponse> getCourseTestQuestion(
+            @Valid @RequestParam(required = true, name = "courseTestQuestionNo") String courseTestQuestionNo
+    ) {
+        log.info("Get Course Test Question Request :: Course Test Question No: '{}'", courseTestQuestionNo);
+        CourseTestQuestionResponse response = coursesService.getCourseTestQuestion(courseTestQuestionNo);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<List<CourseTestQuestionResponse>> getAllCourseTestQuestions(
+            @Valid @RequestParam(required = true, name = "courseTestNo") String courseTestNo
+    ) {
+        log.info("Get all Course Test Questions Request :: Course Test No: '{}'", courseTestNo);
+        List<CourseTestQuestionResponse> response = coursesService.getAllCourseTestQuestions(courseTestNo);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SUPERUSER')")

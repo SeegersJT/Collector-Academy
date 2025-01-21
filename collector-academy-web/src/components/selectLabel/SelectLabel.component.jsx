@@ -75,8 +75,6 @@ function SelectLabel({ title, type = 1, menuItems, multiple = false, selectedIte
   const theme = useTheme();
 
   const handleOnTestChange = (value) => {
-    console.log('value', value);
-
     onSelectedMenuItemsChange(value);
   };
 

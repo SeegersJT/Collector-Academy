@@ -18,7 +18,7 @@ public class CoursePageService {
     private final CoursePageRepository coursePageRepository;
 
     public List<CoursePage> findByCourseModuleNo(String courseModuleNo) {
-        return coursePageRepository.findByCourseModuleNo(courseModuleNo);
+        return coursePageRepository.findByCourseModuleNoOrderBySystemDateAsc(courseModuleNo);
     }
 
     public CoursePage findByCoursePageNo(String coursePageNo) {

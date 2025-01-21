@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { DeleteOutlined, LoadingOutlined, SaveOutlined } from '@ant-design/icons';
+import { ClearOutlined, DeleteOutlined, LoadingOutlined, SaveOutlined } from '@ant-design/icons';
 import { Utils } from 'utils/Utils';
 import { validateField } from './PageEditor.helper';
 import PageEditor from 'components/dashboard/courses/page-editor/PageEditor.component';
@@ -10,6 +10,8 @@ import * as coursesActions from 'redux/actions/Courses.action';
 function PageEditorContainer() {
   const theme = useTheme();
   const dispatch = useDispatch();
+
+  const deleteCoursePageModalRef = useRef();
 
   const { accessToken } = useSelector((state) => state.auth);
   const {
@@ -38,7 +40,8 @@ function PageEditorContainer() {
 
         setIsValidCoursePage({
           pageTitle: 1,
-          pageDescription: 1
+          pageDescription: 1,
+          pageContent: 1
         });
       }
     } else {
@@ -47,7 +50,8 @@ function PageEditorContainer() {
 
       setIsValidCoursePage({
         pageTitle: 0,
-        pageDescription: 0
+        pageDescription: 0,
+        pageContent: 0
       });
     }
   }, [coursePages, selectedCoursePage]);
@@ -94,6 +98,16 @@ function PageEditorContainer() {
     }
 
     pageActionList.push({
+      title: `Clear Page Content${currentCoursePage?.pageContent !== '<p><br></p>' ? '' : ' - No Content to Clear'}`,
+      description: currentCoursePage?.pageContent !== '<p><br></p>' ? 'Clears all Page Content' : 'No Content to Clear',
+      icon: <ClearOutlined style={{ fontSize: '20px' }} />,
+      color: theme.palette.warning.main,
+      backgroundColor: theme.palette.warning.lighter,
+      disabled: currentCoursePage?.pageContent === '<p><br></p>',
+      onClick: handleOnClearPageContentClick
+    });
+
+    pageActionList.push({
       title: `Delete Page${selectedCoursePage ? '' : ' - No Page to Delete'}`,
       description: selectedCoursePage ? 'Delete current Page' : 'No Page to Delete',
       icon: coursePageDeleteLoading ? <LoadingOutlined style={{ fontSize: '20px' }} /> : <DeleteOutlined style={{ fontSize: '20px' }} />,
@@ -134,6 +148,14 @@ function PageEditorContainer() {
     });
   };
 
+  const handleOnTextEditorChange = (content) => {
+    handleOnCurrentCoursePageChange(content, 'pageContent');
+  };
+
+  const handleOnClearPageContentClick = () => {
+    handleOnCurrentCoursePageChange('<p><br></p>', 'pageContent');
+  };
+
   const handleOnUpdatePageClick = () => {
     dispatch(coursesActions.requestCoursePageUpdate(accessToken, currentCoursePage, currentCoursePage?.coursePageNo));
   };
@@ -143,6 +165,10 @@ function PageEditorContainer() {
   };
 
   const handleOnDeletePageClick = () => {
+    deleteCoursePageModalRef.current.callPopUpOpen();
+  };
+
+  const handleOnDeleteCoursePagePopUpClick = () => {
     dispatch(coursesActions.requestCoursePageDelete(accessToken, currentCoursePage?.coursePageNo));
   };
 
@@ -153,7 +179,11 @@ function PageEditorContainer() {
       currentCoursePage={currentCoursePage}
       isValidCoursePage={isValidCoursePage}
       pageActionListData={pageActionListData()}
+      deleteCoursePageModalRef={deleteCoursePageModalRef}
+      coursePageDeleteLoading={coursePageDeleteLoading}
       onCurrentCoursePageChange={handleOnCurrentCoursePageChange}
+      onTextEditorChange={handleOnTextEditorChange}
+      onDeleteCoursePagePopUpClick={handleOnDeleteCoursePagePopUpClick}
     />
   );
 }

@@ -86,7 +86,6 @@ export const getColumnModifiers = (theme) => [
 ];
 
 export const formatUserUploadsData = (theme, cellData) => {
-  console.log('cellData', cellData);
   return cellData.map((user) => ({
     uuid: user.uuid,
     errors: user.errors[0],

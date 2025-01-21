@@ -195,6 +195,7 @@ public class CoursesService {
                 .courseModuleNo(courseModule.getCourseModuleNo())
                 .pageTitle(coursePageRequest.getPageTitle())
                 .pageDescription(coursePageRequest.getPageDescription())
+                .pageContent(coursePageRequest.getPageContent())
                 .pageIndex(coursePageRequest.getPageIndex())
                 .systemEmployeeNo(authenticatedEmployee.getEmployeeNo())
                 .systemBranchNo(authenticatedEmployee.getBranchNo())
@@ -212,6 +213,7 @@ public class CoursesService {
 
         coursePage.setPageTitle(coursePageRequest.getPageTitle());
         coursePage.setPageDescription(coursePageRequest.getPageDescription());
+        coursePage.setPageContent(coursePageRequest.getPageContent());
         coursePage.setPageIndex(coursePageRequest.getPageIndex());
         coursePage.setTouchEmployeeNo(authenticatedEmployee.getEmployeeNo());
         coursePage.setTouchBranchNo(authenticatedEmployee.getBranchNo());
@@ -236,7 +238,19 @@ public class CoursesService {
     }
 
     // TESTS
-    // TODO - GETTERS
+    public CourseTestResponse getCourseTest(String courseTestNo) {
+        CourseTest courseTest = courseTestService.findByCourseTestNo(courseTestNo);
+
+        return buildCourseTestResponse(courseTest);
+    }
+
+    public List<CourseTestResponse> getAllCourseTests(String courseNo) {
+        List<CourseTest> courseTests = courseTestService.findByCourseNo(courseNo);
+
+        return buildCourseTestsResponse(courseTests);
+
+    }
+
     public CourseTestResponse insertCourseTest(String courseNo, CourseTestRequest courseTestRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -294,7 +308,19 @@ public class CoursesService {
     }
 
     // TEST QUESTIONS
-    // TODO - GETTERS
+    public CourseTestQuestionResponse getCourseTestQuestion(String courseTestQuestionNo) {
+        CourseTestQuestion courseTestQuestion = courseTestQuestionService.findByCourseTestQuestionNo(courseTestQuestionNo);
+
+        return buildCourseTestQuestionResponse(courseTestQuestion);
+    }
+
+    public List<CourseTestQuestionResponse> getAllCourseTestQuestions(String courseTestNo) {
+        List<CourseTestQuestion> courseTestQuestions = courseTestQuestionService.findByCourseTestNo(courseTestNo);
+
+        return buildCourseTestQuestionsResponse(courseTestQuestions);
+
+    }
+
     public CourseTestQuestionResponse insertCourseTestQuestion(String courseTestNo, CourseTestQuestionRequest courseTestQuestionRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -346,7 +372,19 @@ public class CoursesService {
     }
 
     // TEST ANSWERS
-    // TODO - GETTERS
+    public CourseTestAnswerResponse getCourseTestAnswer(String courseTestAnswerNo) {
+        CourseTestAnswer courseTestAnswer = courseTestAnswerService.findByCourseTestAnswerNo(courseTestAnswerNo);
+
+        return buildCourseTestAnswerResponse(courseTestAnswer);
+    }
+
+    public List<CourseTestAnswerResponse> getAllCourseTestAnswers(String courseTestQuestionNo) {
+        List<CourseTestAnswer> courseTestAnswers = courseTestAnswerService.findByCourseTestQuestionNo(courseTestQuestionNo);
+
+        return buildCourseTestAnswersResponse(courseTestAnswers);
+
+    }
+
     public CourseTestAnswerResponse insertCourseTestAnswer(String courseTestQuestionNo, CourseTestAnswerRequest courseTestAnswerRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -664,6 +702,7 @@ public class CoursesService {
                 .courseModuleNo(coursePage.getCourseModuleNo())
                 .pageTitle(coursePage.getPageTitle())
                 .pageDescription(coursePage.getPageDescription())
+                .pageContent(coursePage.getPageContent())
                 .pageIndex(coursePage.getPageIndex())
                 .active(coursePage.getActive())
                 .build();
@@ -681,7 +720,6 @@ public class CoursesService {
         return coursePageResponses;
     }
 
-
     private CourseTestResponse buildCourseTestResponse(CourseTest courseTest) {
         return CourseTestResponse.builder()
                 .courseTestNo(courseTest.getCourseTestNo())
@@ -695,6 +733,18 @@ public class CoursesService {
                 .build();
     }
 
+    private List<CourseTestResponse> buildCourseTestsResponse(List<CourseTest> courseTests) {
+
+        List<CourseTestResponse> courseTestResponses = new ArrayList<CourseTestResponse>();
+
+        for (CourseTest courseTest : courseTests) {
+            CourseTestResponse courseTestResponse = buildCourseTestResponse(courseTest);
+            courseTestResponses.add(courseTestResponse);
+        }
+
+        return courseTestResponses;
+    }
+
     private CourseTestQuestionResponse buildCourseTestQuestionResponse(CourseTestQuestion courseTestQuestion) {
         return CourseTestQuestionResponse.builder()
                 .courseTestQuestionNo(courseTestQuestion.getCourseTestQuestionNo())
@@ -703,6 +753,18 @@ public class CoursesService {
                 .questionIndex(courseTestQuestion.getQuestionIndex())
                 .active(courseTestQuestion.getActive())
                 .build();
+    }
+
+    private List<CourseTestQuestionResponse> buildCourseTestQuestionsResponse(List<CourseTestQuestion> courseTestQuestions) {
+
+        List<CourseTestQuestionResponse> courseTestQuestionResponses = new ArrayList<CourseTestQuestionResponse>();
+
+        for (CourseTestQuestion courseTestQuestion : courseTestQuestions) {
+            CourseTestQuestionResponse courseTestQuestionResponse = buildCourseTestQuestionResponse(courseTestQuestion);
+            courseTestQuestionResponses.add(courseTestQuestionResponse);
+        }
+
+        return courseTestQuestionResponses;
     }
 
     private CourseTestAnswerResponse buildCourseTestAnswerResponse(CourseTestAnswer courseTestAnswer) {
@@ -714,6 +776,18 @@ public class CoursesService {
                 .courseAnswerIndex(courseTestAnswer.getCourseAnswerIndex())
                 .active(courseTestAnswer.getActive())
                 .build();
+    }
+
+    private List<CourseTestAnswerResponse> buildCourseTestAnswersResponse(List<CourseTestAnswer> courseTestAnswers) {
+
+        List<CourseTestAnswerResponse> courseTestAnswerResponses = new ArrayList<CourseTestAnswerResponse>();
+
+        for (CourseTestAnswer courseTestAnswer : courseTestAnswers) {
+            CourseTestAnswerResponse courseTestAnswerResponse = buildCourseTestAnswerResponse(courseTestAnswer);
+            courseTestAnswerResponses.add(courseTestAnswerResponse);
+        }
+
+        return courseTestAnswerResponses;
     }
 
     private CourseResultResponse buildCourseResultResponse(CourseResult courseResult) {

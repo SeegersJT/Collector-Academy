@@ -3,6 +3,8 @@ import DefaultBox from 'components/box/DefaultBox.component';
 import CardGroup from 'components/card/group/CardGroup.component';
 import CardList from 'components/card/list/CardList.component';
 import MainCardComponent from 'components/card/MainCard.component';
+import PopUp from 'components/popup/PopUp.component';
+import PropTypes from 'prop-types';
 import { Utils } from 'utils/Utils';
 
 function ModuleEditor({
@@ -12,7 +14,10 @@ function ModuleEditor({
   isValidCourseModule,
   moduleActionListData,
   coursePagesGroupData,
-  onCurrentCourseModuleChange
+  deleteCourseModuleModalRef,
+  courseModuleDeleteLoading,
+  onCurrentCourseModuleChange,
+  onDeleteCourseModulePopUpClick
 }) {
   return (
     <>
@@ -70,10 +75,37 @@ function ModuleEditor({
           <CardGroup title="Pages" data={coursePagesGroupData} />
         </Grid>
       </DefaultBox>
+      <PopUp
+        ref={deleteCourseModuleModalRef}
+        title="Delete Course Module"
+        description="Are you sure you want to Delete this Course Module?"
+        backButton
+        loading={courseModuleDeleteLoading}
+        onClick={onDeleteCourseModulePopUpClick}
+      />
     </>
   );
 }
 
-ModuleEditor.propTypes = {};
+ModuleEditor.propTypes = {
+  theme: PropTypes.object.isRequired,
+  currentCourse: PropTypes.shape({
+    courseTitle: PropTypes.string.isRequired
+  }).isRequired,
+  currentCourseModule: PropTypes.shape({
+    moduleTitle: PropTypes.string.isRequired,
+    moduleDescription: PropTypes.string.isRequired
+  }).isRequired,
+  isValidCourseModule: PropTypes.shape({
+    moduleTitle: PropTypes.bool,
+    moduleDescription: PropTypes.bool
+  }).isRequired,
+  moduleActionListData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  coursePagesGroupData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteCourseModuleModalRef: PropTypes.object.isRequired,
+  courseModuleDeleteLoading: PropTypes.bool.isRequired,
+  onCurrentCourseModuleChange: PropTypes.func.isRequired,
+  onDeleteCourseModulePopUpClick: PropTypes.func.isRequired
+};
 
 export default ModuleEditor;

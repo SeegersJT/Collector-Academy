@@ -41,7 +41,7 @@ public class CourseModuleController {
     public ResponseEntity<List<CourseModuleResponse>> getAllCourseModules(
             @Valid @RequestParam(required = true, name = "courseNo") String courseNo
     ) {
-        log.info("Get all Courses Modules Request :: Course No: '{}'", courseNo);
+        log.info("Get all Course Modules Request :: Course No: '{}'", courseNo);
         List<CourseModuleResponse> response = coursesService.getAllCourseModules(courseNo);
         return ResponseEntity.ok(response);
     }

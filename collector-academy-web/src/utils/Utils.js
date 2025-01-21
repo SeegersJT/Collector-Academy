@@ -28,6 +28,13 @@ export class Utils {
   static isEmpty = (arr) => !this.isNull(arr) && arr.length === 0;
 
   /**
+   * Check if a string is empty or null.
+   * @param {string} str - The string to check.
+   * @returns {boolean} True if the string is empty or null, otherwise false.
+   */
+  static isEmptyString = (str) => !str || str.trim().length === 0;
+
+  /**
    * Generate a random number between a specified range (inclusive).
    * Uses the crypto API for secure random number generation.
    * @param {number} min - The minimum value.

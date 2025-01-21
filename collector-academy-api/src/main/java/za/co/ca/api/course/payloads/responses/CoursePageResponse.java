@@ -17,6 +17,7 @@ public class CoursePageResponse {
     private String courseModuleNo;
     private String pageTitle;
     private String pageDescription;
+    private String pageContent;
     private Integer pageIndex;
     private Boolean active;
 }

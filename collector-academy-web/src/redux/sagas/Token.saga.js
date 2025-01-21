@@ -11,8 +11,6 @@ import { jwtDecode } from 'jwt-decode';
 import { navigateTo } from 'utils/NavigateService';
 
 function* confirmationTokenValidationSaga({ payload, onValidateSuccess }) {
-  console.log('payload', payload);
-  console.log('onValidateSuccess', onValidateSuccess);
   yield put(tokenActions.requestConfirmationTokenValidationLoading(true));
 
   try {
@@ -135,8 +133,6 @@ function* confirmationTokenPasswordResetSaga({ payload }) {
 
       yield put(authActions.loginUserSuccess(auth));
       yield put(userActions.setUser(user));
-
-      console.log('here');
 
       navigateTo('/dashboard');
 

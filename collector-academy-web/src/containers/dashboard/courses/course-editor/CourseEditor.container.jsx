@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   CheckSquareOutlined,
   DeleteOutlined,
+  ExceptionOutlined,
+  FileDoneOutlined,
   FolderAddOutlined,
   FolderOutlined,
   LoadingOutlined,
@@ -20,9 +22,19 @@ function CourseEditorContainer() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+  const deleteCourseModalRef = useRef();
+
   const { accessToken } = useSelector((state) => state.auth);
-  const { courses, courseModules, courseDifficulties, selectedCourse, courseUpdateLoading, courseInsertLoading, courseDeleteLoading } =
-    useSelector((state) => state.courses);
+  const {
+    courses,
+    courseModules,
+    courseTests,
+    courseDifficulties,
+    selectedCourse,
+    courseUpdateLoading,
+    courseInsertLoading,
+    courseDeleteLoading
+  } = useSelector((state) => state.courses);
 
   const [defaultCourse, setDefaultCourse] = useState(null);
   const [currentCourse, setCurrentCourse] = useState(null);
@@ -30,15 +42,18 @@ function CourseEditorContainer() {
   const [canSave, setCanSave] = useState(false);
 
   const [courseModulesGroupData, setCourseModulesGroupData] = useState([]);
+  const [courseTestsGroupData, setCourseTestsGroupData] = useState([]);
 
   const [courseDifficultiesMenuItems, setCourseDifficultiesMenuItems] = useState([]);
 
   useEffect(() => {
     dispatch(coursesActions.resetModuleEditor());
+    dispatch(coursesActions.resetTestEditor());
     dispatch(coursesActions.requestAllCourseDifficulties(accessToken));
 
     if (!Utils.isNull(selectedCourse)) {
       dispatch(coursesActions.requestAllCourseModules(accessToken, selectedCourse));
+      dispatch(coursesActions.requestAllCourseTests(accessToken, selectedCourse));
     }
   }, [dispatch, accessToken, selectedCourse]);
 
@@ -52,7 +67,17 @@ function CourseEditorContainer() {
       handleOnGoToModuleEditor();
     };
 
+    const handleOnGoToTestEditor = () => {
+      navigateTo('/dashboard/courses/course-editor/test-editor');
+    };
+
+    const handleOnSetSelectedTestNo = (courseTestNo) => {
+      dispatch(coursesActions.setSelectedCourseTest(courseTestNo));
+      handleOnGoToTestEditor();
+    };
+
     const formatCourseModulesGroupData = [];
+    const formatCourseTestsGroupData = [];
 
     if (selectedCourse) {
       formatCourseModulesGroupData.push({
@@ -63,6 +88,15 @@ function CourseEditorContainer() {
         backgroundColor: theme.palette.success.lighter,
         onClick: () => handleOnSetSelectedModuleNo(null)
       });
+
+      formatCourseTestsGroupData.push({
+        title: 'Add Test',
+        description: 'Add tests to the course.',
+        icon: <ExceptionOutlined style={{ fontSize: '20px' }} />,
+        color: theme.palette.success.main,
+        backgroundColor: theme.palette.success.lighter,
+        onClick: () => handleOnSetSelectedTestNo(null)
+      });
     } else {
       formatCourseModulesGroupData.push({
         title: 'No Course Created',
@@ -72,6 +106,16 @@ function CourseEditorContainer() {
         backgroundColor: theme.palette.warning.lighter,
         disabled: true,
         onClick: () => handleOnSetSelectedModuleNo(null)
+      });
+
+      formatCourseTestsGroupData.push({
+        title: 'No Course Created',
+        description: 'Create a Course Before adding Tests',
+        icon: <WarningOutlined style={{ fontSize: '20px' }} />,
+        color: theme.palette.warning.main,
+        backgroundColor: theme.palette.warning.lighter,
+        disabled: true,
+        onClick: () => handleOnSetSelectedTestNo(null)
       });
     }
 
@@ -86,8 +130,23 @@ function CourseEditorContainer() {
       }))
     );
 
+    formatCourseTestsGroupData.push(
+      ...courseTests.map((courseTest) => ({
+        title: courseTest?.testTitle,
+        description: `Pass Percentage: ${courseTest?.testPassPercentage}%`,
+        titleRight: courseDifficulties.find((courseDifficulty) => courseDifficulty.courseDifficultyNo === courseTest?.courseDifficultyNo)
+          ?.courseDifficulty,
+        descriptionRight: Utils.formatMinutes(courseTest?.testDuration),
+        icon: <FileDoneOutlined style={{ fontSize: '20px' }} />,
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.lighter,
+        onClick: () => handleOnSetSelectedTestNo(courseTest?.courseTestNo)
+      }))
+    );
+
     setCourseModulesGroupData(formatCourseModulesGroupData);
-  }, [theme, courseModules, selectedCourse]);
+    setCourseTestsGroupData(formatCourseTestsGroupData);
+  }, [theme, dispatch, courseModules, courseTests, selectedCourse, courseDifficulties]);
 
   useEffect(() => {
     setCourseDifficultiesMenuItems(
@@ -114,8 +173,8 @@ function CourseEditorContainer() {
         });
       }
     } else {
-      setDefaultCourse([]);
-      setCurrentCourse([]);
+      setDefaultCourse(null);
+      setCurrentCourse(null);
 
       setIsValidCourse({
         courseTitle: 0,
@@ -215,6 +274,10 @@ function CourseEditorContainer() {
   };
 
   const handleOnDeleteCourseClick = () => {
+    deleteCourseModalRef.current.callPopUpOpen();
+  };
+
+  const handleOnDeletCoursePopUpClick = () => {
     dispatch(coursesActions.requestCourseDelete(accessToken, currentCourse?.courseNo));
   };
 
@@ -223,10 +286,14 @@ function CourseEditorContainer() {
       theme={theme}
       coursesActionListData={coursesActionListData()}
       courseModulesGroupData={courseModulesGroupData}
+      courseTestsGroupData={courseTestsGroupData}
       currentCourse={currentCourse}
       isValidCourse={isValidCourse}
       courseDifficultiesMenuItems={courseDifficultiesMenuItems}
+      deleteCourseModalRef={deleteCourseModalRef}
+      courseDeleteLoading={courseDeleteLoading}
       onCurrentCourseChange={handleOnCurrentCourseChange}
+      onDeleteCoursePopUpClick={handleOnDeletCoursePopUpClick}
     />
   );
 }

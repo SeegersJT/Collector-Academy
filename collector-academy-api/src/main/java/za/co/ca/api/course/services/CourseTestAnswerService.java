@@ -18,7 +18,7 @@ public class CourseTestAnswerService {
     private final CourseTestAnswerRepository courseTestAnswerRepository;
 
     public List<CourseTestAnswer> findByCourseTestQuestionNo(String courseTestQuestionNo) {
-        return courseTestAnswerRepository.findByCourseTestQuestionNo(courseTestQuestionNo);
+        return courseTestAnswerRepository.findByCourseTestQuestionNoOrderBySystemDateAsc(courseTestQuestionNo);
     }
 
     public CourseTestAnswer findByCourseTestAnswerNo(String courseTestAnswerNo) {

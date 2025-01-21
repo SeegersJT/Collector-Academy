@@ -18,7 +18,7 @@ public class CourseTestService {
     private final CourseTestRepository courseTestRepository;
 
     public List<CourseTest> findByCourseNo(String courseNo) {
-        return courseTestRepository.findByCourseNo(courseNo);
+        return courseTestRepository.findByCourseNoOrderBySystemDateAsc(courseNo);
     }
 
     public CourseTest findByCourseTestNo(String courseTestNo) {

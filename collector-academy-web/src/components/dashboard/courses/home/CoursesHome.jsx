@@ -4,6 +4,7 @@ import CardList from 'components/card/list/CardList.component';
 import ComparisonStatistics from 'components/card/statistic/ComparisonStatistic.component';
 import DataTable from 'components/tables/DataTable.component';
 import { formatCoursesData, getColumnModifiers, getHeaderModifiers } from 'containers/dashboard/courses/home/CoursesHome.helper';
+import PropTypes from 'prop-types';
 
 function CoursesHome({ theme, coursesData, coursesDataLoading, coursesActionsListData, coursesToolbarData, onToolbarClick }) {
   return (
@@ -51,6 +52,13 @@ function CoursesHome({ theme, coursesData, coursesDataLoading, coursesActionsLis
   );
 }
 
-CoursesHome.propTypes = {};
+CoursesHome.propTypes = {
+  theme: PropTypes.object.isRequired,
+  coursesData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  coursesDataLoading: PropTypes.bool.isRequired,
+  coursesActionsListData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  coursesToolbarData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onToolbarClick: PropTypes.func.isRequired
+};
 
 export default CoursesHome;

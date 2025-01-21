@@ -15,5 +15,6 @@ import lombok.NoArgsConstructor;
 public class CoursePageRequest {
     private String pageTitle;
     private String pageDescription;
+    private String pageContent;
     private Integer pageIndex;
 }

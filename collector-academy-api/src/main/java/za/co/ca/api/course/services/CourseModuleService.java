@@ -18,7 +18,7 @@ public class CourseModuleService {
     private final CourseModuleRepository courseModuleRepository;
 
     public List<CourseModule> findByCourseNo(String courseNo) {
-        return courseModuleRepository.findByCourseNo(courseNo);
+        return courseModuleRepository.findByCourseNoOrderBySystemDateAsc(courseNo);
     }
 
     public CourseModule findByCourseModuleNo(String courseModuleNo) {

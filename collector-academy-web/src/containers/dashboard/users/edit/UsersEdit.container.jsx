@@ -81,14 +81,9 @@ function UsersEditContainer() {
   }, [users, selectedUsers]);
 
   useEffect(() => {
-    console.log('actionListData CHANGED');
-    const handleOnAddCourses = () => {
-      console.log('ADD COURSES');
-    };
+    const handleOnAddCourses = () => {};
 
-    const handleOnRemoveCourses = () => {
-      console.log('REMOVE COURSES');
-    };
+    const handleOnRemoveCourses = () => {};
 
     const handleOnResetPasswords = () => {
       resetPasswordModalRef.current.callPopUpOpen();
@@ -241,8 +236,6 @@ function UsersEditContainer() {
 
     dispatch(requestUsersDelete(accessToken, currentUsers, onResponse));
   };
-
-  console.log('currentUsers', currentUsers);
 
   return (
     <UsersEdit
