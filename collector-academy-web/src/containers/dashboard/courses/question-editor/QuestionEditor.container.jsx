@@ -85,8 +85,10 @@ function QuestionEditorContainer() {
 
     formatCourseTestAnswersGroupData.push(
       ...courseTestAnswers.map((courseAnswer) => ({
-        title: courseAnswer?.AnswerTitle,
-        description: `Order: ${courseAnswer?.AnswerIndex}`,
+        title: courseAnswer?.testAnswer,
+        description: `Order: ${courseAnswer?.courseAnswerIndex}`,
+        titleRight: 'Answer',
+        descriptionRight: courseAnswer?.correctAnswer ? 'Correct' : 'Incorrect',
         icon: <FileUnknownOutlined style={{ fontSize: '20px' }} />,
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.primary.lighter,

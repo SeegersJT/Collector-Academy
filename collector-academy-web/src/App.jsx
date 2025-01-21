@@ -22,6 +22,7 @@ import ModuleEditorContainer from 'containers/dashboard/courses/module-editor/Mo
 import PageEditorContainer from 'containers/dashboard/courses/page-editor/PageEditor.container';
 import TestEditorContainer from 'containers/dashboard/courses/test-editor/TestEditor.container';
 import QuestionEditorContainer from 'containers/dashboard/courses/question-editor/QuestionEditor.container';
+import AnswerEditorContainer from 'containers/dashboard/courses/answer-editor/AnswerEditor.container';
 
 // ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
 
@@ -79,7 +80,8 @@ export default function App() {
                   <Route path="course-editor/module-editor" element={<ModuleEditorContainer />} />
                   <Route path="course-editor/module-editor/page-editor" element={<PageEditorContainer />} />
                   <Route path="course-editor/test-editor" element={<TestEditorContainer />} />
-                  <Route path="course-editor/test-editor/question-editor" element={<AnswerEditorContainer />} />
+                  <Route path="course-editor/test-editor/question-editor" element={<QuestionEditorContainer />} />
+                  <Route path="course-editor/test-editor/question-editor/answer-editor" element={<AnswerEditorContainer />} />
 
                   {/* ====[ REROUTE - TO - COURSES HOME ]==== */}
                   <Route path="*" element={<RouteNotFound destination="/dashboard/courses" />} />
