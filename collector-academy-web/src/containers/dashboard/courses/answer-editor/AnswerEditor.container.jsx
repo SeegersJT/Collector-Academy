@@ -42,8 +42,6 @@ function AnswerEditorContainer() {
 
         setIsValidCourseTestAnswer({
           testAnswer: 1
-          //   correctAnswer: 1,
-          //   courseAnswerIndex: 1
         });
       }
     } else {
@@ -52,8 +50,6 @@ function AnswerEditorContainer() {
 
       setIsValidCourseTestAnswer({
         testAnswer: 0
-        //   correctAnswer: 0,
-        //   courseAnswerIndex: 0
       });
     }
   }, [courseTestAnswers, selectedCourseTestAnswer]);
@@ -127,7 +123,7 @@ function AnswerEditorContainer() {
   };
 
   const handleOnCurrentCourseTestAnswerChange = (value, type) => {
-    const formattedValue = type === 'courseAnserIndex' ? Number(value) : value;
+    const formattedValue = type === 'courseAnserIndex' ? Number(value) : typeof value === 'boolean' ? value : value;
 
     setCurrentCourseTestAnswer({
       ...currentCourseTestAnswer,

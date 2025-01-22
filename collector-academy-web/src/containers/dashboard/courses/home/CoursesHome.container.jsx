@@ -27,7 +27,7 @@ function CoursesHomeContainer() {
       iconSize: 1,
       color: theme.palette.success.main,
       backgroundColor: theme.palette.success.lighter,
-      onClick: () => navigateTo('/dashboard/courses/course-editor')
+      onClick: () => navigateTo('/dashboard/courses/course')
     }
   ];
 
@@ -43,7 +43,7 @@ function CoursesHomeContainer() {
     switch (index) {
       case 0:
         dispatch(coursesActions.setSelectedCourse(selectedItems[0].courseNo));
-        navigateTo('/dashboard/courses/course-editor');
+        navigateTo('/dashboard/courses/course');
         break;
 
       default:

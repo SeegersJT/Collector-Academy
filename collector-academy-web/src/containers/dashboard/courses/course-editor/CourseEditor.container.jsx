@@ -59,7 +59,7 @@ function CourseEditorContainer() {
 
   useEffect(() => {
     const handleOnGoToModuleEditor = () => {
-      navigateTo('/dashboard/courses/course-editor/module-editor');
+      navigateTo('/dashboard/courses/course/module');
     };
 
     const handleOnSetSelectedModuleNo = (courseModuleNo) => {
@@ -68,7 +68,7 @@ function CourseEditorContainer() {
     };
 
     const handleOnGoToTestEditor = () => {
-      navigateTo('/dashboard/courses/course-editor/test-editor');
+      navigateTo('/dashboard/courses/course/test');
     };
 
     const handleOnSetSelectedTestNo = (courseTestNo) => {

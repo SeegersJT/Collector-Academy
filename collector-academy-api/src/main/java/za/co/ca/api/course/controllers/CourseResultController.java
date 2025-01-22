@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import za.co.ca.api.authentication.payloads.responses.GeneralAPIResponse;
 import za.co.ca.api.course.payloads.requests.CourseResultRequest;
 import za.co.ca.api.course.payloads.responses.CourseResultResponse;
+import za.co.ca.api.course.payloads.responses.CourseTestResponse;
 import za.co.ca.api.course.services.CoursesService;
+
+import java.util.List;
 
 /**
  * @author Hanno Seegers
@@ -22,6 +25,26 @@ import za.co.ca.api.course.services.CoursesService;
 public class CourseResultController {
 
     private final CoursesService coursesService;
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<CourseResultResponse> getCourseResult(
+            @Valid @RequestParam(required = true, name = "courseResultNo") String courseResultNo
+    ) {
+        log.info("Get Course Result Request :: Course Result No: '{}'", courseResultNo);
+        CourseResultResponse response = coursesService.getCourseResult(courseResultNo);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SUPERUSER')")
+    public ResponseEntity<List<CourseResultResponse>> getAllCourseResults(
+            @Valid @RequestParam(required = true, name = "employeeNo") Integer employeeNo
+    ) {
+        log.info("Get all Course Results Request :: Employee No: '{}'", employeeNo);
+        List<CourseResultResponse> response = coursesService.getAllCourseResults(employeeNo);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('SUPERUSER')")

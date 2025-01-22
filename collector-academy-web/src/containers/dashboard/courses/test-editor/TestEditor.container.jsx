@@ -56,7 +56,7 @@ function TestEditorContainer() {
 
   useEffect(() => {
     const handleOnGoToTestQuestionEditor = () => {
-      navigateTo('/dashboard/courses/course-editor/test-editor/question-editor');
+      navigateTo('/dashboard/courses/course/test/question');
     };
 
     const handleOnSetSelectedTestQuestionNo = (courseTestNo) => {

@@ -7,6 +7,8 @@ import za.co.ca.api.authentication.models.AuthenticatedEmployee;
 import za.co.ca.api.authentication.payloads.responses.GeneralAPIResponse;
 import za.co.ca.api.authentication.services.AuthenticatedService;
 import za.co.ca.api.common.exceptions.DataNotFoundException;
+import za.co.ca.api.common.models.Employee;
+import za.co.ca.api.common.services.EmployeeService;
 import za.co.ca.api.course.enums.*;
 import za.co.ca.api.course.models.*;
 import za.co.ca.api.course.payloads.requests.*;
@@ -39,6 +41,7 @@ public class CoursesService {
     private final CourseTestLogService courseTestLogService;
     private final CourseTestResultStatusService courseTestResultStatusService;
     private final CourseDifficultyService courseDifficultyService;
+    private final EmployeeService employeeService;
 
     private final AuthenticatedService authenticatedService;
 
@@ -560,7 +563,19 @@ public class CoursesService {
     }
 
     // COURSE RESULTS
-    // TODO - GETTERS
+    public CourseResultResponse getCourseResult(String courseResultNo) {
+        CourseResult courseResult = courseResultService.findByCourseResultNo(courseResultNo);
+
+        return buildCourseResultResponse(courseResult);
+    }
+
+    public List<CourseResultResponse> getAllCourseResults(Integer employeeNo) {
+        List<CourseResult> courseResults = courseResultService.findByEmployeeNo(employeeNo);
+
+        return buildCourseResultsResponse(courseResults);
+
+    }
+
     public CourseResultResponse insertCourseResult(String courseNo, Integer employeeNo, CourseResultRequest courseResultRequest) {
         AuthenticatedEmployee authenticatedEmployee = authenticatedService.getAuthenticatedEmployeeDetails();
 
@@ -791,13 +806,36 @@ public class CoursesService {
     }
 
     private CourseResultResponse buildCourseResultResponse(CourseResult courseResult) {
+
+        Course course = courseService.findByCourseNo(courseResult.getCourseNo());
+        Employee employee = employeeService.findByEmployeeNo(courseResult.getEmployeeNo());
+        CourseStatus courseStatus = courseStatusService.findByCourseStatusNo(courseResult.getCourseStatusNo());
+
+        Integer courseResultStatusNo = null;
+        String CourseResultStatus = null;
+
+        if (courseResult.getCourseResultStatusNo() != null) {
+            CourseResultStatus courseResultStatus = courseResultStatusService.findByCourseResultStatusNo(courseResult.getCourseResultStatusNo());
+
+            courseResultStatusNo = courseResultStatus.getCourseResultStatusNo();
+            CourseResultStatus = courseResultStatus.getCourseResultStatus().name();
+        }
+
+        Employee assignedByEmployee = employeeService.findByEmployeeNo(courseResult.getCourseAssignedBy());
+
         return CourseResultResponse.builder()
                 .courseResultNo(courseResult.getCourseResultNo())
-                .courseNo(courseResult.getCourseNo())
-                .employeeNo(courseResult.getEmployeeNo())
-                .courseStatusNo(courseResult.getCourseStatusNo())
-                .courseResultStatusNo(courseResult.getCourseResultStatusNo())
-                .courseAssignedBy(courseResult.getCourseAssignedBy())
+                .courseNo(course.getCourseNo())
+                .courseTitle(course.getCourseTitle())
+                .employeeNo(employee.getEmployeeNo())
+                .username(employee.getUsername())
+                .courseStatusNo(courseStatus.getCourseStatusNo())
+                .courseStatus(courseStatus.getCourseStatus().name())
+                .courseStatusDescription(courseStatus.getCourseStatusDescription())
+                .courseResultStatusNo(courseResultStatusNo)
+                .courseResultStatus(CourseResultStatus)
+                .courseAssignedBy(assignedByEmployee.getEmployeeNo())
+                .courseAssignedByUsername(assignedByEmployee.getUsername())
                 .courseAssignedDate(courseResult.getCourseAssignedDate())
                 .courseStartedDate(courseResult.getCourseStartedDate())
                 .courseCompletedDate(courseResult.getCourseCompletedDate())
@@ -805,6 +843,18 @@ public class CoursesService {
                 .courseBreakoutStep(courseResult.getCourseBreakoutStep())
                 .active(courseResult.getActive())
                 .build();
+    }
+
+    private List<CourseResultResponse> buildCourseResultsResponse(List<CourseResult> courseResults) {
+
+        List<CourseResultResponse> courseResultResponses = new ArrayList<CourseResultResponse>();
+
+        for (CourseResult courseResult : courseResults) {
+            CourseResultResponse courseResultResponse = buildCourseResultResponse(courseResult);
+            courseResultResponses.add(courseResultResponse);
+        }
+
+        return courseResultResponses;
     }
 
     private CourseTestResultResponse buildCourseTestResultResponse(CourseTestResult courseTestResult) {

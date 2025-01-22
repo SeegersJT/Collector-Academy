@@ -179,7 +179,7 @@ function* courseModuleDeleteRequestSaga({ accessToken, courseModuleNo }) {
 
     yield call(axios, endpoint, requestOptions);
 
-    navigateTo('/dashboard/courses/course-editor');
+    navigateTo('/dashboard/courses/course');
     yield put(systemActions.addSystemNotification('Successfully Deleted Course Module', SNACK_SUCCESS));
   } catch (error) {
     if (!Utils.isUndefined(error.response.data.message)) {
@@ -262,7 +262,7 @@ function* coursePageDeleteRequestSaga({ accessToken, coursePageNo }) {
 
     yield call(axios, endpoint, requestOptions);
 
-    navigateTo('/dashboard/courses/course-editor/module-editor');
+    navigateTo('/dashboard/courses/course/module');
     yield put(systemActions.addSystemNotification('Successfully Deleted Course Page', SNACK_SUCCESS));
   } catch (error) {
     if (!Utils.isUndefined(error.response.data.message)) {
@@ -345,7 +345,7 @@ function* courseTestDeleteRequestSaga({ accessToken, courseTestNo }) {
 
     yield call(axios, endpoint, requestOptions);
 
-    navigateTo('/dashboard/courses/course-editor');
+    navigateTo('/dashboard/courses/course');
     yield put(systemActions.addSystemNotification('Successfully Deleted Course Test', SNACK_SUCCESS));
   } catch (error) {
     if (!Utils.isUndefined(error.response.data.message)) {
@@ -428,7 +428,7 @@ function* courseTestQuestionDeleteRequestSaga({ accessToken, courseTestQuestionN
 
     yield call(axios, endpoint, requestOptions);
 
-    navigateTo('/dashboard/courses/course-editor/test-editor');
+    navigateTo('/dashboard/courses/course/test');
     yield put(systemActions.addSystemNotification('Successfully Deleted Course Test Question', SNACK_SUCCESS));
   } catch (error) {
     if (!Utils.isUndefined(error.response.data.message)) {
@@ -511,7 +511,7 @@ function* courseTestAnswerDeleteRequestSaga({ accessToken, courseTestAnswerNo })
 
     yield call(axios, endpoint, requestOptions);
 
-    navigateTo('/dashboard/courses/course-editor/test-editor/question-editor');
+    navigateTo('/dashboard/courses/course/test/question');
     yield put(systemActions.addSystemNotification('Successfully Deleted Course Test Answer', SNACK_SUCCESS));
   } catch (error) {
     if (!Utils.isUndefined(error.response.data.message)) {
@@ -522,6 +522,26 @@ function* courseTestAnswerDeleteRequestSaga({ accessToken, courseTestAnswerNo })
   }
 
   yield put(coursesActions.requestCourseTestAnswerDeleteLoading(false));
+}
+
+function* getCourseResultsRequestSaga({ accessToken, employeeNo }) {
+  yield put(coursesActions.requestAllCourseResultsLoading(true));
+
+  try {
+    const [endpoint, requestOptions] = api.getCourseResultsRequest(accessToken, employeeNo);
+
+    const { data } = yield call(axios, endpoint, requestOptions);
+
+    yield put(coursesActions.setAllCourseResults(data));
+  } catch (error) {
+    if (!Utils.isUndefined(error.response.data.message)) {
+      yield put(systemActions.addSystemNotification(error.response.data.message, SNACK_ERROR));
+    } else {
+      yield put(systemActions.addSystemNotification('Server is Unavailable', SNACK_ERROR));
+    }
+  }
+
+  yield put(coursesActions.requestAllCourseResultsLoading(false));
 }
 
 export function* watchCoursesSagas() {
@@ -550,4 +570,5 @@ export function* watchCoursesSagas() {
   yield takeEvery(coursesActions.REQUEST_COURSE_TEST_ANSWER_UPDATE, courseTestAnswerUpdateRequestSaga);
   yield takeEvery(coursesActions.REQUEST_COURSE_TEST_ANSWER_INSERT, courseTestAnswerInsertRequestSaga);
   yield takeEvery(coursesActions.REQUEST_COURSE_TEST_ANSWER_DELETE, courseTestAnswerDeleteRequestSaga);
+  yield takeEvery(coursesActions.REQUEST_ALL_COURSE_RESULTS, getCourseResultsRequestSaga);
 }

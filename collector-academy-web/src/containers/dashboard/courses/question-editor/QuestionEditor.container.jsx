@@ -52,7 +52,7 @@ function QuestionEditorContainer() {
 
   useEffect(() => {
     const handleOnGoToTestAnswerEditor = () => {
-      navigateTo('/dashboard/courses/course-editor/test-editor/question-editor/answer-editor');
+      navigateTo('/dashboard/courses/course/test/question/answer');
     };
 
     const handleOnSetSelectedTestAnswerNo = (courseTestAnswerNo) => {
@@ -87,8 +87,8 @@ function QuestionEditorContainer() {
       ...courseTestAnswers.map((courseAnswer) => ({
         title: courseAnswer?.testAnswer,
         description: `Order: ${courseAnswer?.courseAnswerIndex}`,
-        titleRight: 'Answer',
-        descriptionRight: courseAnswer?.correctAnswer ? 'Correct' : 'Incorrect',
+        titleRight: courseAnswer?.correctAnswer ? 'Correct' : 'Incorrect',
+        descriptionRight: 'Answer',
         icon: <FileUnknownOutlined style={{ fontSize: '20px' }} />,
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.primary.lighter,

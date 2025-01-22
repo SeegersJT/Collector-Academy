@@ -23,6 +23,6 @@ public class CourseStatusService {
 
     public CourseStatus findByCourseStatusNo(Integer courseStatusNo) {
         return courseStatusRepository.findByCourseStatusNo(courseStatusNo)
-                .orElseThrow(() -> new DataNotFoundException("Course Status not found :: Course Status No: '" + courseStatusNo.toString() + "'"));
+                .orElseThrow(() -> new DataNotFoundException("Course Status not found :: Course Status No: '" + courseStatusNo + "'"));
     }
 }

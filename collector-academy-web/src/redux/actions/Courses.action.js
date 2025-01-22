@@ -93,6 +93,10 @@ export const REQUEST_COURSE_TEST_ANSWER_DELETE = '[COURSES]  COURSE TEST ANSWER 
 export const REQUEST_COURSE_TEST_ANSWER_DELETE_LOADING = '[COURSES]  COURSE TEST ANSWER DELETE - REQUEST - LOADING';
 export const SET_COURSE_TEST_ANSWER_CHANGE = '[COURSES] COURSE TEST CHANGE ANSWER - SET';
 
+export const REQUEST_ALL_COURSE_RESULTS = '[COURSES] ALL COURSE RESULTS - REQUEST';
+export const REQUEST_ALL_COURSE_RESULTS_LOADING = '[COURSES] ALL COURSE RESULTS - REQUEST - LOADING';
+export const SET_ALL_COURSE_RESULTS = '[COURSES] ALL COURSE RESULTS - SET';
+
 export const resetCourseEditor = () => ({
   type: RESET_COURSE_EDITOR
 });
@@ -493,5 +497,21 @@ export const requestCourseTestAnswerDeleteLoading = (loading) => ({
 
 export const setCourseTestAnswerChange = (payload) => ({
   type: SET_COURSE_TEST_ANSWER_CHANGE,
+  payload
+});
+
+export const requestAllCourseResults = (accessToken, employeeNo) => ({
+  type: REQUEST_ALL_COURSE_RESULTS,
+  accessToken,
+  employeeNo
+});
+
+export const requestAllCourseResultsLoading = (loading) => ({
+  type: REQUEST_ALL_COURSE_RESULTS_LOADING,
+  loading
+});
+
+export const setAllCourseResults = (payload) => ({
+  type: SET_ALL_COURSE_RESULTS,
   payload
 });

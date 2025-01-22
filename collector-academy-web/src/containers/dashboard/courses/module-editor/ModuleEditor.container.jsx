@@ -44,7 +44,7 @@ function ModuleEditorContainer() {
 
   useEffect(() => {
     const handleOnGoToPageEditor = () => {
-      navigateTo('/dashboard/courses/course-editor/module-editor/page-editor');
+      navigateTo('/dashboard/courses/course/module/page');
     };
 
     const handleOnSetSelectedPageNo = (coursePageNo) => {

@@ -20,6 +20,8 @@ export const getAllCourseTestQuestionsEndpoint = () => `${getCourseTestQuestionE
 export const getCourseTestAnswerEndpoint = () => `${getCourseTestEndpoint()}/answer`;
 export const getAllCourseTestAnswersEndpoint = () => `${getCourseTestAnswerEndpoint()}/all`;
 export const getAllCourseDifficultiesEndpoint = () => `${getCourseEndpoint()}/difficulty/all`;
+export const getCourseResultEndpoint = () => `${getCourseEndpoint()}/result`;
+export const getAllCourseResultsEndpoint = () => `${getCourseResultEndpoint()}/all`;
 
 export const getAllCoursesRequest = (accessToken) => [getAllCoursesEndpoint(), getHttpGetOptions(getAuthHeaders(accessToken))];
 
@@ -141,4 +143,9 @@ export const getCourseTestAnswerInsertRequest = (accessToken, payload, courseTes
 export const getCourseTestAnswerDeleteRequest = (accessToken, courseTestAnswerNo) => [
   getCourseTestAnswerEndpoint(),
   getHttpDeleteOptions(getAuthHeaders(accessToken), { courseTestAnswerNo })
+];
+
+export const getCourseResultsRequest = (accessToken, employeeNo) => [
+  getAllCourseResultsEndpoint(),
+  getHttpGetOptions(getAuthHeaders(accessToken), { employeeNo })
 ];

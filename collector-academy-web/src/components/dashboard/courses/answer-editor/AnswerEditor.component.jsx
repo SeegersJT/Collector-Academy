@@ -1,4 +1,4 @@
-import { Grid, Stack, TextField, Typography } from '@mui/material';
+import { FormControlLabel, Grid, Stack, Switch, TextField, Typography } from '@mui/material';
 import DefaultBox from 'components/box/DefaultBox.component';
 import CardList from 'components/card/list/CardList.component';
 import MainCardComponent from 'components/card/MainCard.component';
@@ -16,6 +16,7 @@ function AnswerEditor({
   onCurrentCourseTestAnswerChange,
   onDeleteCourseTestAnswerPopUpClick
 }) {
+  console.log('currentCourseTestAnswer?.correctAnswer', currentCourseTestAnswer?.correctAnswer);
   return (
     <>
       <DefaultBox>
@@ -37,6 +38,11 @@ function AnswerEditor({
                   variant="outlined"
                   disabled
                   value={currentCourseTestQuestion?.questionTitle}
+                />
+                <FormControlLabel
+                  onChange={(event) => onCurrentCourseTestAnswerChange(event.target.checked, 'correctAnswer')}
+                  control={<Switch checked={currentCourseTestAnswer?.correctAnswer} />}
+                  label="Correct Answer"
                 />
               </Stack>
             </Grid>

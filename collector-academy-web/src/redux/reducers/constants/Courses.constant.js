@@ -60,3 +60,24 @@ export const formatConstantCourseTestAnswer = (courseTestAnswer) => ({
   courseAnswerIndex: courseTestAnswer.courseAnswerIndex || null,
   active: courseTestAnswer.active || null
 });
+
+export const formatConstantCourseResult = (courseResult) => ({
+  courseResultNo: courseResult.courseResultNo || null,
+  courseNo: courseResult.courseNo || null,
+  courseTitle: courseResult.courseTitle || null,
+  employeeNo: courseResult.employeeNo || null,
+  username: courseResult.username || null,
+  courseStatusNo: courseResult.courseStatusNo || null,
+  courseStatus: courseResult.courseStatus || null,
+  courseStatusDescription: courseResult.courseStatusDescription || null,
+  courseResultStatusNo: courseResult.courseResultStatusNo || null,
+  courseResultStatus: courseResult.courseResultStatus || null,
+  courseAssignedBy: courseResult.courseAssignedBy || null,
+  courseAssignedByUsername: courseResult.courseAssignedByUsername || null,
+  courseAssignedDate: courseResult.courseAssignedDate || null,
+  courseStartedDate: courseResult.courseStartedDate || null,
+  courseCompletedDate: courseResult.courseCompletedDate || null,
+  courseExpiryDate: courseResult.courseExpiryDate || null,
+  courseBreakoutStep: courseResult.courseBreakoutStep || null,
+  active: courseResult.active || null
+});

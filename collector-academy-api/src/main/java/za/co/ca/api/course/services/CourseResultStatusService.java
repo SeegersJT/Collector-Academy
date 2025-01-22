@@ -18,7 +18,7 @@ public class CourseResultStatusService {
 
     public CourseResultStatus findByCourseResultStatusNo(Integer courseResultStatusNo) {
         return courseResultStatusRepository.findByCourseResultStatusNo(courseResultStatusNo)
-                .orElseThrow(() -> new DataNotFoundException("Course Result Status not found :: Course Result Status No: '" + courseResultStatusNo.toString() + "'"));
+                .orElseThrow(() -> new DataNotFoundException("Course Result Status not found"));
     }
 
     public CourseResultStatus findByCourseResultStatus(CourseResultStatusEnum courseResultStatusEnum) {

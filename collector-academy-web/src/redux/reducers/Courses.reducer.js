@@ -8,6 +8,7 @@ const initialState = {
   courseTests: [],
   courseTestQuestions: [],
   courseTestAnswers: [],
+  courseResults: [],
   courseDifficulties: [],
   selectedCourse: null,
   selectedCourseModule: null,
@@ -21,6 +22,7 @@ const initialState = {
   courseTestsLoading: false,
   courseTestQuestionsLoading: false,
   courseTestAnswersLoading: false,
+  courseResultsLoading: false,
   courseDifficultiesLoading: false,
   courseUpdateLoading: false,
   courseInsertLoading: false,
@@ -511,6 +513,18 @@ const coursesReducer = (state = initialState, action) => {
         selectedCourseTestAnswer: action.payload?.courseTestAnswerNo
       };
     }
+
+    case coursesActions.REQUEST_ALL_COURSE_RESULTS_LOADING:
+      return {
+        ...state,
+        courseResultsLoading: action.loading
+      };
+
+    case coursesActions.SET_ALL_COURSE_RESULTS:
+      return {
+        ...state,
+        courseResults: action.payload.map((courseResult) => courseConstants.formatConstantCourseResult(courseResult))
+      };
 
     default:
       return state;

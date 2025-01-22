@@ -59,7 +59,7 @@ function QuestionEditor({
 
         {/* Row 2 */}
         <Grid item xs={12} lg={12}>
-          <CardGroup title="Modules" data={courseTestAnswersGroupData} />
+          <CardGroup title="Answers" data={courseTestAnswersGroupData} />
         </Grid>
       </DefaultBox>
       <PopUp

@@ -26,6 +26,10 @@ public class CourseResultService {
                 .orElseThrow(() -> new DataNotFoundException("Course Result not found :: Course Result No: '" + courseResultNo + "'"));
     }
 
+    public List<CourseResult> findByEmployeeNo(Integer employeeNo) {
+        return courseResultRepository.findByEmployeeNoOrderBySystemDateAsc(employeeNo);
+    }
+
     public void saveCourseResult(CourseResult courseResult) {
         courseResultRepository.save(courseResult);
     }

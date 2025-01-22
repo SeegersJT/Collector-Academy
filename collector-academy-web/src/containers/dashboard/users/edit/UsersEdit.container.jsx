@@ -1,13 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import UsersEdit from 'components/dashboard/users/edit/UsersEdit.component';
-import { validateField } from './UsersEdit.helper';
-import { requestUpdateUsers, requestUsersDelete, requestUsersResetPassword } from 'redux/actions/Users.action';
-import { requestAllBranches, requestAllEmployeeTypes, requestAllGenders, requestAllPerformanceManagers } from 'redux/actions/Common.action';
-import { navigateTo } from 'utils/NavigateService';
-import { CheckSquareOutlined, CloseSquareOutlined, DeleteOutlined, RollbackOutlined } from '@ant-design/icons';
+import {
+  CheckSquareOutlined,
+  CloseSquareOutlined,
+  DeleteOutlined,
+  FormOutlined,
+  LoadingOutlined,
+  ReconciliationOutlined,
+  RollbackOutlined
+} from '@ant-design/icons';
 import { Utils } from 'utils/Utils';
+import { navigateTo } from 'utils/NavigateService';
+import UsersEdit from 'components/dashboard/users/edit/UsersEdit.component';
+import { getCourseStatusColor, validateField } from './UsersEdit.helper';
+import * as usersActions from 'redux/actions/Users.action';
+import * as commonActions from 'redux/actions/Common.action';
+import * as coursesActions from 'redux/actions/Courses.action';
 
 function UsersEditContainer() {
   const theme = useTheme();
@@ -19,6 +28,8 @@ function UsersEditContainer() {
   const { accessToken } = useSelector((state) => state.auth);
   const { roleNo } = useSelector((state) => state.user);
   const { users, selectedUsers, updateUsersLoading, usersResetPasswordLoading, usersDeleteLoading } = useSelector((state) => state.users);
+  const { courseResults, courseResultsLoading } = useSelector((state) => state.courses);
+
   const { branches, genders, employeeTypes, performanceManagers } = useSelector((state) => state.common);
 
   const [title, setTitle] = useState('No Users Selected');
@@ -26,7 +37,10 @@ function UsersEditContainer() {
   const [currentUsers, setCurrentUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isValidUser, setIsValidUser] = useState(null);
+  const [isValidUserStatus, setIsValidUserStatus] = useState(false);
   const [isSingleUser, setIsSingleUser] = useState(true);
+
+  const [multipleUsersValid, setMultipleUsersValid] = useState(false);
 
   const [branchMenuItems, setBranchMenuItems] = useState([]);
   const [employeeTypeMenuItems, setEmployeeTypeMenuItems] = useState([]);
@@ -35,11 +49,13 @@ function UsersEditContainer() {
 
   const [actionListData, setActionListData] = useState([]);
 
+  const [courseResultGroupData, setCourseResultGroupData] = useState([]);
+
   useEffect(() => {
-    dispatch(requestAllBranches(accessToken));
-    dispatch(requestAllGenders(accessToken));
-    dispatch(requestAllEmployeeTypes(accessToken));
-    dispatch(requestAllPerformanceManagers(accessToken));
+    dispatch(commonActions.requestAllBranches(accessToken));
+    dispatch(commonActions.requestAllGenders(accessToken));
+    dispatch(commonActions.requestAllEmployeeTypes(accessToken));
+    dispatch(commonActions.requestAllPerformanceManagers(accessToken));
   }, [dispatch, accessToken]);
 
   useEffect(() => {
@@ -71,6 +87,8 @@ function UsersEditContainer() {
         employeeTypeNo: 1,
         performanceManagerEmployeeNo: 1
       });
+
+      dispatch(coursesActions.requestAllCourseResults(accessToken, filteredUsers[0]?.employeeNo));
     } else {
       setTitle(`${filteredUsers.length} - Users Selected.`);
       setIsSingleUser(false);
@@ -78,9 +96,17 @@ function UsersEditContainer() {
 
     setDefaultUsers(filteredUsers);
     setCurrentUsers(filteredUsers);
-  }, [users, selectedUsers]);
+  }, [dispatch, accessToken, users, selectedUsers]);
 
   useEffect(() => {
+    const handleOnUsersEditSumbit = () => {
+      const onSuccess = () => {
+        navigateTo('/dashboard/users/home');
+      };
+
+      dispatch(usersActions.requestUpdateUsers(accessToken, currentUsers, onSuccess));
+    };
+
     const handleOnAddCourses = () => {};
 
     const handleOnRemoveCourses = () => {};
@@ -93,46 +119,91 @@ function UsersEditContainer() {
       deleteUsersModalRef.current.callPopUpOpen();
     };
 
-    setActionListData([
-      {
-        title: 'Coming Soon - Add Courses',
-        description: 'Add Courses for All Selected Users.',
-        icon: <CheckSquareOutlined style={{ fontSize: '20px' }} />,
+    const formatActionListData = [];
+
+    if (isSingleUser) {
+      formatActionListData.push({
+        title: 'Update User',
+        description: 'Update Selected User.',
+        icon: updateUsersLoading ? <LoadingOutlined style={{ fontSize: '20px' }} /> : <FormOutlined style={{ fontSize: '20px' }} />,
         color: theme.palette.success.main,
         backgroundColor: theme.palette.success.lighter,
-        disabled: false,
-        onClick: handleOnAddCourses
-      },
-      {
-        title: 'Coming Soon - Remove Courses',
-        description: 'Remove Courses for All Selected Users.',
-        icon: <CloseSquareOutlined style={{ fontSize: '20px' }} />,
-        color: theme.palette.warning.main,
-        backgroundColor: theme.palette.warning.lighter,
-        disabled: false,
-        onClick: handleOnRemoveCourses
-      },
-      {
-        title: 'Reset Passwords',
-        description: 'Reset Passwords for All Selected Users.',
-        icon: <RollbackOutlined style={{ fontSize: '20px' }} />,
-        iconSize: 5,
-        color: theme.palette.error.main,
-        backgroundColor: theme.palette.error.lighter,
-        disabled: false,
-        onClick: handleOnResetPasswords
-      },
-      {
-        title: 'Delete Users',
-        description: 'Delete All Selected Users',
-        icon: <DeleteOutlined style={{ fontSize: '20px' }} />,
-        color: theme.palette.error.main,
-        backgroundColor: theme.palette.error.lighter,
-        disabled: false,
-        onClick: handleOnDeleteUsers
-      }
-    ]);
-  }, [dispatch, accessToken, theme, currentUsers]);
+        disabled: !isValidUserStatus || updateUsersLoading,
+        onClick: handleOnUsersEditSumbit
+      });
+    } else {
+      formatActionListData.push({
+        title: 'Update Users',
+        description: 'Update All Selected Users.',
+        icon: updateUsersLoading ? <LoadingOutlined style={{ fontSize: '20px' }} /> : <FormOutlined style={{ fontSize: '20px' }} />,
+        color: theme.palette.success.main,
+        backgroundColor: theme.palette.success.lighter,
+        disabled: !isValidUserStatus || !multipleUsersValid || updateUsersLoading,
+        onClick: handleOnUsersEditSumbit
+      });
+    }
+
+    formatActionListData.push({
+      title: 'Coming Soon - Add Courses',
+      description: 'Add Courses for All Selected Users.',
+      icon: <CheckSquareOutlined style={{ fontSize: '20px' }} />,
+      color: theme.palette.success.main,
+      backgroundColor: theme.palette.success.lighter,
+      disabled: false,
+      onClick: handleOnAddCourses
+    });
+
+    formatActionListData.push({
+      title: 'Coming Soon - Remove Courses',
+      description: 'Remove Courses for All Selected Users.',
+      icon: <CloseSquareOutlined style={{ fontSize: '20px' }} />,
+      color: theme.palette.warning.main,
+      backgroundColor: theme.palette.warning.lighter,
+      disabled: false,
+      onClick: handleOnRemoveCourses
+    });
+
+    formatActionListData.push({
+      title: 'Reset Passwords',
+      description: 'Reset Passwords for All Selected Users.',
+      icon: <RollbackOutlined style={{ fontSize: '20px' }} />,
+      iconSize: 5,
+      color: theme.palette.error.main,
+      backgroundColor: theme.palette.error.lighter,
+      disabled: false,
+      onClick: handleOnResetPasswords
+    });
+
+    formatActionListData.push({
+      title: 'Delete Users',
+      description: 'Delete All Selected Users',
+      icon: <DeleteOutlined style={{ fontSize: '20px' }} />,
+      color: theme.palette.error.main,
+      backgroundColor: theme.palette.error.lighter,
+      disabled: false,
+      onClick: handleOnDeleteUsers
+    });
+
+    setActionListData(formatActionListData);
+  }, [dispatch, accessToken, theme, currentUsers, isSingleUser, isValidUserStatus, multipleUsersValid, updateUsersLoading]);
+
+  useEffect(() => {
+    const formatCourseResultGroupData = [];
+
+    courseResults.map((courseResult) =>
+      formatCourseResultGroupData.push({
+        title: courseResult?.courseTitle,
+        description: courseResult?.courseBreakoutStep,
+        titleRight: courseResult?.courseStatusDescription,
+        descriptionRight: !Utils.isNull(courseResult?.courseResultStatus) ? courseResult?.courseResultStatus : '',
+        icon: <ReconciliationOutlined style={{ fontSize: '20px' }} />,
+        color: getCourseStatusColor(theme, false, courseResult?.courseStatus, courseResult?.courseResultStatus),
+        backgroundColor: getCourseStatusColor(theme, true, courseResult?.courseStatus, courseResult?.courseResultStatus)
+      })
+    );
+
+    setCourseResultGroupData(formatCourseResultGroupData);
+  }, [theme, courseResults]);
 
   useEffect(() => {
     setBranchMenuItems(
@@ -173,6 +244,10 @@ function UsersEditContainer() {
     );
   }, [performanceManagers]);
 
+  useEffect(() => {
+    setIsValidUserStatus(Utils.checkIsValidStatus(isValidUser));
+  }, [isValidUser]);
+
   const handleOnSelectedUserChange = (value, type) => {
     setCurrentUsers(
       currentUsers.map((user) => {
@@ -202,6 +277,8 @@ function UsersEditContainer() {
         ...isValidUser,
         [type]: isValid
       });
+    } else if (!multipleUsersValid) {
+      setMultipleUsersValid(true);
     }
 
     setSelectedUser({
@@ -210,22 +287,12 @@ function UsersEditContainer() {
     });
   };
 
-  const handleOnUsersEditSumbit = (e) => {
-    e.preventDefault();
-
-    const onSuccess = () => {
-      navigateTo('/dashboard/users/home');
-    };
-
-    dispatch(requestUpdateUsers(accessToken, currentUsers, onSuccess));
-  };
-
   const handleOnResetPasswordPopUpClick = () => {
     const onResponse = () => {
       resetPasswordModalRef.current.callPopUpClose();
     };
 
-    dispatch(requestUsersResetPassword(accessToken, currentUsers, onResponse));
+    dispatch(usersActions.requestUsersResetPassword(accessToken, currentUsers, onResponse));
   };
 
   const handleOnDeletUsersPopUpClick = () => {
@@ -234,7 +301,7 @@ function UsersEditContainer() {
       navigateTo('/dashboard/users/home');
     };
 
-    dispatch(requestUsersDelete(accessToken, currentUsers, onResponse));
+    dispatch(usersActions.requestUsersDelete(accessToken, currentUsers, onResponse));
   };
 
   return (
@@ -244,19 +311,17 @@ function UsersEditContainer() {
       isSingleUser={isSingleUser}
       selectedUser={selectedUser}
       isValidUser={isValidUser}
-      isValidUserStatus={Utils.checkIsValidStatus(isValidUser)}
       actionListData={actionListData}
       branchMenuItems={branchMenuItems}
       employeeTypeMenuItems={employeeTypeMenuItems}
       genderMenuItems={genderMenuItems}
       performanceManagerMenuItems={performanceManagerMenuItems}
+      courseResultGroupData={courseResultGroupData}
       resetPasswordModalRef={resetPasswordModalRef}
       deleteUsersModalRef={deleteUsersModalRef}
-      updateUsersLoading={updateUsersLoading}
       usersResetPasswordLoading={usersResetPasswordLoading}
       usersDeleteLoading={usersDeleteLoading}
       onSelectedUserChange={handleOnSelectedUserChange}
-      onUsersEditSumbit={handleOnUsersEditSumbit}
       onResetPasswordPopUpClick={handleOnResetPasswordPopUpClick}
       onDeleteUsersPopUpClick={handleOnDeletUsersPopUpClick}
     />

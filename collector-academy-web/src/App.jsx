@@ -76,12 +76,12 @@ export default function App() {
                   <Route index element={<Navigate to="/dashboard/courses/home" replace />} />
                   <Route path="home" element={<CoursesHomeContainer />} />
 
-                  <Route path="course-editor" element={<CourseEditorContainer />} />
-                  <Route path="course-editor/module-editor" element={<ModuleEditorContainer />} />
-                  <Route path="course-editor/module-editor/page-editor" element={<PageEditorContainer />} />
-                  <Route path="course-editor/test-editor" element={<TestEditorContainer />} />
-                  <Route path="course-editor/test-editor/question-editor" element={<QuestionEditorContainer />} />
-                  <Route path="course-editor/test-editor/question-editor/answer-editor" element={<AnswerEditorContainer />} />
+                  <Route path="course" element={<CourseEditorContainer />} />
+                  <Route path="course/module" element={<ModuleEditorContainer />} />
+                  <Route path="course/module/page" element={<PageEditorContainer />} />
+                  <Route path="course/test" element={<TestEditorContainer />} />
+                  <Route path="course/test/question" element={<QuestionEditorContainer />} />
+                  <Route path="course/test/question/answer" element={<AnswerEditorContainer />} />
 
                   {/* ====[ REROUTE - TO - COURSES HOME ]==== */}
                   <Route path="*" element={<RouteNotFound destination="/dashboard/courses" />} />
